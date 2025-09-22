@@ -32,12 +32,15 @@
 }
 
 .dashboard-main {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     min-width: 0;
     padding-left: 2rem;
     padding-right: 2rem;
+    overflow-y: auto;
+    max-height: calc(100vh - 56px);
+    /* 56px is header height, adjust if needed */
 }
 
 .dashboard-main h2 {
@@ -61,7 +64,6 @@
     border-radius: 12px;
     padding: 1.3rem 2rem;
     min-width: 220px;
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -88,4 +90,84 @@
 .dashboard-card-desc {
     color: #ffffff;
     font-size: 0.95rem;
+}
+
+.dashboard-summary-first-row {
+    display: flex;
+    margin-top: 0.8rem;
+    gap: 2rem;
+    height: 20rem;
+    align-items: flex-start;
+    /* cards stick to the top of the row */
+    overflow: visible;
+    /* allow taller cards to spill down */
+    position: relative;
+}
+
+.dashboard-summary-second-row {
+    display: flex;
+    margin-top: 1.9rem;
+    gap: 2rem;
+    align-items: flex-end;
+}
+
+
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    background: #fcf4f4;
+    border: 1px solid #b61624;
+    width: 34.5rem;
+    height: 20rem;
+}
+
+.redemption-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    background: #fcf4f4;
+    border: 1px solid #b61624;
+    width: 14.5rem;
+    height: 20rem;
+}
+
+.ranking-card {
+    display: flex;
+    position: relative;
+    z-index: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    background: #fcf4f4;
+    border: 1px solid #b61624;
+    width: 24.2rem;
+    height: 30rem;
+    z-index: 20;
+}
+
+.transactions-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    background: #fcf4f4;
+    border: 1px solid #b61624;
+    width: 51rem;
+    height: 20rem;
+}
+
+.member-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    background: #fcf4f4;
+    border: 1px solid #b61624;
+    width: 25rem;
+    height: 10rem;
 }
