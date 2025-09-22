@@ -14,6 +14,7 @@
 
 # Environment files
 /.env
+/admin-portal/src/app/environments/
 
 # Angular CLI and build artefacts
 /.angular-cli.json

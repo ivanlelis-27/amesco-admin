@@ -1,0 +1,75 @@
+.header {
+    display: flex;
+    align-items: center;
+    background: #b61624;
+    color: #fff;
+    height: 56px;
+    padding: 0 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+}
+
+.header__brand {
+    display: flex;
+    align-items: baseline;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}
+
+.header__brand-main {
+    color: #fff;
+}
+
+.header__brand-plus {
+    color: #2ad2fc;
+    margin-left: 0.1rem;
+}
+
+.header__spacer {
+    flex: 1;
+}
+
+.header__user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header__email {
+    font-size: 1rem;
+    margin-right: 0.25rem;
+}
+
+.header__role {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin-right: 0.5rem;
+}
+
+.header__user-icon {
+    background: #fff;
+    border-radius: 4px;
+    padding: 2px;
+    height: 32px;
+    width: 32px;
+}
+
+.header__icon {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: 0.25rem;
+    transition: color 0.2s;
+}
+
+.header__icon:hover {
+    color: #2ad2fc;
+}
