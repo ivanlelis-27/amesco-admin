@@ -418,6 +418,76 @@
     width: 24.2rem;
     height: 30rem;
     z-index: 20;
+    padding: 0;
+}
+
+.ranking-card-title {
+    color: #b61624;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    width: 100%;
+    margin-top: 1rem;
+    justify-self: center;
+}
+
+.dashboard-ranking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 1rem;
+    width: 100%;
+    height: calc(100% - 3.5rem);
+}
+
+.dashboard-ranking-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 0.7rem 1.2rem;
+    background: #fff;
+    min-height: 2.5rem;
+    width: 100%; // each row fills the card width
+    box-sizing: border-box;
+}
+
+.dashboard-ranking-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.dashboard-ranking-name {
+    font-weight: 400;
+    color: #b61624;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    margin-bottom: 0.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dashboard-ranking-email {
+    font-size: 0.8rem;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 1rem;
+}
+
+.dashboard-ranking-points {
+    font-size: 0.9rem;
+    color: #b61624;
+    font-weight: 500;
+    margin-left: 1.5rem;
+    white-space: nowrap;
+}
+
+.dashboard-ranking-row:last-child {
+    border-radius: 0 0 12px 12px; // bottom left and right corners
 }
 
 .transactions-card {

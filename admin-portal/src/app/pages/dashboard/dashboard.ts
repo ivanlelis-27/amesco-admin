@@ -27,6 +27,8 @@ export class Dashboard implements OnInit {
   dateNowMonthYear: string = '';
   voucherBreakdown: { total: number, used: number, unused: number } | null = null;
   pointsRedeemers: number | null = null;
+  top10Ranking: any[] = [];
+  totalEarnedPoints: number | null = null;
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -51,6 +53,18 @@ export class Dashboard implements OnInit {
         this.cdr.markForCheck();
       }
     });
+
+    this.api.getTop10Ranking().subscribe({
+      next: (res) => {
+        this.top10Ranking = res;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.top10Ranking = [];
+        this.cdr.markForCheck();
+      }
+    });
+
     this.api.getVoucherCountDetails().subscribe({
       next: (res) => {
         this.voucherTotal = res.count;
@@ -81,6 +95,17 @@ export class Dashboard implements OnInit {
       },
       error: () => {
         this.pointsRedeemers = null;
+        this.cdr.markForCheck();
+      }
+    });
+
+    this.api.getTotalEarnedPoints().subscribe({
+      next: (res) => {
+        this.totalEarnedPoints = res.totalEarnedPoints ?? null;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.totalEarnedPoints = null;
         this.cdr.markForCheck();
       }
     });

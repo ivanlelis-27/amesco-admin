@@ -29,7 +29,8 @@
                 </div>
                 <div class="dashboard-card">
                     <div class="dashboard-card-header">
-                        <div class="dashboard-card-title">Points</div>
+                        <div class="dashboard-card-title">{{ totalEarnedPoints !== null ? (totalEarnedPoints |
+                            number:'1.0-0') : '—' }} Points</div>
                     </div>
                     <div class="dashboard-card-desc">Total awarded points</div>
                 </div>
@@ -103,9 +104,20 @@
                 </div>
                 <div class="dashboard-card ranking-card">
                     <div class="dashboard-card-header">
-                        <div class="dashboard-card-title"></div>
+                        <div class="ranking-card-title">Top 10 Members</div>
                     </div>
-                    <div class="dashboard-card-desc"></div>
+                    <div class="dashboard-ranking-list">
+                        <ng-container *ngFor="let member of top10Ranking">
+                            <div class="dashboard-ranking-row">
+                                <div class="dashboard-ranking-info">
+                                    <div class="dashboard-ranking-name">{{ member.fullName }}</div>
+                                    <div class="dashboard-ranking-email">{{ member.email }}</div>
+                                </div>
+                                <div class="dashboard-ranking-points">{{ member.totalEarnedPoints | number:'1.0-0' }}
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
             <div class="dashboard-summary-second-row">

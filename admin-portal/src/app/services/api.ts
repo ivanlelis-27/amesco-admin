@@ -27,6 +27,14 @@ export class ApiService {
     return this.http.get<{ pointsRedeemers: number }>(`${this.baseUrl}/vouchers/points-redeemers-count`);
   }
 
+  getTop10Ranking() {
+    return this.http.get<any[]>(`${this.baseUrl}/transactions/top-10-ranking`);
+  }
+
+  getTotalEarnedPoints() {
+    return this.http.get<{ totalEarnedPoints: number }>(`${this.baseUrl}/transactions/total-earned-points`);
+  }
+
   getMemberById(id: string) {
     return this.http.get(`${this.baseUrl}/members/${id}`);
   }
