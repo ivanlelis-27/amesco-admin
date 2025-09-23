@@ -3,17 +3,27 @@
     <div class="dashboard-content">
         <app-header></app-header>
         <div class="dashboard-main">
-            <h2>Overview</h2>
+            <div class="dashboard-overview-row">
+                <h2>Overview</h2>
+                <div class="dashboard-ago">
+                    {{ dateAgo }}
+                </div>
+                <ion-icon name="caret-forward-outline"></ion-icon>
+                <div class="dashboard-now">
+                    {{ dateNow }}
+                </div>
+            </div>
             <div class="dashboard-cards">
                 <div class="dashboard-card">
                     <div class="dashboard-card-header">
-                        <div class="dashboard-card-title">7,059 Members</div>
+                        <div class="dashboard-card-title">{{ memberCount !== null ? memberCount : '—' }} Members</div>
                     </div>
                     <div class="dashboard-card-desc">Total members</div>
                 </div>
                 <div class="dashboard-card">
                     <div class="dashboard-card-header">
-                        <div class="dashboard-card-title">8 Vouchers</div>
+                        <div class="dashboard-card-title">{{ voucherCount !== null ? voucherCount : '—' }} Vouchers
+                        </div>
                     </div>
                     <div class="dashboard-card-desc">Total redemptions</div>
                 </div>
@@ -26,10 +36,55 @@
             </div>
             <div class="dashboard-summary-first-row">
                 <div class="dashboard-card summary-card">
-                    <div class="dashboard-card-header">
-                        <div class="dashboard-card-title"></div>
+                    <div class="dashboard-card-content">
+                        <div class="dashboard-card-title" style="grid-column: 1 / span 2; text-align: center;">
+                            {{ dateAgoMonthYear }} - {{ dateNowMonthYear }}
+                        </div>
+                        <div class="dashboard-card-col-left">
+                            <div class="dashboard-bar-breakdown-group">
+                                <div class="dashboard-bar-group">
+                                    <div class="dashboard-bar-total">
+                                        <div class="dashboard-bar-fill"
+                                            [ngStyle]="{ height: (barTotalFill * barTotalHeight) + 'px', background: '#b61624' }">
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-bar-counter-total">
+                                        {{ voucherBreakdown?.total ?? '—' }}
+                                    </div>
+                                </div>
+                                <div class="dashboard-bar-breakdown-right">
+                                    <div class="dashboard-bar-breakdown-label">Vouchers breakdown</div>
+                                    <div class="dashboard-bar-label-row">
+                                        <div class="dashboard-bar-label">Used</div>
+                                        <div class="dashboard-bar-label">Unused</div>
+                                    </div>
+                                    <div class="dashboard-bar-bars">
+                                        <div class="dashboard-bar-group">
+                                            <div class="dashboard-bar-used">
+                                                <div class="dashboard-bar-fill"
+                                                    [ngStyle]="{ height: (barUsedFill * barUsedHeight) + 'px', background: '#b61624' }">
+                                                </div>
+                                            </div>
+                                            <div class="dashboard-bar-counter">
+                                                {{ voucherBreakdown?.used ?? '—' }}
+                                            </div>
+                                        </div>
+                                        <div class="dashboard-bar-group">
+                                            <div class="dashboard-bar-unused">
+                                                <div class="dashboard-bar-fill"
+                                                    [ngStyle]="{ height: (barUnusedFill * barUnusedHeight) + 'px', background: '#b61624' }">
+                                                </div>
+                                            </div>
+                                            <div class="dashboard-bar-counter">
+                                                {{ voucherBreakdown?.unused ?? '—' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card-col-right"></div>
                     </div>
-                    <div class="dashboard-card-desc"></div>
                 </div>
                 <div class="dashboard-card redemption-card">
                     <div class="dashboard-card-header">
