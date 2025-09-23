@@ -83,7 +83,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="dashboard-card-col-right"></div>
+                        <div class="dashboard-card-col-right">
+                            <div class="dashboard-points-label">Points Redeemers / Members</div>
+                            <div class="dashboard-points-outer-container">
+                                <div class="dashboard-points-inner-container">
+                                    <span>{{ pointsRedeemers !== null && memberCount !== null ? pointsRedeemers + ' / '
+                                        +
+                                        memberCount : '—' }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="dashboard-card redemption-card">

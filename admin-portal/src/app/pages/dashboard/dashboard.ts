@@ -26,6 +26,7 @@ export class Dashboard implements OnInit {
   dateAgoMonthYear: string = '';
   dateNowMonthYear: string = '';
   voucherBreakdown: { total: number, used: number, unused: number } | null = null;
+  pointsRedeemers: number | null = null;
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -70,6 +71,16 @@ export class Dashboard implements OnInit {
         this.voucherUnused = 0;
         this.voucherCount = null;
         this.voucherBreakdown = null;
+        this.cdr.markForCheck();
+      }
+    });
+    this.api.getPointsRedeemersCount().subscribe({
+      next: (res) => {
+        this.pointsRedeemers = res.pointsRedeemers ?? null;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.pointsRedeemers = null;
         this.cdr.markForCheck();
       }
     });

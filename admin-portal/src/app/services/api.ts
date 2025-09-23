@@ -23,6 +23,10 @@ export class ApiService {
     return this.http.get<{ count: number, used: number, unused: number }>(`${this.baseUrl}/vouchers/count-details`);
   }
 
+  getPointsRedeemersCount() {
+    return this.http.get<{ pointsRedeemers: number }>(`${this.baseUrl}/vouchers/points-redeemers-count`);
+  }
+
   getMemberById(id: string) {
     return this.http.get(`${this.baseUrl}/members/${id}`);
   }

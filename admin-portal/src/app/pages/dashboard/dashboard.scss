@@ -136,6 +136,7 @@
 }
 
 .dashboard-card-title {
+    grid-column: 1 / span 2;
     font-family: 'Inter', sans-serif;
     font-size: 1.2rem;
     font-weight: 400;
@@ -182,14 +183,18 @@
     color: #b61624;
     grid-column: 1 / span 2;
     grid-row: 1;
-    text-align: center;
+    text-align: left;
+    margin-left: 0;
+    justify-self: start;
 }
 
 .dashboard-card-content {
     display: grid;
+    grid-template-columns: 14rem 14rem;
     grid-template-rows: auto 1fr;
     gap: 2rem;
     height: 100%;
+    align-items: flex-end;
 }
 
 .dashboard-bar-label-row {
@@ -202,7 +207,7 @@
 
 .dashboard-bar-breakdown-group {
     position: relative;
-    right: 2.5rem;
+    right: 2.35rem;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
@@ -264,6 +269,8 @@
 }
 
 .dashboard-card-col-left {
+    grid-column: 1;
+    grid-row: 2;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
@@ -274,6 +281,7 @@
     position: relative;
     right: 1.5rem;
     bottom: 1rem;
+
 }
 
 
@@ -330,6 +338,11 @@
 }
 
 .dashboard-card-col-right {
+    position: relative;
+    bottom: 5.6rem;
+    left: 1rem;
+    grid-column: 2;
+    grid-row: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -337,6 +350,49 @@
     height: 100%;
 }
 
+.dashboard-points-label {
+    font-size: 0.7rem;
+    color: #b61624;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    margin-bottom: 0.7rem;
+}
+
+.dashboard-points-outer-container {
+    border: 1px solid #b61624;
+    background: #fae6e6;
+    min-width: 10rem;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-points-inner-container {
+    border: 1px solid #b61624;
+    border-radius: 6px;
+    padding: 0.7rem;
+    background: #fff;
+    width: 7.5rem;
+    height: 1.5rem;
+    min-width: 7.5rem;
+    max-width: 7.5rem;
+    min-height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dashboard-points-inner-container span,
+.dashboard-points-inner-container {
+    font-size: 1rem;
+    line-height: 1.1;
+    margin-top: -0.1rem;
+    color: #b61624;
+}
 
 
 .redemption-card {
