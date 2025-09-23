@@ -500,6 +500,62 @@
     border: 1px solid #b61624;
     width: 51rem;
     height: 20rem;
+    padding: 0;
+}
+
+.transactions-card-title {
+    position: relative;
+    top: 1.2rem;
+    left: 1rem;
+    color: #b61624;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+}
+
+.dashboard-transactions-table {
+    width: 100%;
+    margin-top: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-radius: 0;
+}
+
+.dashboard-transactions-header,
+.dashboard-transactions-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 1fr 2fr;
+    align-items: center;
+    width: 100%;
+    min-height: 2.7rem;
+    box-sizing: border-box;
+    border-radius: 0;
+}
+
+.dashboard-transactions-header {
+    background: #fcf4f4;
+    font-weight: 600;
+    color: #b61624;
+    border-bottom: 1px solid #b61624;
+
+}
+
+.dashboard-transactions-row {
+    background: #fff;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.dashboard-transactions-row:last-child {
+    border-radius: 0 0 10px 10px;
+}
+
+.dashboard-transactions-col {
+    padding: 0.5rem 0.7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .member-card {

@@ -123,9 +123,28 @@
             <div class="dashboard-summary-second-row">
                 <div class="dashboard-card transactions-card">
                     <div class="dashboard-card-header">
-                        <div class="dashboard-card-title"></div>
+                        <div class="transactions-card-title">Latest Voucher Transactions</div>
                     </div>
-                    <div class="dashboard-card-desc"></div>
+                    <div class="dashboard-transactions-table">
+                        <div class="dashboard-transactions-header">
+                            <div class="dashboard-transactions-col points">Points</div>
+                            <div class="dashboard-transactions-col member">Member</div>
+                            <div class="dashboard-transactions-col code">Voucher Code</div>
+                            <div class="dashboard-transactions-col status">Status</div>
+                            <div class="dashboard-transactions-col created">Created On</div>
+                        </div>
+                        <ng-container *ngFor="let tx of latestTransactions">
+                            <div class="dashboard-transactions-row">
+                                <div class="dashboard-transactions-col points">{{ tx.points | number:'1.0-2' }}</div>
+                                <div class="dashboard-transactions-col member">{{ tx.member }}</div>
+                                <div class="dashboard-transactions-col code">{{ tx.voucherCode }}</div>
+                                <div class="dashboard-transactions-col status"></div>
+                                <div class="dashboard-transactions-col created">
+                                    {{ tx.createdOn | date:'d MMM yyyy' }}
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
                 </div>
                 <div class="dashboard-card member-card">
                     <div class="dashboard-card-header">

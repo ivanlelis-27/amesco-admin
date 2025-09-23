@@ -35,6 +35,10 @@ export class ApiService {
     return this.http.get<{ totalEarnedPoints: number }>(`${this.baseUrl}/transactions/total-earned-points`);
   }
 
+  getLatestTransactions() {
+    return this.http.get<any[]>(`${this.baseUrl}/vouchers/latest-transactions`);
+  }
+
   getMemberById(id: string) {
     return this.http.get(`${this.baseUrl}/members/${id}`);
   }

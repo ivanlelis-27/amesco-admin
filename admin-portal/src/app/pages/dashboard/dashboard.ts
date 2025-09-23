@@ -29,6 +29,7 @@ export class Dashboard implements OnInit {
   pointsRedeemers: number | null = null;
   top10Ranking: any[] = [];
   totalEarnedPoints: number | null = null;
+  latestTransactions: any[] = [];
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -106,6 +107,17 @@ export class Dashboard implements OnInit {
       },
       error: () => {
         this.totalEarnedPoints = null;
+        this.cdr.markForCheck();
+      }
+    });
+
+    this.api.getLatestTransactions().subscribe({
+      next: (res) => {
+        this.latestTransactions = res;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.latestTransactions = [];
         this.cdr.markForCheck();
       }
     });
