@@ -42,4 +42,12 @@ export class ApiService {
   getMemberById(id: string) {
     return this.http.get(`${this.baseUrl}/members/${id}`);
   }
+
+  getBranches() {
+    return this.http.get<any[]>(`${this.baseUrl}/branches`);
+  }
+
+  getNewMembersCountThisMonth() {
+    return this.http.get<{ count: number }>(`${this.baseUrl}/users/new-members`);
+  }
 }

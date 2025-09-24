@@ -30,6 +30,7 @@ export class Dashboard implements OnInit {
   top10Ranking: any[] = [];
   totalEarnedPoints: number | null = null;
   latestTransactions: any[] = [];
+  newMembersCount: number | null = null;
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -118,6 +119,17 @@ export class Dashboard implements OnInit {
       },
       error: () => {
         this.latestTransactions = [];
+        this.cdr.markForCheck();
+      }
+    });
+
+    this.api.getNewMembersCountThisMonth().subscribe({
+      next: (res) => {
+        this.newMembersCount = res.count ?? null;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.newMembersCount = null;
         this.cdr.markForCheck();
       }
     });

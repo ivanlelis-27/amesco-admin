@@ -16,23 +16,33 @@
             <div class="dashboard-cards">
                 <div class="dashboard-card">
                     <div class="dashboard-card-header">
-                        <div class="dashboard-card-title">{{ memberCount !== null ? memberCount : '—' }} Members</div>
-                    </div>
-                    <div class="dashboard-card-desc">Total members</div>
-                </div>
-                <div class="dashboard-card">
-                    <div class="dashboard-card-header">
-                        <div class="dashboard-card-title">{{ voucherCount !== null ? voucherCount : '—' }} Vouchers
+                        <div class="dashboard-card-title members-title">
+                            <ion-icon name="people-circle-outline" class="people-circle-outline"></ion-icon>
+                            <span class="members-count">{{ memberCount !== null ? memberCount : '—' }} Members</span>
                         </div>
                     </div>
-                    <div class="dashboard-card-desc">Total redemptions</div>
+                    <div class="dashboard-card-desc members-desc">Total members</div>
                 </div>
                 <div class="dashboard-card">
                     <div class="dashboard-card-header">
-                        <div class="dashboard-card-title">{{ totalEarnedPoints !== null ? (totalEarnedPoints |
-                            number:'1.0-0') : '—' }} Points</div>
+                        <div class="dashboard-card-title vouchers-title">
+                            <ion-icon name="ticket-outline" class="ticket-outline"></ion-icon>
+                            <span class="vouchers-count">{{ voucherCount !== null ? voucherCount : '—' }}
+                                Vouchers</span>
+                        </div>
                     </div>
-                    <div class="dashboard-card-desc">Total awarded points</div>
+                    <div class="dashboard-card-desc vouchers-desc">Total redemptions</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <div class="dashboard-card-title points-title">
+                            <ion-icon name="pie-chart-outline" class="pie-chart-outline"></ion-icon>
+                            <span class="points-count">
+                                {{ totalEarnedPoints !== null ? (totalEarnedPoints | number:'1.0-0') : '—' }} Points
+                            </span>
+                        </div>
+                    </div>
+                    <div class="dashboard-card-desc points-desc">Total awarded points</div>
                 </div>
             </div>
             <div class="dashboard-summary-first-row">
@@ -88,7 +98,8 @@
                             <div class="dashboard-points-label">Points Redeemers / Members</div>
                             <div class="dashboard-points-outer-container">
                                 <div class="dashboard-points-inner-container">
-                                    <span>{{ pointsRedeemers !== null && memberCount !== null ? pointsRedeemers + ' / '
+                                    <span>{{ pointsRedeemers !== null && memberCount !== null ? pointsRedeemers + '
+                                        / '
                                         +
                                         memberCount : '—' }}</span>
                                 </div>
@@ -113,7 +124,10 @@
                                     <div class="dashboard-ranking-name">{{ member.fullName }}</div>
                                     <div class="dashboard-ranking-email">{{ member.email }}</div>
                                 </div>
-                                <div class="dashboard-ranking-points">{{ member.totalEarnedPoints | number:'1.0-0' }}
+                                <div class="dashboard-ranking-points">
+                                    {{ member.totalEarnedPoints % 1 === 0
+                                    ? (member.totalEarnedPoints | number:'1.0-0')
+                                    : (member.totalEarnedPoints | number:'1.2-2') }}
                                 </div>
                             </div>
                         </ng-container>
@@ -135,7 +149,8 @@
                         </div>
                         <ng-container *ngFor="let tx of latestTransactions">
                             <div class="dashboard-transactions-row">
-                                <div class="dashboard-transactions-col points">{{ tx.points | number:'1.0-2' }}</div>
+                                <div class="dashboard-transactions-col points">{{ tx.points | number:'1.0-2' }}
+                                </div>
                                 <div class="dashboard-transactions-col member">{{ tx.member }}</div>
                                 <div class="dashboard-transactions-col code">{{ tx.voucherCode }}</div>
                                 <div class="dashboard-transactions-col status"></div>
@@ -147,10 +162,30 @@
                     </div>
                 </div>
                 <div class="dashboard-card member-card">
-                    <div class="dashboard-card-header">
-                        <div class="dashboard-card-title"></div>
+                    <div class="dashboard-member-container">
+                        <div class="dashboard-member-col dashboard-member-col-left">
+                            <div class="dashboard-member-title">New Member</div>
+                            <!-- Example content: Replace with your actual chart or value -->
+                            <div class="dashboard-member-chart">
+                                <svg width="100" height="100" viewBox="0 0 100 100">
+                                    <!-- Background arc (light) -->
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#fae6e6" stroke-width="20"
+                                        stroke-dasharray="180 80" stroke-dashoffset="157" />
+                                    <!-- Foreground arc (red) -->
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#b61624" stroke-width="20"
+                                        stroke-dasharray="180 80" stroke-dashoffset="157" />
+                                    <!-- Center text -->
+                                    <text x="50" y="50" text-anchor="middle" fill="#333"
+                                        font-family="Inter, sans-serif">{{ newMembersCount !== null ? newMembersCount :
+                                        '—' }}</text>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="dashboard-member-divider"></div>
+                        <div class="dashboard-member-col dashboard-member-col-right">
+                            <div class="dashboard-member-title">Popular Notifications</div>
+                        </div>
                     </div>
-                    <div class="dashboard-card-desc"></div>
                 </div>
             </div>
         </div>

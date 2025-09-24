@@ -1,11 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { ApiService } from '../../services/api';
 
 @Component({
   selector: 'app-merchant-mgmt',
-  imports: [],
+  standalone: false,
   templateUrl: './merchant-mgmt.html',
-  styleUrl: './merchant-mgmt.scss'
+  styleUrls: ['./merchant-mgmt.scss']
 })
 export class MerchantMgmt {
+  branches: any[] = [];
+
+  constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) { }
+
+  ngOnInit() {
+    this.apiService.getBranches().subscribe({
+      next: (res) => {
+        console.log('Branches received:', res);
+        this.branches = res;
+        this.cdr.detectChanges();
+      },
+      error: () => this.branches = []
+    });
+  }
 
 }

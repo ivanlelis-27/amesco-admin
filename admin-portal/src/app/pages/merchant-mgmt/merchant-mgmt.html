@@ -1,1 +1,43 @@
-<p>merchant-mgmt works!</p>
+<div class="merchant-mgmt">
+    <app-sidebar></app-sidebar>
+    <div class="merchant-content">
+        <app-header></app-header>
+        <div class="merchant-toolbar-container">
+            <div class="merchant-toolbar">
+                <div class="merchant-toolbar-left">
+                    <span class="merchant-toolbar-title">Branch Management</span>
+                </div>
+                <div class="merchant-toolbar-right">
+                    <button class="add-branch-btn">ADD BRANCH</button>
+                </div>
+            </div>
+            <div class="merchant-search">
+                <input type="text" class="merchant-search-input" placeholder="Search Branch Name" />
+                <button class="merchant-search-clear" title="Clear">&times;</button>
+                <button class="merchant-search-btn" title="Search">&#128269;</button>
+            </div>
+        </div>
+        <div class="merchant-branch-list">
+            <div *ngFor="let branch of branches" class="branch-card">
+                <div class="branch-card-main">
+                    <div class="branch-card-title">{{ branch.branchName }}</div>
+                    <div class="branch-card-contact-row">
+                        <span class="branch-card-icon"><ion-icon name="call-outline"></ion-icon></span>
+                        <span class="branch-card-contact">{{ branch.contact }}</span>
+                        <span class="branch-card-icon"><ion-icon name="time-outline"></ion-icon></span>
+                        <span class="branch-card-hours">{{ branch.hours }}</span>
+                        <span class="branch-card-icon"><ion-icon name="mail-outline"></ion-icon></span>
+                        <span class="branch-card-email">{{ branch.email }}</span>
+                    </div>
+                    <div class="branch-card-address">{{ branch.address }}</div>
+                </div>
+                <div class="branch-card-actions">
+                    <button class="branch-action-btn" title="Map"><ion-icon name="map-outline"></ion-icon></button>
+                    <button class="branch-action-btn" title="Edit"><ion-icon name="create-outline"></ion-icon></button>
+                    <button class="branch-action-btn delete" title="Delete"><ion-icon
+                            name="trash-outline"></ion-icon></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
