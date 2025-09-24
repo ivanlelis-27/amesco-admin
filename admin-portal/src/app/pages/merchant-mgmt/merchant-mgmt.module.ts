@@ -6,11 +6,13 @@ import { IonicModule } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { MerchantMgmt } from './merchant-mgmt';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [MerchantMgmt],
     imports: [
         CommonModule,
+        FormsModule,
         SidebarComponent,
         HeaderComponent,
         IonicModule,

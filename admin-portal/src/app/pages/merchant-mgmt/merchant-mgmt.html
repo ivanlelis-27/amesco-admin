@@ -12,13 +12,14 @@
                 </div>
             </div>
             <div class="merchant-search">
-                <input type="text" class="merchant-search-input" placeholder="Search Branch Name" />
+                <input type="text" class="merchant-search-input" placeholder="Search Branch Name"
+                    [(ngModel)]="searchTerm" (input)="onSearch(searchTerm)" />
                 <button class="merchant-search-clear" title="Clear">&times;</button>
                 <button class="merchant-search-btn" title="Search">&#128269;</button>
             </div>
         </div>
         <div class="merchant-branch-list">
-            <div *ngFor="let branch of branches" class="branch-card">
+            <div *ngFor="let branch of filteredBranches" class="branch-card">
                 <div class="branch-card-main">
                     <div class="branch-card-title">{{ branch.branchName }}</div>
                     <div class="branch-card-contact-row">
