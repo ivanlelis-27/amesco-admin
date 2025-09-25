@@ -50,4 +50,16 @@ export class ApiService {
   getNewMembersCountThisMonth() {
     return this.http.get<{ count: number }>(`${this.baseUrl}/users/new-members`);
   }
+
+  addBranch(branch: any) {
+    return this.http.post(`${this.baseUrl}/branches`, branch);
+  }
+
+  updateBranch(id: number, branch: any) {
+    return this.http.put(`${this.baseUrl}/branches/${id}`, branch);
+  }
+
+  deleteBranch(id: number) {
+    return this.http.delete(`${this.baseUrl}/branches/${id}`);
+  }
 }

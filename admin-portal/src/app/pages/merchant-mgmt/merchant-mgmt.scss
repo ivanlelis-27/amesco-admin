@@ -126,6 +126,27 @@
     margin-left: 0.5rem;
 }
 
+.merchant-search-clear {
+    position: relative;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #8a8889;
+    padding: 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+
+.merchant-search-clear ion-icon {
+    font-size: 1.5rem;
+    vertical-align: middle;
+}
+
 .merchant-branch-list {
     position: relative;
     top: 2rem;
@@ -138,6 +159,8 @@
     margin: 0;
     padding: 0 0 5rem 0;
     width: 100%;
+    max-height: none;
+    height: auto;
 }
 
 .branch-card {
@@ -218,4 +241,104 @@
 
 .branch-action-btn:hover {
     background: #f5f5f5;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.add-branch-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 1.5rem rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+    min-width: 20rem;
+    max-width: 25rem; // always narrow, uses rem for responsiveness
+    width: 100%;
+    padding: 2rem;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.add-branch-modal .modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.add-branch-modal label {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.add-branch-modal input,
+.add-branch-modal select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: flex-end;
+}
+
+.address-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.location-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #b61624;
+    padding: 0.2rem;
+}
+
+.map-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    z-index: 1002;
+    min-width: 400px;
+    padding: 2rem;
+}
+
+.google-map {
+    width: 100%;
+    height: 350px;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+}
+
+.map-search-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
 }

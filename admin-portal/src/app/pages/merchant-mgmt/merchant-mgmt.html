@@ -8,14 +8,15 @@
                     <span class="merchant-toolbar-title">Branch Management</span>
                 </div>
                 <div class="merchant-toolbar-right">
-                    <button class="add-branch-btn">ADD BRANCH</button>
+                    <button class="add-branch-btn" (click)="openAddBranchModal()">ADD BRANCH</button>
                 </div>
             </div>
             <div class="merchant-search">
                 <input type="text" class="merchant-search-input" placeholder="Search Branch Name"
                     [(ngModel)]="searchTerm" (input)="onSearch(searchTerm)" />
-                <button class="merchant-search-clear" title="Clear">&times;</button>
-                <button class="merchant-search-btn" title="Search">&#128269;</button>
+                <button class="merchant-search-clear" title="Clear" (click)="clearSearch()">
+                    <ion-icon [name]="searchTerm ? 'close-outline' : 'search-outline'"></ion-icon>
+                </button>
             </div>
         </div>
         <div class="merchant-branch-list">
@@ -26,19 +27,202 @@
                         <span class="branch-card-icon"><ion-icon name="call-outline"></ion-icon></span>
                         <span class="branch-card-contact">{{ branch.contact }}</span>
                         <span class="branch-card-icon"><ion-icon name="time-outline"></ion-icon></span>
-                        <span class="branch-card-hours">{{ branch.hours }}</span>
+                        <span class="branch-card-hours">
+                            {{ branch.startDay && branch.endDay && branch.openTime && branch.closeTime
+                            ? branch.startDay + '-' + branch.endDay + ': ' + formatTime(branch.openTime) + ' to ' +
+                            formatTime(branch.closeTime)
+                            : '' }}
+                        </span>
                         <span class="branch-card-icon"><ion-icon name="mail-outline"></ion-icon></span>
                         <span class="branch-card-email">{{ branch.email }}</span>
                     </div>
                     <div class="branch-card-address">{{ branch.address }}</div>
                 </div>
                 <div class="branch-card-actions">
-                    <button class="branch-action-btn" title="Map"><ion-icon name="map-outline"></ion-icon></button>
-                    <button class="branch-action-btn" title="Edit"><ion-icon name="create-outline"></ion-icon></button>
-                    <button class="branch-action-btn delete" title="Delete"><ion-icon
-                            name="trash-outline"></ion-icon></button>
+                    <button class="branch-action-btn" title="Map" (click)="openViewMapModal(branch)">
+                        <ion-icon name="map-outline"></ion-icon>
+                    </button>
+                    <button class="branch-action-btn" title="Edit" (click)="openEditBranchModal(branch)">
+                        <ion-icon name="create-outline"></ion-icon>
+                    </button>
+                    <button class="branch-action-btn delete" title="Delete" (click)="openDeleteModal(branch)">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </button>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Branch Modal -->
+<div class="modal-backdrop" *ngIf="showAddBranchModal"></div>
+<div class="add-branch-modal" *ngIf="showAddBranchModal">
+    <div class="modal-content">
+        <h2>Add Branch</h2>
+        <form (ngSubmit)="submitBranch()" #branchForm="ngForm">
+            <label>
+                Branch Name
+                <input type="text" [(ngModel)]="newBranch.branchName" name="branchName" required />
+            </label>
+            <label>
+                Address
+                <div class="address-input-row">
+                    <input type="text" [(ngModel)]="newBranch.address" name="address" required />
+                    <button type="button" class="location-btn" (click)="openMapModal()">
+                        <ion-icon name="location-outline"></ion-icon>
+                    </button>
+                </div>
+            </label>
+            <label>
+                Contact
+                <input type="text" [(ngModel)]="newBranch.contact" name="contact" required />
+            </label>
+            <label>
+                Start Day
+                <select [(ngModel)]="newBranch.startDay" name="startDay" required>
+                    <option *ngFor="let day of days" [value]="day.short">{{ day.full }}</option>
+                </select>
+            </label>
+            <label>
+                End Day
+                <select [(ngModel)]="newBranch.endDay" name="endDay" required>
+                    <option *ngFor="let day of days" [value]="day.short">{{ day.full }}</option>
+                </select>
+            </label>
+            <label>
+                Open Time
+                <select [(ngModel)]="newBranch.openTime" name="openTime" required>
+                    <option *ngFor="let time of times" [value]="time.value">{{ time.label }}</option>
+                </select>
+            </label>
+            <label>
+                Close Time
+                <select [(ngModel)]="newBranch.closeTime" name="closeTime" required>
+                    <option *ngFor="let time of times" [value]="time.value">{{ time.label }}</option>
+                </select>
+            </label>
+            <label>
+                Email
+                <input type="email" [(ngModel)]="newBranch.email" name="email" required />
+            </label>
+            <div class="modal-actions">
+                <button type="submit" [disabled]="branchForm.invalid">Add Branch</button>
+                <button type="button" (click)="closeAddBranchModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Google Maps Modal -->
+<div class="modal-backdrop" *ngIf="showMapModal"></div>
+<div class="map-modal" *ngIf="showMapModal">
+    <div class="modal-content">
+        <h2>Select Location</h2>
+        <input type="text" placeholder="Search location..." (input)="onMapSearch($event.target.value)"
+            class="map-search-input" />
+        <div id="googleMap" class="google-map"></div>
+        <div class="modal-actions">
+            <button type="button" (click)="confirmLocation()">Confirm</button>
+            <button type="button" (click)="closeMapModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- View-Only Google Maps Modal -->
+<div class="modal-backdrop" *ngIf="showViewMapModal"></div>
+<div class="map-modal" *ngIf="showViewMapModal">
+    <div class="modal-content">
+        <h2>{{ selectedBranch?.branchName }}</h2>
+        <div id="viewGoogleMap" class="google-map"></div>
+        <div class="modal-actions">
+            <button type="button" (click)="closeViewMapModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Branch Modal -->
+<div class="modal-backdrop" *ngIf="showEditBranchModal"></div>
+<div class="add-branch-modal" *ngIf="showEditBranchModal">
+    <div class="modal-content">
+        <h2>Edit Branch</h2>
+        <form (ngSubmit)="submitEditBranch()" #editBranchForm="ngForm">
+            <label>
+                Branch Name
+                <input type="text" [(ngModel)]="editBranch.branchName" name="editBranchName" required />
+            </label>
+            <label>
+                Address
+                <div class="address-input-row">
+                    <input type="text" [(ngModel)]="editBranch.address" name="editBranchAddress" required />
+                    <button type="button" class="location-btn" (click)="openEditMapModal()">
+                        <ion-icon name="location-outline"></ion-icon>
+                    </button>
+                </div>
+            </label>
+            <label>
+                Contact
+                <input type="text" [(ngModel)]="editBranch.contact" name="editBranchContact" required />
+            </label>
+            <label>
+                Start Day
+                <select [(ngModel)]="editBranch.startDay" name="editBranchStartDay" required>
+                    <option *ngFor="let day of days" [value]="day.short">{{ day.full }}</option>
+                </select>
+            </label>
+            <label>
+                End Day
+                <select [(ngModel)]="editBranch.endDay" name="editBranchEndDay" required>
+                    <option *ngFor="let day of days" [value]="day.short">{{ day.full }}</option>
+                </select>
+            </label>
+            <label>
+                Open Time
+                <select [(ngModel)]="editBranch.openTime" name="editBranchOpenTime" required>
+                    <option *ngFor="let time of times" [value]="time.value">{{ time.label }}</option>
+                </select>
+            </label>
+            <label>
+                Close Time
+                <select [(ngModel)]="editBranch.closeTime" name="editBranchCloseTime" required>
+                    <option *ngFor="let time of times" [value]="time.value">{{ time.label }}</option>
+                </select>
+            </label>
+            <label>
+                Email
+                <input type="email" [(ngModel)]="editBranch.email" name="editBranchEmail" required />
+            </label>
+            <div class="modal-actions">
+                <button type="submit" [disabled]="editBranchForm.invalid">Save Changes</button>
+                <button type="button" (click)="closeEditBranchModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Branch Google Maps Modal -->
+<div class="modal-backdrop" *ngIf="showEditMapModal"></div>
+<div class="map-modal" *ngIf="showEditMapModal">
+    <div class="modal-content">
+        <h2>Edit Location</h2>
+        <input type="text" placeholder="Search location..." (input)="onEditMapSearch($event.target.value)"
+            class="map-search-input" />
+        <div id="editGoogleMap" class="google-map"></div>
+        <div class="modal-actions">
+            <button type="button" (click)="confirmEditLocation()">Confirm</button>
+            <button type="button" (click)="closeEditMapModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-backdrop" *ngIf="showDeleteModal"></div>
+<div class="add-branch-modal" *ngIf="showDeleteModal">
+    <div class="modal-content">
+        <h2>Delete Branch</h2>
+        <p>Are you sure you want to delete <strong>{{ branchToDelete?.branchName }}</strong>?</p>
+        <div class="modal-actions">
+            <button type="button" (click)="confirmDeleteBranch()">Confirm</button>
+            <button type="button" (click)="closeDeleteModal()">Cancel</button>
         </div>
     </div>
 </div>
