@@ -142,7 +142,7 @@
 
 <!-- Edit Branch Modal -->
 <div class="modal-backdrop" *ngIf="showEditBranchModal"></div>
-<div class="add-branch-modal" *ngIf="showEditBranchModal">
+<div class="add-branch-modal edit-branch-modal" *ngIf="showEditBranchModal">
     <div class="modal-content">
         <h2>Edit Branch</h2>
         <form (ngSubmit)="submitEditBranch()" #editBranchForm="ngForm">

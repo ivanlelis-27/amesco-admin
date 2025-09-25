@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api';
-import { SidebarComponent } from '../../components/sidebar/sidebar';
-import { HeaderComponent } from '../../components/header/header';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +12,9 @@ export class Dashboard implements OnInit {
   barTotalHeight: number = 130;
   barUsedHeight: number = 80;
   barUnusedHeight: number = 80;
+  showCalendar = false;
+  selectedDateAgo: string = '';
+  dateAgo: string = '';
   memberCount: number | null = null;
   voucherCount: number | null = null;
   voucherTotal: number = 0;
@@ -21,7 +23,6 @@ export class Dashboard implements OnInit {
   barTotalFill: number = 0;
   barUsedFill: number = 0;
   barUnusedFill: number = 0;
-  dateAgo: string = '';
   dateNow: string = '';
   dateAgoMonthYear: string = '';
   dateNowMonthYear: string = '';
@@ -31,6 +32,16 @@ export class Dashboard implements OnInit {
   totalEarnedPoints: number | null = null;
   latestTransactions: any[] = [];
   newMembersCount: number | null = null;
+
+  calendarYear: number = new Date().getFullYear();
+  calendarMonth: number = new Date().getMonth(); // 0-based
+  calendarDays: number[] = [];
+
+  monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  yearOptions: number[] = [];
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -44,6 +55,10 @@ export class Dashboard implements OnInit {
 
     this.dateNowMonthYear = today.toLocaleString('default', { month: 'long', year: 'numeric' });
     this.dateAgoMonthYear = monthAgo.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+    const currentYear = new Date().getFullYear();
+    this.yearOptions = Array.from({ length: 21 }, (_, i) => currentYear - 10 + i);
+    this.generateCalendarDays();
 
     this.api.getMemberCount().subscribe({
       next: (res) => {
@@ -133,6 +148,51 @@ export class Dashboard implements OnInit {
         this.cdr.markForCheck();
       }
     });
+  }
+
+  toggleCalendar() {
+    this.showCalendar = !this.showCalendar;
+    if (this.showCalendar) {
+      this.calendarYear = new Date().getFullYear();
+      this.calendarMonth = new Date().getMonth();
+      this.generateCalendarDays();
+    }
+  }
+
+  generateCalendarDays() {
+    const year = this.calendarYear;
+    const month = this.calendarMonth;
+    const firstDay = new Date(year, month, 1).getDay(); // 0=Sunday
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    this.calendarDays = Array(firstDay).fill(0).concat(Array.from({ length: daysInMonth }, (_, i) => i + 1));
+  }
+
+  prevMonth() {
+    if (this.calendarMonth === 0) {
+      this.calendarMonth = 11;
+      this.calendarYear--;
+    } else {
+      this.calendarMonth--;
+    }
+    this.generateCalendarDays();
+  }
+
+  nextMonth() {
+    if (this.calendarMonth === 11) {
+      this.calendarMonth = 0;
+      this.calendarYear++;
+    } else {
+      this.calendarMonth++;
+    }
+    this.generateCalendarDays();
+  }
+
+  selectCalendarDay(day: number) {
+    if (day === 0) return;
+    const selected = new Date(this.calendarYear, this.calendarMonth, day);
+    this.selectedDateAgo = selected.toISOString().slice(0, 10);
+    this.dateAgo = this.formatDate(selected);
+    this.showCalendar = false;
   }
 
   formatDate(date: Date): string {
