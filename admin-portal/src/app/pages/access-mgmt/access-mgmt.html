@@ -8,6 +8,31 @@
             <div class="tab records">Records: 3</div>
         </div>
         <div class="access-main">
+            <div class="access-card">
+                <div class="access-card-header">
+                    <input class="access-search" type="text" placeholder="Search user..." />
+                    <button class="access-btn add">ADD USER</button>
+                    <button class="access-btn edit">EDIT USER</button>
+                    <button class="access-btn reset">RESET PASSWORD</button>
+                </div>
+                <div class="access-card-body">
+                    <div class="access-table-header">
+                        <div class="access-table-col">USERS</div>
+                        <div class="access-table-col">ROLE</div>
+                        <div class="access-table-col">BRANCH</div>
+                        <div class="access-table-col">EMAIL</div>
+                        <div class="access-table-col">LAST LOGIN</div>
+                    </div>
+                    <div *ngFor="let user of users" class="access-table-row">
+                        <div class="access-table-col">{{ user.fullName }}</div>
+                        <div class="access-table-col">{{ user.role }}</div>
+                        <div class="access-table-col">{{ user.branchID ? user.branchID : '' }}</div>
+                        <div class="access-table-col">{{ user.email }}</div>
+                        <div class="access-table-col">{{ user.lastLogin ? (user.lastLogin | date:'dd/MM/yyyy HH:mm') :
+                            '' }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

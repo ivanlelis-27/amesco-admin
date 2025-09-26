@@ -12,7 +12,7 @@
                 <div class="member-card-header">
                     <input class="member-search" type="text" placeholder="Search for last name..."
                         [(ngModel)]="searchText" />
-                    <button class="member-add-btn">ADD MEMBER</button>
+                    <button class="member-add-btn" (click)="openAddMemberModal()">ADD MEMBER</button>
                 </div>
                 <div class="member-card-body">
                     <div class="member-table-header">
@@ -37,6 +37,73 @@
                         <div class="member-table-col">{{ member.points }}</div>
                         <div class="member-table-col">{{ member.email }}</div>
                         <div class="member-table-col"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div *ngIf="showAddMemberModal" class="member-modal">
+                <div class="member-modal-content">
+                    <div class="modal-scroll">
+                        <h2>Add Member</h2>
+                        <form (ngSubmit)="addMember()" #addMemberForm="ngForm">
+                            <div class="modal-field">
+                                <label>Email</label>
+                                <input type="email" [(ngModel)]="newMember.email" name="email" required
+                                    [ngClass]="{'input-error': fieldError('email')}" />
+                                <div *ngIf="fieldError('email')" class="input-error-text">
+                                    {{ !newMember.email ? 'This field is required' : 'Invalid email format' }}
+                                </div>
+                            </div>
+                            <div class="modal-field">
+                                <label>Password</label>
+                                <input type="password" [(ngModel)]="newMember.password" name="password" required
+                                    [ngClass]="{'input-error': fieldError('password')}" />
+                                <div *ngIf="fieldError('password')" class="input-error-text">
+                                    {{ !newMember.password ? 'This field is required' : (fieldError('confirmPassword') ?
+                                    'Passwords do not match' :
+                                    '') }}
+                                </div>
+                            </div>
+                            <div class="modal-field">
+                                <label>Confirm Password</label>
+                                <input type="password" [(ngModel)]="newMember.confirmPassword" name="confirmPassword"
+                                    required [ngClass]="{'input-error': fieldError('confirmPassword')}" />
+                                <div *ngIf="fieldError('confirmPassword')" class="input-error-text">
+                                    {{ !newMember.confirmPassword ? 'This field is required' : (fieldError('password') ?
+                                    'Passwords do not match' :
+                                    '') }}
+                                </div>
+                            </div>
+                            <div class="modal-field">
+                                <label>First Name</label>
+                                <input type="text" [(ngModel)]="newMember.firstName" name="firstName" required
+                                    [ngClass]="{'input-error': fieldError('firstName')}" />
+                                <div *ngIf="fieldError('firstName')" class="input-error-text">This field is required
+                                </div>
+                            </div>
+                            <div class="modal-field">
+                                <label>Last Name</label>
+                                <input type="text" [(ngModel)]="newMember.lastName" name="lastName" required
+                                    [ngClass]="{'input-error': fieldError('lastName')}" />
+                                <div *ngIf="fieldError('lastName')" class="input-error-text">This field is required
+                                </div>
+                            </div>
+                            <div class="modal-field">
+                                <label>Mobile</label>
+                                <input type="text" [(ngModel)]="newMember.mobile" name="mobile" required
+                                    [ngClass]="{'input-error': fieldError('mobile')}" />
+                                <div *ngIf="fieldError('mobile')" class="input-error-text">This field is required</div>
+                            </div>
+                            <input type="hidden" [(ngModel)]="newMember['memberId']" name="memberId" />
+                            <div class="modal-actions">
+                                <button type="submit" class="modal-btn save">Save</button>
+
+                                <button type="button" class="modal-btn cancel"
+                                    (click)="showAddMemberModal = false">Cancel</button>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
             </div>

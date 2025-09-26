@@ -95,3 +95,109 @@
     cursor: default;
     padding-right: 0;
 }
+
+.access-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e0e0e0;
+    margin: 2rem 0 0 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.access-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem 2rem;
+    background: #faf8f8;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.access-search {
+    flex: 1;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 24px;
+    border: none;
+    background: #f5f5f5;
+    outline: none;
+    margin-right: 1rem;
+}
+
+.access-btn {
+    background: #b61624;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    border: none;
+    border-radius: 24px;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    transition: background 0.2s;
+}
+
+.access-btn.edit {
+    background: #b61624;
+    color: #fff;
+}
+
+.access-btn.reset {
+    background: #b61624;
+    color: #fff;
+}
+
+.access-btn:hover {
+    filter: brightness(0.95);
+}
+
+.access-card-body {
+    min-height: 200px;
+    background: #fff;
+    border-radius: 0 0 16px 16px;
+    padding: 2rem;
+}
+
+.access-table-header {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: #b61624;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+}
+
+.access-table-col {
+    flex: 1;
+    text-align: left;
+    padding: 0 0.5rem;
+    min-width: 120px;
+}
+
+// Add to access-mgmt.scss
+.access-table-row {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: #333;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #f2f2f2;
+    background: #fff;
+}
+
+.access-table-row .access-table-col {
+    flex: 1;
+    text-align: left;
+    padding: 0 0.5rem;
+    min-width: 120px;
+}

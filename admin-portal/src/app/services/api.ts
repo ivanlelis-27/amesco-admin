@@ -66,4 +66,16 @@ export class ApiService {
   getAllMembers() {
     return this.http.get<any[]>(`${this.baseUrl}/users`);
   }
+
+  getAccessUsers() {
+    return this.http.get<any[]>(`${this.baseUrl}/accesscontrol`);
+  }
+
+  generateMemberId() {
+    return this.http.get<{ memberId: string }>(`${this.baseUrl}/auth/generate-memberid`);
+  }
+
+  registerMember(request: any) {
+    return this.http.post(`${this.baseUrl}/auth/register`, request);
+  }
 }

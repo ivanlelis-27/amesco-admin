@@ -96,7 +96,6 @@
     margin: 2rem 0 0 0;
     padding: 0;
     width: 100%;
-    max-width: 1200px;
     display: flex;
     flex-direction: column;
 }
@@ -197,4 +196,104 @@
     flex: 1;
     padding: 1rem 1rem;
     min-width: 120px;
+}
+
+.member-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.member-modal-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    padding: 0;
+    /* Remove padding here, add to .member-modal-scroll */
+    width: 40rem;
+    max-height: 90vh;
+    overflow: hidden; // Enforce border-radius clipping
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-scroll {
+    padding: 2rem 2.5rem;
+    overflow-y: auto;
+    max-height: 90vh;
+    border-radius: 12px; // Optional, for extra safety
+}
+
+.member-modal-content h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #b61624;
+    text-align: center;
+}
+
+.modal-field {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-field label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    color: #333;
+}
+
+.modal-field input {
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    font-size: 1rem;
+    background: #fafafa;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.modal-btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: 24px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.modal-btn.save {
+    background: #b61624;
+    color: #fff;
+}
+
+.modal-btn.cancel {
+    background: #eee;
+    color: #333;
+}
+
+.input-error {
+    border: 1.5px solid #b61624 !important;
+}
+
+.input-error-text {
+    color: #b61624;
+    font-size: 0.88rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    font-weight: 500;
 }
