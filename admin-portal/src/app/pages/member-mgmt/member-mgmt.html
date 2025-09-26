@@ -10,7 +10,8 @@
         <div class="member-main">
             <div class="member-card">
                 <div class="member-card-header">
-                    <input class="member-search" type="text" placeholder="Search for last name..." />
+                    <input class="member-search" type="text" placeholder="Search for last name..."
+                        [(ngModel)]="searchText" />
                     <button class="member-add-btn">ADD MEMBER</button>
                 </div>
                 <div class="member-card-body">
@@ -21,7 +22,7 @@
                         <div class="member-table-col">Email</div>
                         <div class="member-table-col">Last Visit (DMY)</div>
                     </div>
-                    <div *ngFor="let member of members" class="member-table-row">
+                    <div *ngFor="let member of filteredMembers" class="member-table-row">
                         <div class="member-table-col" style="display: flex; align-items: center;">
                             <ng-container *ngIf="member.profileImage; else noImage">
                                 <img [src]="'data:image/png;base64,' + member.profileImage" alt="Profile"

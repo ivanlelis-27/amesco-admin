@@ -9,6 +9,7 @@ import { ApiService } from '../../services/api';
 })
 export class MemberMgmt implements OnInit {
   members: any[] = [];
+  searchText: string = '';
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -19,5 +20,13 @@ export class MemberMgmt implements OnInit {
         this.cdr.detectChanges();
       }
     })
+  }
+
+  get filteredMembers() {
+    if (!this.searchText) return this.members;
+    const letter = this.searchText.trim().toLowerCase();
+    return this.members.filter(m =>
+      m.lastName && m.lastName[0].toLowerCase() === letter
+    );
   }
 }
