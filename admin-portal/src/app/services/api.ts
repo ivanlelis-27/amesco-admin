@@ -62,4 +62,8 @@ export class ApiService {
   deleteBranch(id: number) {
     return this.http.delete(`${this.baseUrl}/branches/${id}`);
   }
+
+  getAllMembers() {
+    return this.http.get<any[]>(`${this.baseUrl}/users`);
+  }
 }

@@ -1,0 +1,97 @@
+.access-mgmt {
+    display: flex;
+    height: 100vh;
+}
+
+.access-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.access-content app-header {
+    width: 100%;
+    margin-left: 0;
+    z-index: 1;
+}
+
+.access-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding-left: 2rem;
+}
+
+.access-mgmt app-sidebar {
+    width: 220px;
+    height: 100vh;
+    position: relative;
+    z-index: 2;
+}
+
+.access-main {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    overflow-y: auto;
+    max-height: calc(100vh - 56px);
+}
+
+.access-main h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+.access-main app-header {
+    width: 100%;
+    margin-left: 0;
+}
+
+.access-tabs-bar {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+    padding: 0 2rem 0 2rem;
+    min-height: 40px;
+}
+
+.access-tabs-bar .tab {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    color: #555;
+    padding: 0.5rem 2rem 0.5rem 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.access-tabs-bar .tab.active {
+    color: #222;
+    font-weight: 500;
+}
+
+.access-tabs-bar .tab.active::after {
+    content: '';
+    display: block;
+    height: 4px;
+    width: 40px;
+    background: #00d2e0;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    border-radius: 2px;
+}
+
+.access-tabs-bar .tab.records {
+    margin-left: auto;
+    color: #666;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: default;
+    padding-right: 0;
+}

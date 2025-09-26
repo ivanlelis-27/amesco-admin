@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-access-mgmt',
-  imports: [],
+  standalone: false,
   templateUrl: './access-mgmt.html',
   styleUrl: './access-mgmt.scss'
 })

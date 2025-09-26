@@ -21,7 +21,7 @@
     display: flex;
     flex-direction: column;
     min-width: 0;
-    padding-left: 2rem;
+    width: 100%;
 }
 
 .merchant-mgmt app-sidebar {
@@ -29,17 +29,6 @@
     height: 100vh;
     position: relative;
     z-index: 2;
-}
-
-.merchant-main {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    overflow-y: auto;
-    max-height: calc(100vh - 56px);
 }
 
 .merchant-main h2 {
@@ -154,13 +143,11 @@
     flex-direction: column;
     gap: 1rem;
     align-items: center;
-    height: 500px;
-    overflow-y: auto;
+    max-height: 500px; // <-- Set max-height for scrolling
+    overflow-y: auto; // <-- Enable vertical scroll
     margin: 0;
     padding: 0 0 5rem 0;
     width: 100%;
-    max-height: none;
-    height: auto;
 }
 
 .branch-card {

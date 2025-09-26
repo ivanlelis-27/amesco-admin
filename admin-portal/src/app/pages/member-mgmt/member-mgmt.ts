@@ -1,11 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ApiService } from '../../services/api';
 
 @Component({
   selector: 'app-member-mgmt',
-  imports: [],
+  standalone: false,
   templateUrl: './member-mgmt.html',
-  styleUrl: './member-mgmt.scss'
+  styleUrls: ['./member-mgmt.scss']
 })
-export class MemberMgmt {
+export class MemberMgmt implements OnInit {
+  members: any[] = [];
 
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
+
+  ngOnInit() {
+    this.api.getAllMembers().subscribe({
+      next: (res) => {
+        this.members = res;
+        this.cdr.detectChanges();
+      }
+    })
+  }
 }

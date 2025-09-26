@@ -1,1 +1,44 @@
-<p>member-mgmt works!</p>
+<div class="member-mgmt">
+    <app-sidebar></app-sidebar>
+    <div class="member-content">
+        <app-header></app-header>
+        <div class="member-tabs-bar">
+            <div class="tab active">Members</div>
+            <div class="tab">Transactions</div>
+            <div class="tab">Upload</div>
+        </div>
+        <div class="member-main">
+            <div class="member-card">
+                <div class="member-card-header">
+                    <input class="member-search" type="text" placeholder="Search for last name..." />
+                    <button class="member-add-btn">ADD MEMBER</button>
+                </div>
+                <div class="member-card-body">
+                    <div class="member-table-header">
+                        <div class="member-table-col">Members</div>
+                        <div class="member-table-col">Contact</div>
+                        <div class="member-table-col">Points</div>
+                        <div class="member-table-col">Email</div>
+                        <div class="member-table-col">Last Visit (DMY)</div>
+                    </div>
+                    <div *ngFor="let member of members" class="member-table-row">
+                        <div class="member-table-col" style="display: flex; align-items: center;">
+                            <ng-container *ngIf="member.profileImage; else noImage">
+                                <img [src]="'data:image/png;base64,' + member.profileImage" alt="Profile"
+                                    class="member-profile-img" />
+                            </ng-container>
+                            <ng-template #noImage>
+                                <ion-icon name="person-circle-outline" class="member-profile-icon"></ion-icon>
+                            </ng-template>
+                            <span style="margin-left: 1rem;">{{ member.firstName }} {{ member.lastName }}</span>
+                        </div>
+                        <div class="member-table-col">{{ member.mobile }}</div>
+                        <div class="member-table-col">{{ member.points }}</div>
+                        <div class="member-table-col">{{ member.email }}</div>
+                        <div class="member-table-col"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

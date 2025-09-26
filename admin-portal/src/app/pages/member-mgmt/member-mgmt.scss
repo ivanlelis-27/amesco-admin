@@ -1,0 +1,200 @@
+.member-mgmt {
+    display: flex;
+    height: 100vh;
+}
+
+.member-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.member-content app-header {
+    width: 100%;
+    margin-left: 0;
+    z-index: 1;
+}
+
+.member-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding-left: 2rem;
+}
+
+.member-mgmt app-sidebar {
+    width: 220px;
+    height: 100vh;
+    position: relative;
+    z-index: 2;
+}
+
+.member-main {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    overflow-y: auto;
+    max-height: calc(100vh - 56px);
+}
+
+.member-main h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+.member-main app-header {
+    width: 100%;
+    margin-left: 0;
+}
+
+.member-tabs-bar {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+    padding: 0 2rem 0 2rem;
+    min-height: 40px;
+}
+
+.member-tabs-bar .tab {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    color: #555;
+    padding: 0.5rem 2rem 0.5rem 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.member-tabs-bar .tab.active {
+    color: #222;
+    font-weight: 500;
+}
+
+.member-tabs-bar .tab.active::after {
+    content: '';
+    display: block;
+    height: 4px;
+    width: 40px;
+    background: #00d2e0;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    border-radius: 2px;
+}
+
+/* Add to member-mgmt.scss */
+.member-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e0e0e0;
+    margin: 2rem 0 0 0;
+    padding: 0;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.member-card-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.2rem 2rem 1.2rem 2rem;
+    background: #faf8f8;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.member-search {
+    flex: 1;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 24px;
+    border: none;
+    background: #f5f5f5;
+    outline: none;
+    margin-right: 1rem;
+}
+
+.member-add-btn {
+    background: #b61624;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    border: none;
+    border-radius: 24px;
+    padding: 0.7rem 2.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    transition: background 0.2s;
+}
+
+.member-add-btn:hover {
+    background: #a0131f;
+}
+
+.member-card-body {
+    min-height: 200px;
+    background: #fff;
+    border-radius: 0 0 16px 16px;
+    padding: 2rem;
+}
+
+.member-table-header {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: #b61624;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    gap: 0;
+}
+
+.member-table-col {
+    flex: 1;
+    text-align: left;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+.member-table-row {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #f2f2f2;
+    background: #fff;
+}
+
+.member-profile-img,
+.member-profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #eee;
+    border: 1px solid #e0e0e0;
+    font-size: 40px;
+    color: #b61624;
+    display: inline-block;
+}
+
+.member-table-row .member-table-col {
+    font-size: 0.9rem;
+    flex: 1;
+    padding: 1rem 1rem;
+    min-width: 120px;
+}
