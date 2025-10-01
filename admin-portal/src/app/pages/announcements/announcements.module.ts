@@ -3,11 +3,13 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { HeaderComponent } from '../../components/header/header';
 import { NotificationsModule } from './notifications/notifications.module';
+import { CreateAnnouncementsModule } from './create-announcements/create-announcements.module';
 import { IonicModule } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { Announcements } from './announcements';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
     declarations: [Announcements],
@@ -19,7 +21,8 @@ import { FormsModule } from '@angular/forms';
         IonicModule,
         NgIf,
         NgFor,
-        NotificationsModule, // <-- Import the module here
+        NotificationsModule,
+        CreateAnnouncementsModule,
         RouterModule.forChild([
             { path: '', component: Announcements }
         ])

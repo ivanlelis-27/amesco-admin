@@ -11,20 +11,57 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/members`);
   }
 
-  getMemberCount() {
-    return this.http.get<{ count: number }>(`${this.baseUrl}/users/count`);
+  getMemberCount(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          start: startDate.toISOString(),
+          end: endDate.toISOString()
+        }
+      };
+    }
+    return this.http.get<{ count: number }>(
+      `${this.baseUrl}/users/count`,
+      params
+    );
   }
 
   getVoucherCount() {
     return this.http.get<{ count: number }>(`${this.baseUrl}/vouchers/count`);
   }
 
-  getVoucherCountDetails() {
-    return this.http.get<{ count: number, used: number, unused: number }>(`${this.baseUrl}/vouchers/count-details`);
+  getVoucherCountDetails(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          start: startDate.toISOString(),
+          end: endDate.toISOString()
+        }
+      };
+    }
+    return this.http.get<{ count: number, used: number, unused: number }>(
+      `${this.baseUrl}/vouchers/count-details`,
+      params
+    );
   }
 
-  getPointsRedeemersCount() {
-    return this.http.get<{ pointsRedeemers: number }>(`${this.baseUrl}/vouchers/points-redeemers-count`);
+  getPointsRedeemersCount(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          start: startDate.toISOString(),
+          end: endDate.toISOString()
+        }
+      };
+    }
+    // Update the return type to include memberCount
+    return this.http.get<{ pointsRedeemers: number, memberCount: number }>(
+      `${this.baseUrl}/vouchers/points-redeemers-count`,
+      params
+    );
   }
 
   getTop10Ranking() {
@@ -79,3 +116,4 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/auth/register`, request);
   }
 }
+

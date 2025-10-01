@@ -1,31 +1,31 @@
 <div class="sidebar">
     <div class="sidebar-title">Client Management</div>
     <ul>
-        <li class="sidebar-item active">
+        <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <a routerLink="/dashboard">
                 <ion-icon name="grid-outline"></ion-icon>
                 <span>Dashboard</span>
             </a>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item" routerLinkActive="active">
             <a routerLink="/merchant-mgmt">
                 <ion-icon name="storefront-outline"></ion-icon>
                 <span>Merchant Management</span>
             </a>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item" routerLinkActive="active">
             <a routerLink="/member-mgmt">
                 <ion-icon name="person-outline"></ion-icon>
                 <span>Member Management</span>
             </a>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item" routerLinkActive="active">
             <a routerLink="/access-mgmt">
                 <ion-icon name="key-outline"></ion-icon>
                 <span>Access Management</span>
             </a>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item" routerLinkActive="active">
             <a routerLink="/announcements">
                 <ion-icon name="megaphone-outline"></ion-icon>
                 <span>Announcements/Notificat...</span>

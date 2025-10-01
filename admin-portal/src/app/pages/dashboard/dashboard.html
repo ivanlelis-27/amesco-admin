@@ -6,9 +6,10 @@
             <div class="dashboard-overview-row">
                 <h2>Overview</h2>
                 <div class="dashboard-ago" (click)="toggleCalendar()" tabindex="0" style="cursor:pointer;">
-                    {{ dateAgo }}
+                    {{ formatDate(dateAgo) }}
                     <div *ngIf="showCalendar" class="dashboard-calendar-container calendar-modal"
-                        style="position: absolute; left: 0; top: 100%; z-index: 100;">
+                        style="position: absolute; left: 0; top: 100%; z-index: 100;"
+                        (click)="$event.stopPropagation()">
                         <div class="dashboard-calendar-header">
                             <button (click)="prevMonth()" class="calendar-nav-btn">&lt;</button>
                             <select [(ngModel)]="calendarMonth" (change)="generateCalendarDays()"
@@ -36,7 +37,7 @@
                 </div>
                 <ion-icon name="caret-forward-outline"></ion-icon>
                 <div class="dashboard-now">
-                    {{ dateNow }}
+                    {{ formatDate(dateNow) }}
                 </div>
             </div>
             <div class="dashboard-cards">
@@ -75,7 +76,7 @@
                 <div class="dashboard-card summary-card">
                     <div class="dashboard-card-content">
                         <div class="dashboard-card-title" style="grid-column: 1 / span 2; text-align: center;">
-                            {{ dateAgoMonthYear }} - {{ dateNowMonthYear }}
+                            {{ dateAgo | date:'MMMM yyyy' }} - {{ dateNow | date:'MMMM yyyy' }}
                         </div>
                         <div class="dashboard-card-col-left">
                             <div class="dashboard-bar-breakdown-group">

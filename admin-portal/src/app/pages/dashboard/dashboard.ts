@@ -14,7 +14,8 @@ export class Dashboard implements OnInit {
   barUnusedHeight: number = 80;
   showCalendar = false;
   selectedDateAgo: string = '';
-  dateAgo: string = '';
+  dateAgo: Date = new Date();
+  dateNow: Date = new Date();
   memberCount: number | null = null;
   voucherCount: number | null = null;
   voucherTotal: number = 0;
@@ -23,7 +24,6 @@ export class Dashboard implements OnInit {
   barTotalFill: number = 0;
   barUsedFill: number = 0;
   barUnusedFill: number = 0;
-  dateNow: string = '';
   dateAgoMonthYear: string = '';
   dateNowMonthYear: string = '';
   voucherBreakdown: { total: number, used: number, unused: number } | null = null;
@@ -50,8 +50,8 @@ export class Dashboard implements OnInit {
     const monthAgo = new Date(today);
     monthAgo.setMonth(today.getMonth() - 1);
 
-    this.dateNow = this.formatDate(today);
-    this.dateAgo = this.formatDate(monthAgo);
+    this.dateNow = today;
+    this.dateAgo = monthAgo;
 
     this.dateNowMonthYear = today.toLocaleString('default', { month: 'long', year: 'numeric' });
     this.dateAgoMonthYear = monthAgo.toLocaleString('default', { month: 'long', year: 'numeric' });
@@ -148,6 +148,8 @@ export class Dashboard implements OnInit {
         this.cdr.markForCheck();
       }
     });
+
+
   }
 
   toggleCalendar() {
@@ -187,12 +189,61 @@ export class Dashboard implements OnInit {
     this.generateCalendarDays();
   }
 
+
   selectCalendarDay(day: number) {
     if (day === 0) return;
-    const selected = new Date(this.calendarYear, this.calendarMonth, day);
-    this.selectedDateAgo = selected.toISOString().slice(0, 10);
-    this.dateAgo = this.formatDate(selected);
+
+    const selectedLocal = new Date(this.calendarYear, this.calendarMonth, day, 0, 0, 0);
+    this.selectedDateAgo = `${this.calendarYear}-${(this.calendarMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    this.dateAgo = selectedLocal; // Keep as Date object
     this.showCalendar = false;
+
+    // For the API, create a UTC midnight date
+    const selectedUTC = new Date(Date.UTC(this.calendarYear, this.calendarMonth, day, 0, 0, 0));
+
+    // Fetch dashboard data for the selected range
+    this.fetchDashboardDataForRange(selectedUTC, new Date());
+  }
+
+  fetchDashboardDataForRange(startDate: Date, endDate: Date) {
+    // Voucher breakdown
+    this.api.getVoucherCountDetails(startDate, endDate).subscribe({
+      next: (res) => {
+        this.voucherTotal = res.count;
+        this.voucherUsed = res.used;
+        this.voucherUnused = res.unused;
+        this.voucherCount = res.count;
+        this.voucherBreakdown = {
+          total: res.count ?? 0,
+          used: res.used ?? 0,
+          unused: res.unused ?? 0
+        };
+        this.animateBars();
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.voucherTotal = 0;
+        this.voucherUsed = 0;
+        this.voucherUnused = 0;
+        this.voucherCount = null;
+        this.voucherBreakdown = null;
+        this.cdr.markForCheck();
+      }
+    });
+
+    // Points redeemers
+    this.api.getPointsRedeemersCount(startDate, endDate).subscribe({
+      next: (res) => {
+        this.pointsRedeemers = res.pointsRedeemers ?? null;
+        this.memberCount = res.memberCount ?? null;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.pointsRedeemers = null;
+        this.memberCount = null;
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   formatDate(date: Date): string {
@@ -204,6 +255,15 @@ export class Dashboard implements OnInit {
     return `${day}, ${month} ${dayNum}, ${year}`;
   }
   animateBars() {
+    // If there are no vouchers, set all fills to zero and return
+    if (!this.voucherTotal || this.voucherTotal === 0) {
+      this.barTotalFill = 0;
+      this.barUsedFill = 0;
+      this.barUnusedFill = 0;
+      this.cdr.markForCheck();
+      return;
+    }
+
     // Animate fill for each bar (0 to percent)
     const total = this.voucherTotal || 1;
     const usedPercent = this.voucherUsed / total;

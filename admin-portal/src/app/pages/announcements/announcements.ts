@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
     styleUrl: './announcements.scss'
 })
 export class Announcements {
+    activeTab: 'notifications' | 'create-announcements' | 'promos' = 'notifications';
 
+    setTab(tab: 'notifications' | 'create-announcements' | 'promos') {
+        this.activeTab = tab;
+    }
 }

@@ -3,10 +3,20 @@
     <div class="announcements-content">
         <app-header></app-header>
         <div class="announcements-tabs-bar">
-            <div class="tab active">Notifications</div>
-            <div class="tab">Announcements</div>
-            <div class="tab">Promos</div>
+            <div class="tab" [class.active]="activeTab === 'notifications'" (click)="setTab('notifications')">
+                Notifications
+            </div>
+            <div class="tab" [class.active]="activeTab === 'create-announcements'"
+                (click)="setTab('create-announcements')">
+                Announcements
+            </div>
+            <div class="tab" [class.active]="activeTab === 'promos'" (click)="setTab('promos')">Promos</div>
         </div>
-        <app-notifications></app-notifications>
+        <ng-container *ngIf="activeTab === 'notifications'">
+            <app-notifications></app-notifications>
+        </ng-container>
+        <ng-container *ngIf="activeTab === 'create-announcements'">
+            <app-create-announcements></app-create-announcements>
+        </ng-container>
     </div>
 </div>
