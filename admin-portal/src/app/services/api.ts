@@ -57,7 +57,6 @@ export class ApiService {
         }
       };
     }
-    // Update the return type to include memberCount
     return this.http.get<{ pointsRedeemers: number, memberCount: number }>(
       `${this.baseUrl}/vouchers/points-redeemers-count`,
       params
@@ -70,6 +69,38 @@ export class ApiService {
 
   getTotalEarnedPoints() {
     return this.http.get<{ totalEarnedPoints: number }>(`${this.baseUrl}/transactions/total-earned-points`);
+  }
+
+  getEarnedPoints(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          start: startDate.toISOString(),
+          end: endDate.toISOString()
+        }
+      };
+    }
+    return this.http.get<{ earnedPoints: number }>(
+      `${this.baseUrl}/transactions/earned-points`,
+      params
+    );
+  }
+
+  getRedeemedPoints(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          start: startDate.toISOString(),
+          end: endDate.toISOString()
+        }
+      };
+    }
+    return this.http.get<{ redeemedPoints: number }>(
+      `${this.baseUrl}/vouchers/redeemed-points`,
+      params
+    );
   }
 
   getLatestTransactions() {

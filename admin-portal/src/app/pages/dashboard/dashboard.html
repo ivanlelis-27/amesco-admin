@@ -75,7 +75,7 @@
             <div class="dashboard-summary-first-row">
                 <div class="dashboard-card summary-card">
                     <div class="dashboard-card-content">
-                        <div class="dashboard-card-title" style="grid-column: 1 / span 2; text-align: center;">
+                        <div class="dashboard-card-title">
                             {{ dateAgo | date:'MMMM yyyy' }} - {{ dateNow | date:'MMMM yyyy' }}
                         </div>
                         <div class="dashboard-card-col-left">
@@ -136,9 +136,33 @@
                 </div>
                 <div class="dashboard-card redemption-card">
                     <div class="dashboard-card-header">
-                        <div class="dashboard-card-title"></div>
+                        <div class="dashboard-card-title">Highest Redemption Day</div>
                     </div>
-                    <div class="dashboard-card-desc"></div>
+                    <div class="dashboard-card-desc"
+                        style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;">
+                        <svg width="120" height="120" viewBox="0 0 120 120" style="margin-top:10px;">
+                            <!-- Background circle -->
+                            <circle cx="60" cy="60" r="50" fill="none" stroke="#fae6e6" stroke-width="16" />
+                            <!-- Foreground arc (yellow) -->
+                            <circle cx="60" cy="60" r="50" fill="none" stroke="#ffe100" stroke-width="16"
+                                [attr.stroke-dasharray]="314"
+                                [attr.stroke-dashoffset]="314 - (highestRedemptionPercent / 100 * 314)"
+                                style="transition:stroke-dashoffset 0.7s;" />
+                            <!-- Center percent text -->
+                            <text x="60" y="60" text-anchor="middle" fill="#333" font-size="1.2em"
+                                font-family="Inter, sans-serif" dy="-0.3em">
+                                {{ highestRedemptionPercent }}%
+                            </text>
+                            <!-- Center value text: points given / points redeemed -->
+                            <text x="60" y="75" text-anchor="middle" fill="#333" font-size="1em"
+                                font-family="Inter, sans-serif">
+                                {{ pointsGiven ?? 0 }} / {{ pointsRedeemed ?? 0 }}
+                            </text>
+                        </svg>
+                        <div style="margin-top:10px;color:#333;font-size:1.1em;">
+                            {{ highestRedemptionDay }}
+                        </div>
+                    </div>
                 </div>
                 <div class="dashboard-card ranking-card">
                     <div class="dashboard-card-header">

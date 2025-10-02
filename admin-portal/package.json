@@ -34,7 +34,10 @@
     "@angular/router": "^20.2.0",
     "@angular/ssr": "^20.2.2",
     "@ionic/angular": "^8.7.4",
+    "chart.js": "^4.5.0",
     "express": "^5.1.0",
+    "ng-circle-progress": "^1.7.1",
+    "ng2-charts": "^8.0.0",
     "ng2-date-picker": "^19.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

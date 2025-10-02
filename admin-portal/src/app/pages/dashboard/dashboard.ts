@@ -32,6 +32,11 @@ export class Dashboard implements OnInit {
   totalEarnedPoints: number | null = null;
   latestTransactions: any[] = [];
   newMembersCount: number | null = null;
+  pointsGiven: number | null = null;
+  pointsRedeemed: number | null = null;
+  highestRedemptionPercent: number = 0; // e.g. 0 for 0%
+  highestRedemptionValue: number = 836.5; // e.g. 836.5
+  highestRedemptionDay: string = 'Wednesday'; // e.g. 'Wednesday'
 
   calendarYear: number = new Date().getFullYear();
   calendarMonth: number = new Date().getMonth(); // 0-based
@@ -78,40 +83,6 @@ export class Dashboard implements OnInit {
       },
       error: () => {
         this.top10Ranking = [];
-        this.cdr.markForCheck();
-      }
-    });
-
-    this.api.getVoucherCountDetails().subscribe({
-      next: (res) => {
-        this.voucherTotal = res.count;
-        this.voucherUsed = res.used;
-        this.voucherUnused = res.unused;
-        this.voucherCount = res.count;
-        this.voucherBreakdown = {
-          total: res.count ?? 0,
-          used: res.used ?? 0,
-          unused: res.unused ?? 0
-        };
-        this.animateBars();
-        this.cdr.markForCheck();
-      },
-      error: () => {
-        this.voucherTotal = 0;
-        this.voucherUsed = 0;
-        this.voucherUnused = 0;
-        this.voucherCount = null;
-        this.voucherBreakdown = null;
-        this.cdr.markForCheck();
-      }
-    });
-    this.api.getPointsRedeemersCount().subscribe({
-      next: (res) => {
-        this.pointsRedeemers = res.pointsRedeemers ?? null;
-        this.cdr.markForCheck();
-      },
-      error: () => {
-        this.pointsRedeemers = null;
         this.cdr.markForCheck();
       }
     });
@@ -241,6 +212,30 @@ export class Dashboard implements OnInit {
       error: () => {
         this.pointsRedeemers = null;
         this.memberCount = null;
+        this.cdr.markForCheck();
+      }
+    });
+
+    // Points given (earned)
+    this.api.getEarnedPoints(startDate, endDate).subscribe({
+      next: (res) => {
+        this.pointsGiven = res.earnedPoints ?? null;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.pointsGiven = null;
+        this.cdr.markForCheck();
+      }
+    });
+
+    // Points redeemed
+    this.api.getRedeemedPoints(startDate, endDate).subscribe({
+      next: (res) => {
+        this.pointsRedeemed = res.redeemedPoints ?? null;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.pointsRedeemed = null;
         this.cdr.markForCheck();
       }
     });
