@@ -37,6 +37,7 @@ export class Dashboard implements OnInit {
   highestRedemptionPercent: number = 0; // e.g. 0 for 0%
   highestRedemptionValue: number = 836.5; // e.g. 836.5
   highestRedemptionDay: string = 'Wednesday'; // e.g. 'Wednesday'
+  topBranches: { branchId: number, branchName: string, pointsGiven: number }[] = [];
 
   calendarYear: number = new Date().getFullYear();
   calendarMonth: number = new Date().getMonth(); // 0-based
@@ -121,6 +122,8 @@ export class Dashboard implements OnInit {
     });
 
 
+
+    this.fetchDashboardDataForRange(this.dateAgo, this.dateNow);
   }
 
   toggleCalendar() {
@@ -172,6 +175,8 @@ export class Dashboard implements OnInit {
     // For the API, create a UTC midnight date
     const selectedUTC = new Date(Date.UTC(this.calendarYear, this.calendarMonth, day, 0, 0, 0));
 
+    this.updateBranchRanking(selectedUTC, new Date());
+
     // Fetch dashboard data for the selected range
     this.fetchDashboardDataForRange(selectedUTC, new Date());
   }
@@ -220,10 +225,12 @@ export class Dashboard implements OnInit {
     this.api.getEarnedPoints(startDate, endDate).subscribe({
       next: (res) => {
         this.pointsGiven = res.earnedPoints ?? null;
+        this.updateRedemptionPercent();
         this.cdr.markForCheck();
       },
       error: () => {
         this.pointsGiven = null;
+        this.updateRedemptionPercent();
         this.cdr.markForCheck();
       }
     });
@@ -232,10 +239,45 @@ export class Dashboard implements OnInit {
     this.api.getRedeemedPoints(startDate, endDate).subscribe({
       next: (res) => {
         this.pointsRedeemed = res.redeemedPoints ?? null;
+        this.updateRedemptionPercent();
         this.cdr.markForCheck();
       },
       error: () => {
         this.pointsRedeemed = null;
+        this.updateRedemptionPercent();
+        this.cdr.markForCheck();
+      }
+    });
+
+    this.api.getTopBranchesRanking(startDate, endDate).subscribe({
+      next: (res) => {
+        this.topBranches = res;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.topBranches = [];
+        this.cdr.markForCheck();
+      }
+    });
+
+  }
+
+  updateRedemptionPercent() {
+    if (this.pointsGiven && this.pointsGiven > 0 && this.pointsRedeemed !== null) {
+      this.highestRedemptionPercent = Math.round((this.pointsRedeemed / this.pointsGiven) * 100);
+    } else {
+      this.highestRedemptionPercent = 0;
+    }
+  }
+
+  updateBranchRanking(startDate: Date, endDate: Date) {
+    this.api.getTopBranchesRanking(startDate, endDate).subscribe({
+      next: (res) => {
+        this.topBranches = res;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.topBranches = [];
         this.cdr.markForCheck();
       }
     });

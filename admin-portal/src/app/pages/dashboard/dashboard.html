@@ -122,13 +122,31 @@
                             </div>
                         </div>
                         <div class="dashboard-card-col-right">
-                            <div class="dashboard-points-label">Points Redeemers / Members</div>
-                            <div class="dashboard-points-outer-container">
-                                <div class="dashboard-points-inner-container">
-                                    <span>{{ pointsRedeemers !== null && memberCount !== null ? pointsRedeemers + '
-                                        / '
-                                        +
-                                        memberCount : '—' }}</span>
+                            <div>
+                                <div class="dashboard-points-label">Points Redeemers / Members</div>
+                                <div class="dashboard-points-outer-container">
+                                    <div class="dashboard-points-inner-container">
+                                        <span>
+                                            {{ pointsRedeemers !== null && memberCount !== null ? pointsRedeemers + ' /
+                                            ' + memberCount : '—' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dashboard-card branches-ranking-card">
+                                <div class="dashboard-card-header">
+                                    <div class="branches-ranking-title">Top Branches</div>
+                                    <div class="branches-ranking-points-label">Points</div>
+                                </div>
+                                <div class="branches-ranking-list">
+                                    <ng-container *ngFor="let branch of topBranches">
+                                        <div class="branches-ranking-row">
+                                            <div class="branches-ranking-name">{{ branch.branchName }}</div>
+                                            <div class="branches-ranking-points">
+                                                {{ branch.pointsGiven | number:'1.2-2' }}
+                                            </div>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +165,7 @@
                             <circle cx="60" cy="60" r="50" fill="none" stroke="#ffe100" stroke-width="16"
                                 [attr.stroke-dasharray]="314"
                                 [attr.stroke-dashoffset]="314 - (highestRedemptionPercent / 100 * 314)"
-                                style="transition:stroke-dashoffset 0.7s;" />
+                                style="transition:stroke-dashoffset 0.7s;" transform="rotate(-90 60 60)" />
                             <!-- Center percent text -->
                             <text x="60" y="60" text-anchor="middle" fill="#333" font-size="1.2em"
                                 font-family="Inter, sans-serif" dy="-0.3em">
