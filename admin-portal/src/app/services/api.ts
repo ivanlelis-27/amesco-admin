@@ -76,8 +76,21 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/branches/branches-rankings`, params);
   }
 
-  getTop10Ranking() {
-    return this.http.get<any[]>(`${this.baseUrl}/transactions/top-10-ranking`);
+  getHighestRedeemedVoucherDate() {
+    return this.http.get<{ date: string }>(`${this.baseUrl}/vouchers/highest-redeemed-date`);
+  }
+
+  getTop10Ranking(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString()
+        }
+      };
+    }
+    return this.http.get<any[]>(`${this.baseUrl}/transactions/top-10-ranking`, params);
   }
 
   getTotalEarnedPoints() {

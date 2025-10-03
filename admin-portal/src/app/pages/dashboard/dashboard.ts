@@ -36,8 +36,8 @@ export class Dashboard implements OnInit {
   pointsRedeemed: number | null = null;
   highestRedemptionPercent: number = 0; // e.g. 0 for 0%
   highestRedemptionValue: number = 836.5; // e.g. 836.5
-  highestRedemptionDay: string = 'Wednesday'; // e.g. 'Wednesday'
   topBranches: { branchId: number, branchName: string, pointsGiven: number }[] = [];
+  highestRedemptionDay: string = '—';
 
   calendarYear: number = new Date().getFullYear();
   calendarMonth: number = new Date().getMonth(); // 0-based
@@ -73,17 +73,6 @@ export class Dashboard implements OnInit {
       },
       error: () => {
         this.memberCount = null;
-        this.cdr.markForCheck();
-      }
-    });
-
-    this.api.getTop10Ranking().subscribe({
-      next: (res) => {
-        this.top10Ranking = res;
-        this.cdr.markForCheck();
-      },
-      error: () => {
-        this.top10Ranking = [];
         this.cdr.markForCheck();
       }
     });
@@ -256,6 +245,31 @@ export class Dashboard implements OnInit {
       },
       error: () => {
         this.topBranches = [];
+        this.cdr.markForCheck();
+      }
+    });
+
+    this.api.getHighestRedeemedVoucherDate().subscribe({
+      next: (res) => {
+        // Convert "yyyy-MM-dd" to a Date object
+        const dateObj = new Date(res.date);
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        this.highestRedemptionDay = days[dateObj.getDay()];
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.highestRedemptionDay = '—';
+        this.cdr.markForCheck();
+      }
+    });
+
+    this.api.getTop10Ranking(startDate, endDate).subscribe({
+      next: (res) => {
+        this.top10Ranking = res;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.top10Ranking = [];
         this.cdr.markForCheck();
       }
     });
