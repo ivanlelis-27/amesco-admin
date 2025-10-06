@@ -38,6 +38,8 @@ export class Dashboard implements OnInit {
   highestRedemptionValue: number = 836.5; // e.g. 836.5
   topBranches: { branchId: number, branchName: string, pointsGiven: number }[] = [];
   highestRedemptionDay: string = '—';
+  showRedemptionModal = false;
+  highestRedeemer: { name: string, points: number, location: string, profileImage: string } | null = null;
 
   calendarYear: number = new Date().getFullYear();
   calendarMonth: number = new Date().getMonth(); // 0-based
@@ -50,6 +52,10 @@ export class Dashboard implements OnInit {
   yearOptions: number[] = [];
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
+
+  closeHighestRedemptionModal() {
+    this.showRedemptionModal = false;
+  }
 
   ngOnInit() {
     const today = new Date();
@@ -305,6 +311,33 @@ export class Dashboard implements OnInit {
     const year = date.getFullYear();
     return `${day}, ${month} ${dayNum}, ${year}`;
   }
+
+  showHighestRedemptionModal() {
+    // Use the current date range for the modal
+    this.api.getTopRedeemer(this.dateAgo, this.dateNow).subscribe({
+      next: (res) => {
+        this.highestRedeemer = {
+          name: res.name,
+          points: res.pointsRedeemed,
+          location: '', // Add location if your API returns it
+          profileImage: res.profileImage
+        };
+        this.showRedemptionModal = true;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.highestRedeemer = {
+          name: '',
+          points: 0,
+          location: '',
+          profileImage: 'No Image Found'
+        };
+        this.showRedemptionModal = true;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
   animateBars() {
     // If there are no vouchers, set all fills to zero and return
     if (!this.voucherTotal || this.voucherTotal === 0) {

@@ -152,7 +152,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="dashboard-card redemption-card">
+                <div class="dashboard-card redemption-card" (click)="showHighestRedemptionModal()"
+                    style="cursor:pointer;">
                     <div class="dashboard-card-header">
                         <div class="dashboard-card-title">Highest Redemption Day</div>
                     </div>
@@ -260,5 +261,20 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="highest-redemption-modal" *ngIf="showRedemptionModal">
+    <div class="modal-content">
+        <div class="modal-title">Who made the highest redemption</div>
+        <div class="modal-avatar">
+            <img *ngIf="highestRedeemer?.profileImage !== 'No Image Found'"
+                [src]="'data:image/png;base64,' + highestRedeemer?.profileImage" alt="Profile"
+                style="width:90px;height:90px;border-radius:50%;object-fit:cover;" />
+        </div>
+        <div class="modal-name">{{ highestRedeemer?.name ?? '—' }}</div>
+        <div class="modal-points">Points Redeemed: {{ highestRedeemer?.points | number:'1.2-2' }}</div>
+        <div class="modal-location">{{ highestRedeemer?.location ?? '—' }}</div>
+        <button class="modal-ok-btn" (click)="closeHighestRedemptionModal()">OK</button>
     </div>
 </div>

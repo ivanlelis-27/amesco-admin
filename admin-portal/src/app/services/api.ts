@@ -129,6 +129,22 @@ export class ApiService {
     );
   }
 
+  getTopRedeemer(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString()
+        }
+      };
+    }
+    return this.http.get<{ name: string, pointsRedeemed: number, profileImage: string }>(
+      `${this.baseUrl}/vouchers/top-redeemer`,
+      params
+    );
+  }
+
   getLatestTransactions() {
     return this.http.get<any[]>(`${this.baseUrl}/vouchers/latest-transactions`);
   }
