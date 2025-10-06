@@ -4,6 +4,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { HeaderComponent } from '../../components/header/header';
 import { NotificationsModule } from './notifications/notifications.module';
 import { CreateAnnouncementsModule } from './create-announcements/create-announcements.module';
+import { PromosModule } from './promos/promos.module';
 import { IonicModule } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { Announcements } from './announcements';
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
         NgFor,
         NotificationsModule,
         CreateAnnouncementsModule,
+        PromosModule,
         RouterModule.forChild([
             { path: '', component: Announcements }
         ])
