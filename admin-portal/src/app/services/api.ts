@@ -149,6 +149,10 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/promos/upload`, formData);
   }
 
+  deletePromo(promoId: number) {
+    return this.http.delete(`${this.baseUrl}/promos/delete/${promoId}`);
+  }
+
   getPromos() {
     return this.http.get<any[]>(`${this.baseUrl}/promos/list`);
   }

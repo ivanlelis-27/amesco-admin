@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../../services/api';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { validatePromoFields, PromoValidationResult } from '../../../validations/promos';
 
 interface Promo {
   promoId: number;
@@ -27,6 +28,8 @@ export class Promos implements OnInit {
   price: number | null = null;
   unit = '';
   imagePreviewUrl: string | null = null;
+  validationErrors: { [key: string]: string } = {};
+  invalidFields: string[] = [];
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -56,21 +59,33 @@ export class Promos implements OnInit {
   }
 
   addPromo() {
-    if (!this.selectedImage || !this.brandItemName || !this.price || !this.unit) {
-      alert('All fields are required.');
+    const validation: PromoValidationResult = validatePromoFields(
+      this.brandItemName,
+      this.price,
+      this.unit,
+      this.selectedImage
+    );
+    this.validationErrors = validation.errors;
+    this.invalidFields = validation.invalidFields;
+
+    if (this.invalidFields.length > 0) {
+      alert(Object.values(this.validationErrors).join('\n'));
       return;
     }
-    const imageFile = this.selectedImage; // TypeScript now knows this is File, not null
+
+    const imageFile = this.selectedImage!;
     const formData = new FormData();
     formData.append('Image', imageFile);
     formData.append('BrandItemName', this.brandItemName);
-    formData.append('Price', this.price.toString());
+    formData.append('Price', this.price!.toString());
     formData.append('Unit', this.unit);
 
     this.api.uploadPromo(formData).subscribe({
       next: () => {
         alert('Promo uploaded!');
         this.ngOnInit(); // reload promos
+        this.validationErrors = {};
+        this.invalidFields = [];
       },
       error: err => alert('Upload failed: ' + err.error)
     });
@@ -78,4 +93,22 @@ export class Promos implements OnInit {
     this.imagePreviewUrl = null;
   }
 
+  onFieldChange(field: string) {
+    if (this.invalidFields.includes(field)) {
+      this.invalidFields = this.invalidFields.filter(f => f !== field);
+      delete this.validationErrors[field];
+    }
+  }
+
+  confirmDeletePromo(promoId: number) {
+    if (confirm('Are you sure you want to delete this promo?')) {
+      this.api.deletePromo(promoId).subscribe({
+        next: () => {
+          alert('Promo deleted successfully.');
+          this.ngOnInit(); // reload promos
+        },
+        error: err => alert('Delete failed: ' + err.error)
+      });
+    }
+  }
 }

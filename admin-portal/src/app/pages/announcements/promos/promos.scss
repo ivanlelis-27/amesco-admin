@@ -104,6 +104,11 @@
     gap: 0.7rem;
 }
 
+.trash-outline {
+    font-size: 1.5rem;
+    color: #b61624;
+}
+
 .promos-list-item {
     display: flex;
     align-items: center;
@@ -167,6 +172,11 @@
 
 .promos-list-delete .icon {
     font-size: 1.2rem;
+}
+
+.invalid-field {
+    border: 2px solid #e74c3c !important;
+    box-shadow: 0 0 2px #e74c3c;
 }
 
 /* Responsive adjustments */

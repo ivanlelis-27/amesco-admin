@@ -1,29 +1,35 @@
 <div class="promos-page">
     <div class="promos-header">
         <div class="promos-form">
-            <div class="promos-image-upload" (click)="imageInput.click()" style="cursor:pointer;">
+            <div class="promos-image-upload" (click)="imageInput.click()"
+                [class.invalid-field]="invalidFields.includes('selectedImage')" style="cursor:pointer;">
                 <ng-container *ngIf="!imagePreviewUrl; else previewImage">
                     <div class="image-icon">
                         <fa-icon [icon]="faImage"></fa-icon>
                     </div>
                 </ng-container>
                 <ng-template #previewImage>
-                    <img [src]="imagePreviewUrl" alt="Preview" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" />
+                    <img [src]="imagePreviewUrl" alt="Preview"
+                        style="width:100%;height:100%;object-fit:cover;border-radius:6px;" />
                 </ng-template>
-                <input #imageInput type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)" />
+                <input #imageInput type="file" accept="image/*" style="display:none"
+                    (change)="onImageSelected($event); onFieldChange('selectedImage')" />
             </div>
             <div class="promos-field-group">
                 <label class="promos-label" for="brandName">Brand/Item Name</label>
                 <input type="text" class="promos-input" id="brandName" placeholder="Enter Text"
-                    [(ngModel)]="brandItemName" />
+                    [(ngModel)]="brandItemName" [class.invalid-field]="invalidFields.includes('brandItemName')"
+                    (input)="onFieldChange('brandItemName')" />
             </div>
             <div class="promos-field-group">
                 <label class="promos-label" for="price">Price</label>
-                <input type="text" class="promos-input" id="price" placeholder="Amount" [(ngModel)]="price" />
+                <input type="text" class="promos-input" id="price" placeholder="Amount" [(ngModel)]="price"
+                    [class.invalid-field]="invalidFields.includes('price')" (input)="onFieldChange('price')" />
             </div>
             <div class="promos-field-group">
                 <label class="promos-label" for="unitType">Unit</label>
-                <input type="text" class="promos-input" id="unitType" placeholder="Unit type" [(ngModel)]="unit" />
+                <input type="text" class="promos-input" id="unitType" placeholder="Unit type" [(ngModel)]="unit"
+                    [class.invalid-field]="invalidFields.includes('unit')" (input)="onFieldChange('unit')" />
             </div>
             <button class="promos-add-btn" (click)="addPromo()">ADD</button>
         </div>
@@ -40,8 +46,8 @@
             </div>
             <div class="promos-list-unit">Unit: {{ promo.unit }}</div>
             <div class="promos-list-promo">Promo: {{ promo.promoText }}</div>
-            <button class="promos-list-delete">
-                <span class="icon">&#128465;</span>
+            <button class="promos-list-delete" (click)="confirmDeletePromo(promo.promoId)">
+                <ion-icon name="trash-outline" class="trash-outline"></ion-icon>
             </button>
         </div>
         <div class="promos-list-empty" *ngIf="promos.length === 0">
