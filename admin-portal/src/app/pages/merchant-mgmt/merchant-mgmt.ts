@@ -36,6 +36,7 @@ export class MerchantMgmt {
   editMarker: any;
   showDeleteModal = false;
   branchToDelete: any = null;
+  daysOpen: string = 'Mon-Fri';
 
   openMapModal() {
     this.showMapModal = true;
@@ -210,10 +211,17 @@ export class MerchantMgmt {
       closeTime: '',
       email: ''
     };
+    this.daysOpen = 'Mon-Fri';
   }
 
 
   submitBranch() {
+    // Split daysOpen into startDay and endDay
+    if (this.daysOpen) {
+      const [startDay, endDay] = this.daysOpen.split('-');
+      this.newBranch.startDay = startDay;
+      this.newBranch.endDay = endDay;
+    }
     // logs full body for debugging purposes
     console.log('Add Branch Body:', this.newBranch);
 

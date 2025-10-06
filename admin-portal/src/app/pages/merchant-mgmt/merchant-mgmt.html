@@ -80,25 +80,21 @@
                 <input type="text" [(ngModel)]="newBranch.contact" name="contact" required />
             </label>
             <label>
-                Start Day
-                <select [(ngModel)]="newBranch.startDay" name="startDay" required>
-                    <option *ngFor="let day of days" [value]="day.short">{{ day.full }}</option>
+                Days Open
+                <select [(ngModel)]="daysOpen" name="daysOpen" required>
+                    <option value="Mon-Fri">Mon-Fri</option>
+                    <option value="Mon-Sat">Mon-Sat</option>
+                    <option value="Mon-Sun">Mon-Sun</option>
                 </select>
             </label>
             <label>
-                End Day
-                <select [(ngModel)]="newBranch.endDay" name="endDay" required>
-                    <option *ngFor="let day of days" [value]="day.short">{{ day.full }}</option>
-                </select>
-            </label>
-            <label>
-                Open Time
+                Opening Time
                 <select [(ngModel)]="newBranch.openTime" name="openTime" required>
                     <option *ngFor="let time of times" [value]="time.value">{{ time.label }}</option>
                 </select>
             </label>
             <label>
-                Close Time
+                Closing Time
                 <select [(ngModel)]="newBranch.closeTime" name="closeTime" required>
                     <option *ngFor="let time of times" [value]="time.value">{{ time.label }}</option>
                 </select>

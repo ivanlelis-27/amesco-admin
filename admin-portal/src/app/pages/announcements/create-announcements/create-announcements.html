@@ -1,18 +1,43 @@
 <div class="announcements-page">
     <div class="announcements-left-column">
         <div class="announcement-cards-scroll-container">
+            <div class="announcement-cards-count">5/10</div>
             <div class="announcement-cards-row" tabindex="0">
                 <div class="announcement-card" *ngFor="let card of cards">
-                    <!-- Card content here -->
                 </div>
+            </div>
+        </div>
+        <!-- Add this container just below the cards container -->
+        <div class="announcement-toolbar-bar">
+            <div class="toolbar-left">
+                <button class="toolbar-btn"><span class="icon">&#8942;</span> 0</button>
+                <button class="toolbar-btn"><span class="icon" style="color:#b61624;">&#9776;+</span></button>
+            </div>
+            <div class="toolbar-right">
+                <button class="toolbar-btn"><span class="icon" style="color:#b61624;">&#8595;</span></button>
             </div>
         </div>
         <div class="announcement-form-bar">
             <input type="text" class="announcement-title-input" placeholder="Title *" />
-            <input type="text" class="announcement-subtitle-input" placeholder="Subtitle/Description" />
+            <input type="text" class="announcement-subtitle-input" placeholder="" />
         </div>
+        <textarea class="announcement-description-input" placeholder="Subtitle/Description"></textarea>
     </div>
     <div class="announcements-right-column">
-
+        <div class="announcement-preview-header">Live Preview</div>
+        <div class="announcement-preview-card">
+            <img src="assets/preview-placeholder.png" alt="Preview" />
+            <div class="preview-title">TeleCARE</div>
+            <div class="preview-description">
+                TeleCARE is available from Monday to Sunday, 9:00 AM to 7:00 PM.<br>
+                For more information please contact: 0963 607 0618
+            </div>
+            <div class="preview-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
     </div>
 </div>
