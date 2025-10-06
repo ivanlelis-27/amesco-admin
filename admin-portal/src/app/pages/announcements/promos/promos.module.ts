@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { Promos } from './promos';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
     declarations: [Promos],
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
         SidebarComponent,
         HeaderComponent,
         IonicModule,
+        FontAwesomeModule,
         NgIf,
         NgFor,
         RouterModule.forChild([

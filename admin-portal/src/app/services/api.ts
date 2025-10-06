@@ -145,6 +145,14 @@ export class ApiService {
     );
   }
 
+  uploadPromo(formData: FormData) {
+    return this.http.post(`${this.baseUrl}/promos/upload`, formData);
+  }
+
+  getPromos() {
+    return this.http.get<any[]>(`${this.baseUrl}/promos/list`);
+  }
+
   getLatestTransactions() {
     return this.http.get<any[]>(`${this.baseUrl}/vouchers/latest-transactions`);
   }
