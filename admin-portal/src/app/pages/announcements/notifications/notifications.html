@@ -1,29 +1,56 @@
-<div class="notif-main">
-    <div class="notif-row">
-        <div class="notif-create">
-            <input type="text" class="notif-title" placeholder="Title*" />
-            <input type="text" class="notif-desc" placeholder="Description" />
-            <textarea class="notif-body" placeholder="Message Body"></textarea>
-            <div class="notif-when-row">
-                <label>When:</label>
-                <input type="text" class="notif-when" value="Tue, Sep 16, 2025 9:55 AM" readonly />
+<div class="notif">
+    <div class="notif-main">
+        <div class="notif-row">
+            <div class="notif-create">
+                <input type="text" class="notif-title" placeholder="Title*" [(ngModel)]="title" />
+                <input type="text" class="notif-desc" placeholder="Description" [(ngModel)]="description" />
+                <textarea class="notif-body" placeholder="Message Body" [(ngModel)]="messageBody"></textarea>
+                <div class="notif-when-row">
+                    <label>When:</label>
+                    <input matInput [matDatepicker]="picker" class="notif-when" [(ngModel)]="scheduledAt"
+                        placeholder="Select Date" readonly (click)="picker.open()" />
+                    <mat-datepicker #picker></mat-datepicker>
+                </div>
+                <div class="notif-image-row">
+                    <label>
+                        <input type="checkbox" [(ngModel)]="includeImage" />
+                        Tick below to include image
+                    </label>
+                    <div class="notif-image-upload" (click)="imageInput.click()">
+                        <ng-container *ngIf="!imagePreviewUrl; else previewImage">
+                            <div class="image-icon">
+                                <fa-icon [icon]="faImage"></fa-icon>
+                            </div>
+                        </ng-container>
+                        <ng-template #previewImage>
+                            <img [src]="imagePreviewUrl" alt="Preview"
+                                style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
+                        </ng-template>
+                        <input #imageInput type="file" accept="image/*" style="display:none"
+                            (change)="onImageSelected($event)" />
+                    </div>
+                </div>
+                <button class="notif-create-btn" (click)="createNotification()">CREATE NOTIFICATION</button>
             </div>
-            <div class="notif-image-row">
-                <label>
-                    <input type="checkbox" />
-                    Tick below to include image
-                </label>
-                <div class="notif-image-upload">
-                    <ion-icon name="image-outline" style="font-size:2.5rem;color:#aaa;"></ion-icon>
+            <div class="notif-history">
+                <div class="notif-history-header">HISTORY</div>
+            </div>
+        </div>
+        <div class="notif-scheduled" [style.padding-bottom]="scheduledPaddingBottom">
+            <div class="ann-scheduled-header">SCHEDULED NOTIFICATIONS</div>
+            <div class="scheduled-notif-list">
+                <div class="scheduled-notif-card" *ngFor="let notif of scheduledNotifications">
+                    <div class="scheduled-notif-title">{{ notif.title }}</div>
+                    <div class="scheduled-notif-desc">{{ notif.description }}</div>
+                    <div class="scheduled-notif-body">{{ notif.messageBody }}</div>
+                    <div class="scheduled-notif-date">
+                        Scheduled At: {{ notif.scheduledAt | date:'medium' }}
+                    </div>
+                </div>
+                <div *ngIf="scheduledNotifications.length === 0" class="scheduled-notif-empty">
+                    No scheduled notifications.
                 </div>
             </div>
-            <button class="notif-create-btn">CREATE NOTIFICATION</button>
         </div>
-        <div class="notif-history">
-            <div class="notif-history-header">HISTORY</div>
-        </div>
-    </div>
-    <div class="notif-scheduled">
-        <div class="ann-scheduled-header">SCHEDULED NOTIFICATIONS</div>
     </div>
 </div>

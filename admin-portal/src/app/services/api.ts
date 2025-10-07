@@ -157,6 +157,14 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/promos/list`);
   }
 
+  createNotification(formData: FormData) {
+    return this.http.post(`${this.baseUrl}/notifications/create`, formData);
+  }
+
+  getScheduledNotifications() {
+    return this.http.get<any[]>(`${this.baseUrl}/notifications/list`);
+  }
+
   getLatestTransactions() {
     return this.http.get<any[]>(`${this.baseUrl}/vouchers/latest-transactions`);
   }

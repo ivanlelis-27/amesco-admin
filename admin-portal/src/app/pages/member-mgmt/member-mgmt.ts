@@ -133,9 +133,9 @@ export class MemberMgmt implements OnInit {
 
   get filteredMembers() {
     if (!this.searchText) return this.members;
-    const letter = this.searchText.trim().toLowerCase();
+    const search = this.searchText.trim().toLowerCase();
     return this.members.filter(m =>
-      m.lastName && m.lastName[0].toLowerCase() === letter
+      m.lastName && m.lastName.toLowerCase().startsWith(search)
     );
   }
 }

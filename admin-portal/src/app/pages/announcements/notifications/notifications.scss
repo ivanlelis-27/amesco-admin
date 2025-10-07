@@ -1,16 +1,22 @@
-.notif-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    padding-left: 2rem;
+html,
+body {
+    height: auto;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
 }
 
-.notif app-sidebar {
-    width: 220px;
+body {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.notif {
     height: 100vh;
-    position: relative;
-    z-index: 2;
+    display: flex;
+    flex-direction: column;
 }
 
 .notif-main {
@@ -21,7 +27,14 @@
     padding-left: 2rem;
     padding-right: 2rem;
     overflow-y: auto;
-    max-height: calc(100vh - 56px);
+    height: 140vh;
+}
+
+.notif app-sidebar {
+    width: 220px;
+    height: 100vh;
+    position: relative;
+    z-index: 2;
 }
 
 .notif-main h2 {
@@ -82,6 +95,7 @@
     display: flex;
     gap: 2rem;
     margin-top: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .notif-create {
@@ -114,6 +128,11 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.image-icon {
+    font-size: 2.5rem;
+    color: #aaa;
 }
 
 .notif-image-row {
@@ -169,9 +188,10 @@
 
 .notif-scheduled {
     margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
-.notif-scheduled-header {
+.ann-scheduled-header {
     background: #ededed;
     text-align: center;
     font-family: 'Inter', sans-serif;
@@ -179,5 +199,57 @@
     color: #666;
     padding: 0.5rem 0;
     border-radius: 4px;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.scheduled-notif-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.scheduled-notif-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    font-family: 'Inter', sans-serif;
+}
+
+.scheduled-notif-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #b61624;
+    margin-bottom: 0.3rem;
+}
+
+.scheduled-notif-desc {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.2rem;
+}
+
+.scheduled-notif-body {
+    font-size: 0.98rem;
+    color: #555;
+    margin-bottom: 0.2rem;
+}
+
+.scheduled-notif-date {
+    font-size: 0.95rem;
+    color: #888;
+    margin-top: 0.5rem;
+}
+
+.scheduled-notif-empty {
+    color: #999;
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.notif-history,
+.notif-scheduled {
+    overflow: visible;
 }
