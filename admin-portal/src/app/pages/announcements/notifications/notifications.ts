@@ -63,7 +63,7 @@ export class Notifications {
     formData.append('Title', this.title);
     formData.append('Description', this.description);
     formData.append('MessageBody', this.messageBody);
-    formData.append('ScheduledAt', this.scheduledAt ? this.scheduledAt.toISOString() : '');
+    formData.append('ScheduledAt', this.scheduledAt ? this.scheduledAt.toLocaleString('sv-SE') : '');
     formData.append('IncludeImage', this.includeImage ? 'true' : 'false');
     if (this.includeImage && this.selectedImage) {
       formData.append('Image', this.selectedImage);
