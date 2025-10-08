@@ -40,11 +40,24 @@
             <div class="ann-scheduled-header">SCHEDULED NOTIFICATIONS</div>
             <div class="scheduled-notif-list">
                 <div class="scheduled-notif-card" *ngFor="let notif of scheduledNotifications">
-                    <div class="scheduled-notif-title">{{ notif.title }}</div>
-                    <div class="scheduled-notif-desc">{{ notif.description }}</div>
-                    <div class="scheduled-notif-body">{{ notif.messageBody }}</div>
-                    <div class="scheduled-notif-date">
-                        Scheduled At: {{ notif.scheduledAt | date:'medium' }}
+                    <div class="scheduled-notif-card-row">
+                        <div class="scheduled-notif-img">
+                            <ng-container *ngIf="notif.includeImage && notif.imageBase64; else noImage">
+                                <img [src]="'data:image/png;base64,' + notif.imageBase64" alt="Notification Image"
+                                    style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
+                            </ng-container>
+                            <ng-template #noImage>
+                                <div class="scheduled-notif-noimg">No Image</div>
+                            </ng-template>
+                        </div>
+                        <div class="scheduled-notif-info">
+                            <div class="scheduled-notif-title">{{ notif.title }}</div>
+                            <div class="scheduled-notif-desc">{{ notif.description }}</div>
+                            <div class="scheduled-notif-body">{{ notif.messageBody }}</div>
+                            <div class="scheduled-notif-date">
+                                Scheduled At: {{ notif.scheduledAt | date:'medium' }}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div *ngIf="scheduledNotifications.length === 0" class="scheduled-notif-empty">

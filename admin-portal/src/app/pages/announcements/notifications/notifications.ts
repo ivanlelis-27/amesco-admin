@@ -45,7 +45,6 @@ export class Notifications {
   }
 
   get scheduledPaddingBottom(): string {
-    // 4rem base + 2rem for every 5 notifications (adjust as needed)
     const extra = Math.ceil(this.scheduledNotifications.length / 5) * 2;
     return `${4 + extra}rem`;
   }
