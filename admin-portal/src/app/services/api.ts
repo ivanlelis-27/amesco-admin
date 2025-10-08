@@ -47,6 +47,10 @@ export class ApiService {
     );
   }
 
+  getAllTimeUsedVoucherCount() {
+    return this.http.get<{ count: number }>(`${this.baseUrl}/vouchers/count-used`);
+  }
+
   getPointsRedeemersCount(startDate?: Date, endDate?: Date) {
     let params = {};
     if (startDate && endDate) {

@@ -21,6 +21,7 @@ export class Dashboard implements OnInit {
   voucherTotal: number = 0;
   voucherUsed: number = 0;
   voucherUnused: number = 0;
+  allTimeUsedVoucherCount: number | null = null;
   barTotalFill: number = 0;
   barUsedFill: number = 0;
   barUnusedFill: number = 0;
@@ -200,6 +201,11 @@ export class Dashboard implements OnInit {
         this.voucherBreakdown = null;
         this.cdr.markForCheck();
       }
+    });
+
+    this.api.getAllTimeUsedVoucherCount().subscribe({
+      next: res => this.allTimeUsedVoucherCount = res.count,
+      error: () => this.allTimeUsedVoucherCount = null
     });
 
     // Points redeemers
