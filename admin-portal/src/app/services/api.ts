@@ -165,6 +165,10 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/notifications/list`);
   }
 
+  editScheduledNotification(notificationId: number, formData: FormData) {
+    return this.http.put(`${this.baseUrl}/notifications/edit/${notificationId}`, formData);
+  }
+
   deleteNotification(notificationId: number) {
     return this.http.delete(`${this.baseUrl}/notifications/delete/${notificationId}`);
   }

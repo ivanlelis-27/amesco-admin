@@ -87,9 +87,14 @@
                                 Scheduled At: {{ notif.scheduledAt | date:'medium' }}
                             </div>
                         </div>
-                        <button class="notif-trash-btn" (click)="confirmDeleteNotification(notif.notificationId)">
-                            <ion-icon name="trash-outline" class="trash-icon"></ion-icon>
-                        </button>
+                        <div class="scheduled-notif-actions">
+                            <button class="notif-edit-btn" (click)="openEditModal(notif)">
+                                <ion-icon name="create-outline" class="edit-icon"></ion-icon>
+                            </button>
+                            <button class="notif-trash-btn" (click)="confirmDeleteNotification(notif.notificationId)">
+                                <ion-icon name="trash-outline" class="trash-icon"></ion-icon>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div *ngIf="upcomingNotifications.length === 0" class="scheduled-notif-empty">
@@ -97,5 +102,51 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="edit-modal-backdrop" *ngIf="editModalOpen && editNotification" (click)="closeEditModal()"></div>
+<div class="edit-modal" *ngIf="editModalOpen && editNotification">
+    <h3>Edit Scheduled Notification</h3>
+    <input type="text" [(ngModel)]="editNotification.title" placeholder="Title*" />
+    <input type="text" [(ngModel)]="editNotification.description" placeholder="Description" />
+    <textarea [(ngModel)]="editNotification.messageBody" placeholder="Message Body"></textarea>
+    <div class="edit-modal-when-row">
+        <label>When:</label>
+        <input matInput [matDatepicker]="editPicker" [(ngModel)]="editNotification.scheduledAt"
+            placeholder="Select Date" readonly (click)="editPicker.open()" />
+        <button type="button" class="calendar-btn" (click)="editPicker.open()">
+            <ion-icon name="calendar-outline"></ion-icon>
+        </button>
+        <mat-datepicker #editPicker></mat-datepicker>
+    </div>
+    <label>
+        <input type="checkbox" [(ngModel)]="editNotification.includeImage" />
+        Include Image
+    </label>
+    <div class="edit-modal-image-row" *ngIf="editNotification.includeImage">
+        <div class="edit-modal-image-upload" (click)="editImageInput.click()">
+            <ng-container *ngIf="editImagePreviewUrl; else fallbackImage">
+                <img [src]="editImagePreviewUrl" alt="Preview"
+                    style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
+            </ng-container>
+            <ng-template #fallbackImage>
+                <ng-container *ngIf="editNotification.imageBase64; else noImageIcon">
+                    <img [src]="'data:image/png;base64,' + editNotification.imageBase64" alt="Existing Image"
+                        style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
+                </ng-container>
+                <ng-template #noImageIcon>
+                    <div class="image-icon">
+                        <fa-icon [icon]="faImage"></fa-icon>
+                    </div>
+                </ng-template>
+            </ng-template>
+            <input #editImageInput type="file" accept="image/*" style="display:none"
+                (change)="onEditImageSelected($event)" />
+        </div>
+    </div>
+    <div class="edit-modal-actions">
+        <button (click)="saveEditNotification()">Save</button>
+        <button (click)="closeEditModal()">Cancel</button>
     </div>
 </div>

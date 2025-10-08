@@ -17,3 +17,9 @@ body {
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
+
+.cdk-overlay-container,
+.cdk-overlay-pane,
+.mat-datepicker-content {
+    z-index: 9999 !important;
+}

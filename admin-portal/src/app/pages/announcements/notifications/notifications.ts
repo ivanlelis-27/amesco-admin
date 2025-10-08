@@ -18,9 +18,40 @@ export class Notifications {
   imagePreviewUrl: string | null = null;
   faImage = faImage;
   scheduledNotifications: any[] = [];
+  editModalOpen = false;
+  editNotification: any = null;
+  editImagePreviewUrl: string | null = null;
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) {
     this.loadScheduledNotifications();
+  }
+
+  openEditModal(notif: any) {
+    this.editNotification = { ...notif, selectedImage: null };
+    this.editImagePreviewUrl = notif.imageBase64
+      ? 'data:image/png;base64,' + notif.imageBase64
+      : null;
+    this.editModalOpen = true;
+    this.cdr.detectChanges();
+  }
+
+  closeEditModal() {
+    this.editModalOpen = false;
+    this.editNotification = null;
+  }
+
+  onEditImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.editNotification.selectedImage = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.editImagePreviewUrl = reader.result as string;
+        this.cdr.detectChanges();
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   onImageSelected(event: any) {
@@ -98,11 +129,38 @@ export class Notifications {
     });
     this.cdr.detectChanges();
 
-    
+
+  }
+
+  saveEditNotification() {
+    if (!this.editNotification) return;
+    const formData = new FormData();
+    formData.append('Title', this.editNotification.title ?? '');
+    formData.append('Description', this.editNotification.description ?? '');
+    formData.append('MessageBody', this.editNotification.messageBody ?? '');
+    formData.append('ScheduledAt', this.editNotification.scheduledAt ? new Date(this.editNotification.scheduledAt).toLocaleString('sv-SE') : '');
+    formData.append('IncludeImage', this.editNotification.includeImage ? 'true' : 'false');
+    if (this.editNotification.includeImage && this.editNotification.selectedImage) {
+      formData.append('Image', this.editNotification.selectedImage);
+    }
+
+    this.api.editScheduledNotification(this.editNotification.notificationId, formData).subscribe({
+      next: () => {
+        alert('Notification updated successfully.');
+        this.closeEditModal();
+        this.loadScheduledNotifications();
+      },
+      error: err => alert('Edit failed: ' + (err.error?.message || 'Unknown error'))
+    });
   }
 
   confirmDeleteNotification(notificationId: number) {
     if (confirm('Are you sure you want to delete this notification?')) {
+      // Remove from UI instantly
+      this.scheduledNotifications = this.scheduledNotifications.filter(n => n.notificationId !== notificationId);
+      this.cdr.detectChanges();
+
+      // Then call the API and reload from backend
       this.api.deleteNotification(notificationId).subscribe({
         next: () => {
           alert('Notification deleted successfully.');
