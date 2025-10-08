@@ -49,6 +49,27 @@ export class Notifications {
     return `${4 + extra}rem`;
   }
 
+  get upcomingNotifications() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return this.scheduledNotifications.filter(n => {
+      const sched = new Date(n.scheduledAt);
+      sched.setHours(0, 0, 0, 0);
+      // Only notifications scheduled after today
+      return sched > today;
+    });
+  }
+  get pastNotifications() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return this.scheduledNotifications.filter(n => {
+      const sched = new Date(n.scheduledAt);
+      sched.setHours(0, 0, 0, 0);
+      // Include notifications scheduled for today or earlier
+      return sched <= today;
+    });
+  }
+
   createNotification() {
     if (!this.title) {
       alert('Title is required.');

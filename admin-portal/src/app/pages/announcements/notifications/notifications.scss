@@ -95,7 +95,8 @@ body {
     display: flex;
     gap: 2rem;
     margin-top: 1.5rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; // Prevent wrapping
+    align-items: flex-start;
 }
 
 .notif-create {
@@ -104,6 +105,7 @@ body {
     gap: 0.7rem;
     min-width: 340px;
     max-width: 340px;
+    flex-shrink: 0;
 }
 
 .notif-title,
@@ -208,6 +210,12 @@ body {
     gap: 1rem;
 }
 
+.past-notif-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 .scheduled-notif-card {
     background: #fff;
     border: 1px solid #e0e0e0;
@@ -222,6 +230,7 @@ body {
     align-items: flex-start;
     gap: 1rem;
 }
+
 
 .scheduled-notif-title {
     font-size: 1.1rem;
