@@ -97,5 +97,19 @@ export class Notifications {
       error: err => alert('Failed: ' + (err.error?.message || 'Unknown error'))
     });
     this.cdr.detectChanges();
+
+    
+  }
+
+  confirmDeleteNotification(notificationId: number) {
+    if (confirm('Are you sure you want to delete this notification?')) {
+      this.api.deleteNotification(notificationId).subscribe({
+        next: () => {
+          alert('Notification deleted successfully.');
+          this.loadScheduledNotifications();
+        },
+        error: err => alert('Delete failed: ' + (err.error?.message || 'Unknown error'))
+      });
+    }
   }
 }

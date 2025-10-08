@@ -165,6 +165,10 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/notifications/list`);
   }
 
+  deleteNotification(notificationId: number) {
+    return this.http.delete(`${this.baseUrl}/notifications/delete/${notificationId}`);
+  }
+
   getLatestTransactions() {
     return this.http.get<any[]>(`${this.baseUrl}/vouchers/latest-transactions`);
   }

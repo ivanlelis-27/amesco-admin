@@ -54,6 +54,9 @@
                                     {{ notif.scheduledAt | date:'medium' }}
                                 </div>
                             </div>
+                            <button class="notif-trash-btn" (click)="confirmDeleteNotification(notif.notificationId)">
+                                <ion-icon name="trash-outline" class="trash-icon"></ion-icon>
+                            </button>
                         </div>
                     </div>
                     <div *ngIf="pastNotifications.length === 0" class="scheduled-notif-empty">
@@ -84,6 +87,9 @@
                                 Scheduled At: {{ notif.scheduledAt | date:'medium' }}
                             </div>
                         </div>
+                        <button class="notif-trash-btn" (click)="confirmDeleteNotification(notif.notificationId)">
+                            <ion-icon name="trash-outline" class="trash-icon"></ion-icon>
+                        </button>
                     </div>
                 </div>
                 <div *ngIf="upcomingNotifications.length === 0" class="scheduled-notif-empty">
