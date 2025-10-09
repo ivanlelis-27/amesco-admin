@@ -67,7 +67,7 @@ export class Notifications {
   }
 
   loadScheduledNotifications() {
-    this.api.getScheduledNotifications().subscribe({
+    this.api.getAllNotifications().subscribe({
       next: (data: any[]) => {
         this.scheduledNotifications = data;
         this.cdr.detectChanges();

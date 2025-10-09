@@ -173,8 +173,8 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/notifications/create`, formData);
   }
 
-  getScheduledNotifications() {
-    return this.http.get<any[]>(`${this.baseUrl}/notifications/list`);
+  getAllNotifications() {
+    return this.http.get<any[]>(`${this.baseUrl}/notifications/all`);
   }
 
   editScheduledNotification(notificationId: number, formData: FormData) {

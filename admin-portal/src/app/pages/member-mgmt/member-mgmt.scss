@@ -69,6 +69,7 @@
     padding: 0.5rem 2rem 0.5rem 0;
     cursor: pointer;
     position: relative;
+    display: inline-block;
 }
 
 .member-tabs-bar .tab.active {
@@ -80,15 +81,18 @@
     content: '';
     display: block;
     height: 4px;
-    width: 40px;
     background: #00d2e0;
     position: absolute;
     left: 0;
     bottom: -1px;
     border-radius: 2px;
+    width: fit-content;
+    min-width: 0;
+    max-width: 100%;
+    transition: width 0.2s;
+    width: 80%;
 }
 
-/* Add to member-mgmt.scss */
 .member-card {
     background: #fff;
     border-radius: 16px;
