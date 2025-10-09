@@ -41,6 +41,7 @@ export class Dashboard implements OnInit {
   highestRedemptionDay: string = '—';
   showRedemptionModal = false;
   highestRedeemer: { name: string, points: number, location: string, profileImage: string } | null = null;
+  mostLikedNotification: any = null;
 
   calendarYear: number = new Date().getFullYear();
   calendarMonth: number = new Date().getMonth(); // 0-based
@@ -105,19 +106,6 @@ export class Dashboard implements OnInit {
         this.cdr.markForCheck();
       }
     });
-
-    this.api.getNewMembersCountThisMonth().subscribe({
-      next: (res) => {
-        this.newMembersCount = res.count ?? null;
-        this.cdr.markForCheck();
-      },
-      error: () => {
-        this.newMembersCount = null;
-        this.cdr.markForCheck();
-      }
-    });
-
-
 
     this.fetchDashboardDataForRange(this.dateAgo, this.dateNow);
   }
@@ -286,6 +274,21 @@ export class Dashboard implements OnInit {
       }
     });
 
+    this.api.getMostLikedNotification().subscribe({
+      next: notif => this.mostLikedNotification = notif,
+      error: () => this.mostLikedNotification = null
+    });
+
+    this.api.getNewMembersCount(this.dateAgo, this.dateNow).subscribe({
+      next: (res) => {
+        this.newMembersCount = res.count ?? null;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.newMembersCount = null;
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   updateRedemptionPercent() {

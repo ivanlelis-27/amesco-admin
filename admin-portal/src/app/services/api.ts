@@ -149,6 +149,14 @@ export class ApiService {
     );
   }
 
+  getMostLikedNotification() {
+    return this.http.get<any>(`${this.baseUrl}/notifications/most-liked`);
+  }
+
+  getAllTransactions() {
+    return this.http.get<any[]>(`${this.baseUrl}/transactions`);
+  }
+
   uploadPromo(formData: FormData) {
     return this.http.post(`${this.baseUrl}/promos/upload`, formData);
   }
@@ -189,8 +197,17 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/branches`);
   }
 
-  getNewMembersCountThisMonth() {
-    return this.http.get<{ count: number }>(`${this.baseUrl}/users/new-members`);
+  getNewMembersCount(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          startDate: startDate.toISOString().slice(0, 10),
+          endDate: endDate.toISOString().slice(0, 10)
+        }
+      };
+    }
+    return this.http.get<{ count: number }>(`${this.baseUrl}/users/new-members`, params);
   }
 
   addBranch(branch: any) {

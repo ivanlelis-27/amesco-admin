@@ -1,0 +1,124 @@
+.transactions-main {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    overflow-y: auto;
+    max-height: calc(100vh - 56px);
+    margin-bottom: 1rem;
+}
+
+.transactions-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e0e0e0;
+    margin: 2rem 0 0 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.transactions-card-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.2rem 2rem 1.2rem 2rem;
+    background: #faf8f8;
+    border-bottom: 1px solid #e0e0e0;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.transactions-search {
+    flex: 1;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 24px;
+    border: none;
+    background: #f5f5f5;
+    outline: none;
+    margin-right: 1rem;
+}
+
+.transactions-search-btn {
+    background: #b61624;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    border: none;
+    border-radius: 24px;
+    padding: 0.7rem 2.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    transition: background 0.2s;
+}
+
+.transactions-search-btn:hover {
+    background: #a0131f;
+}
+
+.transactions-card-body {
+    min-height: 200px;
+    background: #fff;
+    border-radius: 0 0 16px 16px;
+    padding: 2rem;
+}
+
+.transactions-table-header {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: #b61624;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    gap: 0;
+}
+
+.transactions-table-col {
+    flex: 1;
+    text-align: left;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+.transactions-table-row {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #f2f2f2;
+    background: #fff;
+}
+
+.transactions-table-row .transactions-table-col {
+    font-size: 0.9rem;
+    flex: 1;
+    padding: 1rem 1rem;
+    min-width: 120px;
+}
+
+.product-qty {
+    color: #888;
+    font-size: 0.95em;
+    margin-left: 0.2em;
+}
+
+.transactions-loading,
+.transactions-empty {
+    text-align: center;
+    color: #888;
+    margin-top: 1.5rem;
+    font-family: 'Inter', sans-serif;
+}

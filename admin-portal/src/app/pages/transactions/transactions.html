@@ -1,0 +1,33 @@
+<div class="transactions-main">
+    <div class="transactions-card">
+        <div class="transactions-card-header">
+            <input class="transactions-search" type="text" placeholder="Search name..." [(ngModel)]="searchText"
+                (keydown.enter)="searchTransactions()" />
+            <button class="transactions-search-btn" (click)="searchTransactions()">SEARCH</button>
+        </div>
+        <div class="transactions-card-body">
+            <div *ngIf="loading" class="transactions-loading">Loading transactions...</div>
+            <div *ngIf="!loading && transactions.length === 0" class="transactions-empty">No transactions found.</div>
+            <div *ngIf="!loading && transactions.length > 0">
+                <div class="transactions-table-header">
+                    <div class="transactions-table-col">Name</div>
+                    <div class="transactions-table-col">Earned Points</div>
+                    <div class="transactions-table-col">Date Issued</div>
+                    <div class="transactions-table-col">Branch</div>
+                    <div class="transactions-table-col">Products</div>
+                </div>
+                <div *ngFor="let tx of filteredTransactions" class="transactions-table-row">
+                    <div class="transactions-table-col">{{ tx.userName }}</div>
+                    <div class="transactions-table-col">{{ tx.earnedPoints }}</div>
+                    <div class="transactions-table-col">{{ tx.dateIssued | date:'medium' }}</div>
+                    <div class="transactions-table-col">{{ tx.branchName }}</div>
+                    <div class="transactions-table-col">
+                        <div *ngFor="let p of tx.products">
+                            {{ p.productName }} <span class="product-qty">x{{ p.quantity }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

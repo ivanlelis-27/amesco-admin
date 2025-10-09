@@ -20,6 +20,11 @@ type MemberForm = {
   styleUrls: ['./member-mgmt.scss']
 })
 export class MemberMgmt implements OnInit {
+  activeTab: 'members' | 'transactions' | 'upload' = 'members';
+
+  setTab(tab: 'members' | 'transactions' | 'upload') {
+    this.activeTab = tab;
+  }
   members: any[] = [];
   searchText: string = '';
   showAddMemberModal = false;

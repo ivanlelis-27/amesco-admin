@@ -851,8 +851,21 @@
     width: 100%;
     color: #b61624;
     font-size: 1rem;
-    font-family: 'Inter',
-        sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    margin-bottom: 0.7rem;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.dashboard-member-title-notif {
+    position: relative;
+    top: 2.5rem;
+    width: 100%;
+    color: #b61624;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
     font-weight: 400;
     margin-bottom: 0.7rem;
     text-align: center;
@@ -887,6 +900,73 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.popular-notif-card {
+    position: relative;
+    top: 2.8rem;
+    width: 10rem;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding: 0.7rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.popular-notif-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.popular-notif-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #b61624;
+    margin-bottom: 0.1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 180px;
+}
+
+.popular-notif-desc {
+    font-size: 0.92rem;
+    color: #333;
+    margin-bottom: 0.3rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 180px;
+}
+
+.popular-notif-likes {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.98rem;
+    color: #b61624;
+    font-weight: 500;
+    margin-top: 0.2rem;
+}
+
+.popular-notif-heart {
+    color: #b61624;
+    font-size: 1.1rem;
+    vertical-align: middle;
+}
+
+.popular-notif-empty {
+    margin-top: 0.7rem;
+    color: #888;
+    font-size: 0.95rem;
+    text-align: center;
 }
 
 .highest-redemption-modal {

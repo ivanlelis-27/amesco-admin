@@ -7,11 +7,13 @@ import { DatePipe } from '@angular/common';
 import { MemberMgmt } from './member-mgmt';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TransactionsModule } from '../transactions/transactions.module';
 
 @NgModule({
     declarations: [MemberMgmt],
     imports: [
         CommonModule,
+        TransactionsModule,
         FormsModule,
         SidebarComponent,
         HeaderComponent,

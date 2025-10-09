@@ -256,7 +256,20 @@
                         </div>
                         <div class="dashboard-member-divider"></div>
                         <div class="dashboard-member-col dashboard-member-col-right">
-                            <div class="dashboard-member-title">Popular Notifications</div>
+                            <div class="dashboard-member-title-notif">Popular Notifications</div>
+                            <div class="popular-notif-card" *ngIf="mostLikedNotification">
+                                <div class="popular-notif-info">
+                                    <div class="popular-notif-title">{{ mostLikedNotification.title }}</div>
+                                    <div class="popular-notif-desc">{{ mostLikedNotification.description }}</div>
+                                    <div class="popular-notif-likes">
+                                        <ion-icon name="heart" class="popular-notif-heart"></ion-icon>
+                                        <span>{{ mostLikedNotification.likeCount }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="!mostLikedNotification" class="popular-notif-empty">
+                                No popular notifications yet.
+                            </div>
                         </div>
                     </div>
                 </div>

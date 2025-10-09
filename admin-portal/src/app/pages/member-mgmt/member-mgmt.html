@@ -3,110 +3,124 @@
     <div class="member-content">
         <app-header></app-header>
         <div class="member-tabs-bar">
-            <div class="tab active">Members</div>
-            <div class="tab">Transactions</div>
-            <div class="tab">Upload</div>
+            <div class="tab" [ngClass]="{active: activeTab === 'members'}" (click)="setTab('members')">Members</div>
+            <div class="tab" [ngClass]="{active: activeTab === 'transactions'}" (click)="setTab('transactions')">
+                Transactions
+            </div>
+            <div class="tab" [ngClass]="{active: activeTab === 'upload'}" (click)="setTab('upload')">Upload</div>
         </div>
-        <div class="member-main">
-            <div class="member-card">
-                <div class="member-card-header">
-                    <input class="member-search" type="text" placeholder="Search for last name..."
-                        [(ngModel)]="searchText" />
-                    <button class="member-add-btn" (click)="openAddMemberModal()">ADD MEMBER</button>
-                </div>
-                <div class="member-card-body">
-                    <div class="member-table-header">
-                        <div class="member-table-col">Members</div>
-                        <div class="member-table-col">Contact</div>
-                        <div class="member-table-col">Points</div>
-                        <div class="member-table-col">Email</div>
-                        <div class="member-table-col">Last Visit (DMY)</div>
+        <ng-container *ngIf="activeTab === 'members'">
+            <div class="member-main">
+                <div class="member-card">
+                    <div class="member-card-header">
+                        <input class="member-search" type="text" placeholder="Search for last name..."
+                            [(ngModel)]="searchText" />
+                        <button class="member-add-btn" (click)="openAddMemberModal()">ADD MEMBER</button>
                     </div>
-                    <div *ngFor="let member of filteredMembers" class="member-table-row">
-                        <div class="member-table-col" style="display: flex; align-items: center;">
-                            <ng-container *ngIf="member.profileImage; else noImage">
-                                <img [src]="'data:image/png;base64,' + member.profileImage" alt="Profile"
-                                    class="member-profile-img" />
-                            </ng-container>
-                            <ng-template #noImage>
-                                <ion-icon name="person-circle-outline" class="member-profile-icon"></ion-icon>
-                            </ng-template>
-                            <span style="margin-left: 1rem;">{{ member.firstName }} {{ member.lastName }}</span>
+                    <div class="member-card-body">
+                        <div class="member-table-header">
+                            <div class="member-table-col">Members</div>
+                            <div class="member-table-col">Contact</div>
+                            <div class="member-table-col">Points</div>
+                            <div class="member-table-col">Email</div>
+                            <div class="member-table-col">Last Visit (DMY)</div>
                         </div>
-                        <div class="member-table-col">{{ member.mobile }}</div>
-                        <div class="member-table-col">{{ member.points }}</div>
-                        <div class="member-table-col">{{ member.email }}</div>
-                        <div class="member-table-col"></div>
+                        <div *ngFor="let member of filteredMembers" class="member-table-row">
+                            <div class="member-table-col" style="display: flex; align-items: center;">
+                                <ng-container *ngIf="member.profileImage; else noImage">
+                                    <img [src]="'data:image/png;base64,' + member.profileImage" alt="Profile"
+                                        class="member-profile-img" />
+                                </ng-container>
+                                <ng-template #noImage>
+                                    <ion-icon name="person-circle-outline" class="member-profile-icon"></ion-icon>
+                                </ng-template>
+                                <span style="margin-left: 1rem;">{{ member.firstName }} {{ member.lastName }}</span>
+                            </div>
+                            <div class="member-table-col">{{ member.mobile }}</div>
+                            <div class="member-table-col">{{ member.points }}</div>
+                            <div class="member-table-col">{{ member.email }}</div>
+                            <div class="member-table-col"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div *ngIf="showAddMemberModal" class="member-modal">
+                    <div class="member-modal-content">
+                        <div class="modal-scroll">
+                            <h2>Add Member</h2>
+                            <form (ngSubmit)="addMember()" #addMemberForm="ngForm">
+                                <div class="modal-field">
+                                    <label>Email</label>
+                                    <input type="email" [(ngModel)]="newMember.email" name="email" required
+                                        [ngClass]="{'input-error': fieldError('email')}" />
+                                    <div *ngIf="fieldError('email')" class="input-error-text">
+                                        {{ !newMember.email ? 'This field is required' : 'Invalid email format' }}
+                                    </div>
+                                </div>
+                                <div class="modal-field">
+                                    <label>Password</label>
+                                    <input type="password" [(ngModel)]="newMember.password" name="password" required
+                                        [ngClass]="{'input-error': fieldError('password')}" />
+                                    <div *ngIf="fieldError('password')" class="input-error-text">
+                                        {{ !newMember.password ? 'This field is required' :
+                                        (fieldError('confirmPassword') ?
+                                        'Passwords do not match' :
+                                        '') }}
+                                    </div>
+                                </div>
+                                <div class="modal-field">
+                                    <label>Confirm Password</label>
+                                    <input type="password" [(ngModel)]="newMember.confirmPassword"
+                                        name="confirmPassword" required
+                                        [ngClass]="{'input-error': fieldError('confirmPassword')}" />
+                                    <div *ngIf="fieldError('confirmPassword')" class="input-error-text">
+                                        {{ !newMember.confirmPassword ? 'This field is required' :
+                                        (fieldError('password') ?
+                                        'Passwords do not match' :
+                                        '') }}
+                                    </div>
+                                </div>
+                                <div class="modal-field">
+                                    <label>First Name</label>
+                                    <input type="text" [(ngModel)]="newMember.firstName" name="firstName" required
+                                        [ngClass]="{'input-error': fieldError('firstName')}" />
+                                    <div *ngIf="fieldError('firstName')" class="input-error-text">This field is required
+                                    </div>
+                                </div>
+                                <div class="modal-field">
+                                    <label>Last Name</label>
+                                    <input type="text" [(ngModel)]="newMember.lastName" name="lastName" required
+                                        [ngClass]="{'input-error': fieldError('lastName')}" />
+                                    <div *ngIf="fieldError('lastName')" class="input-error-text">This field is required
+                                    </div>
+                                </div>
+                                <div class="modal-field">
+                                    <label>Mobile</label>
+                                    <input type="text" [(ngModel)]="newMember.mobile" name="mobile" required
+                                        [ngClass]="{'input-error': fieldError('mobile')}" />
+                                    <div *ngIf="fieldError('mobile')" class="input-error-text">This field is required
+                                    </div>
+                                </div>
+                                <input type="hidden" [(ngModel)]="newMember['memberId']" name="memberId" />
+                                <div class="modal-actions">
+                                    <button type="submit" class="modal-btn save">Save</button>
+
+                                    <button type="button" class="modal-btn cancel"
+                                        (click)="showAddMemberModal = false">Cancel</button>
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Modal -->
-            <div *ngIf="showAddMemberModal" class="member-modal">
-                <div class="member-modal-content">
-                    <div class="modal-scroll">
-                        <h2>Add Member</h2>
-                        <form (ngSubmit)="addMember()" #addMemberForm="ngForm">
-                            <div class="modal-field">
-                                <label>Email</label>
-                                <input type="email" [(ngModel)]="newMember.email" name="email" required
-                                    [ngClass]="{'input-error': fieldError('email')}" />
-                                <div *ngIf="fieldError('email')" class="input-error-text">
-                                    {{ !newMember.email ? 'This field is required' : 'Invalid email format' }}
-                                </div>
-                            </div>
-                            <div class="modal-field">
-                                <label>Password</label>
-                                <input type="password" [(ngModel)]="newMember.password" name="password" required
-                                    [ngClass]="{'input-error': fieldError('password')}" />
-                                <div *ngIf="fieldError('password')" class="input-error-text">
-                                    {{ !newMember.password ? 'This field is required' : (fieldError('confirmPassword') ?
-                                    'Passwords do not match' :
-                                    '') }}
-                                </div>
-                            </div>
-                            <div class="modal-field">
-                                <label>Confirm Password</label>
-                                <input type="password" [(ngModel)]="newMember.confirmPassword" name="confirmPassword"
-                                    required [ngClass]="{'input-error': fieldError('confirmPassword')}" />
-                                <div *ngIf="fieldError('confirmPassword')" class="input-error-text">
-                                    {{ !newMember.confirmPassword ? 'This field is required' : (fieldError('password') ?
-                                    'Passwords do not match' :
-                                    '') }}
-                                </div>
-                            </div>
-                            <div class="modal-field">
-                                <label>First Name</label>
-                                <input type="text" [(ngModel)]="newMember.firstName" name="firstName" required
-                                    [ngClass]="{'input-error': fieldError('firstName')}" />
-                                <div *ngIf="fieldError('firstName')" class="input-error-text">This field is required
-                                </div>
-                            </div>
-                            <div class="modal-field">
-                                <label>Last Name</label>
-                                <input type="text" [(ngModel)]="newMember.lastName" name="lastName" required
-                                    [ngClass]="{'input-error': fieldError('lastName')}" />
-                                <div *ngIf="fieldError('lastName')" class="input-error-text">This field is required
-                                </div>
-                            </div>
-                            <div class="modal-field">
-                                <label>Mobile</label>
-                                <input type="text" [(ngModel)]="newMember.mobile" name="mobile" required
-                                    [ngClass]="{'input-error': fieldError('mobile')}" />
-                                <div *ngIf="fieldError('mobile')" class="input-error-text">This field is required</div>
-                            </div>
-                            <input type="hidden" [(ngModel)]="newMember['memberId']" name="memberId" />
-                            <div class="modal-actions">
-                                <button type="submit" class="modal-btn save">Save</button>
-
-                                <button type="button" class="modal-btn cancel"
-                                    (click)="showAddMemberModal = false">Cancel</button>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </ng-container>
+        <ng-container *ngIf="activeTab === 'transactions'">
+            <app-transactions></app-transactions>
+        </ng-container>
+        <ng-container *ngIf="activeTab === 'upload'">
+            <!-- Upload content here -->
+        </ng-container>
     </div>
 </div>
