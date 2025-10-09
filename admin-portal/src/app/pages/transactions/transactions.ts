@@ -24,18 +24,18 @@ export class Transactions implements OnInit {
   loadData() {
     if (this.loaded) return;
     this.loading = true;
-    console.log('Loading transactions...');
     this.api.getAllTransactions().subscribe({
       next: (transactions) => {
-        console.log('Transactions loaded:', transactions);
-        this.transactions = transactions || [];
+        // Sort by dateIssued descending
+        this.transactions = (transactions || []).sort(
+          (a, b) => new Date(b.dateIssued).getTime() - new Date(a.dateIssued).getTime()
+        );
         this.filteredTransactions = this.transactions;
         this.loading = false;
         this.loaded = true;
         this.cdr.markForCheck();
       },
       error: (error) => {
-        console.error('Error loading transactions:', error);
         this.transactions = [];
         this.filteredTransactions = [];
         this.loading = false;
@@ -44,7 +44,7 @@ export class Transactions implements OnInit {
       }
     });
   }
-
+  
   searchTransactions() {
     const search = this.searchText.trim().toLowerCase();
     if (!search) {
