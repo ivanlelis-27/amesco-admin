@@ -16,7 +16,7 @@
                     <div class="transactions-table-col">Branch</div>
                     <div class="transactions-table-col">Products</div>
                 </div>
-                <div *ngFor="let tx of filteredTransactions" class="transactions-table-row">
+                <div *ngFor="let tx of pagedTransactions" class="transactions-table-row">
                     <div class="transactions-table-col">{{ tx.userName }}</div>
                     <div class="transactions-table-col">{{ tx.earnedPoints }}</div>
                     <div class="transactions-table-col">{{ tx.dateIssued | date:'medium' }}</div>
@@ -26,6 +26,11 @@
                             {{ p.productName }} <span class="product-qty">x{{ p.quantity }}</span>
                         </div>
                     </div>
+                </div>
+                <div class="transactions-pagination" *ngIf="totalPages > 1">
+                    <button (click)="goToPage(page - 1)" [disabled]="page === 1">&lt;</button>
+                    <span>Page {{ page }} of {{ totalPages }}</span>
+                    <button (click)="goToPage(page + 1)" [disabled]="page === totalPages">&gt;</button>
                 </div>
             </div>
         </div>
