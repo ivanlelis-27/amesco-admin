@@ -274,9 +274,15 @@ export class Dashboard implements OnInit {
       }
     });
 
-    this.api.getMostLikedNotification().subscribe({
-      next: notif => this.mostLikedNotification = notif,
-      error: () => this.mostLikedNotification = null
+    this.api.getMostLikedNotification(startDate, endDate).subscribe({
+      next: notif => {
+        this.mostLikedNotification = notif;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.mostLikedNotification = null;
+        this.cdr.markForCheck();
+      }
     });
 
     this.api.getNewMembersCount(this.dateAgo, this.dateNow).subscribe({

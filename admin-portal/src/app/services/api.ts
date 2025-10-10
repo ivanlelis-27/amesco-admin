@@ -149,8 +149,17 @@ export class ApiService {
     );
   }
 
-  getMostLikedNotification() {
-    return this.http.get<any>(`${this.baseUrl}/notifications/most-liked`);
+  getMostLikedNotification(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          startDate: startDate.toISOString().slice(0, 10),
+          endDate: endDate.toISOString().slice(0, 10)
+        }
+      };
+    }
+    return this.http.get<any>(`${this.baseUrl}/notifications/most-liked`, params);
   }
 
   getAllTransactions() {
