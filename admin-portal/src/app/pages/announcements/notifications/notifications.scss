@@ -356,6 +356,37 @@ body {
     color: #a0131f;
 }
 
+.notif-history-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.notif-history-pagination button {
+    background: #b61624;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.notif-history-pagination button:disabled {
+    background: #eee;
+    color: #aaa;
+    cursor: default;
+}
+
+.notif-history-pagination span {
+    font-size: 1rem;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+}
+
 .edit-modal-backdrop {
     position: fixed;
     top: 0;

@@ -21,9 +21,21 @@ export class Notifications {
   editModalOpen = false;
   editNotification: any = null;
   editImagePreviewUrl: string | null = null;
+  historyPage = 1;
+  historyPageSize = 3;
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) {
     this.loadScheduledNotifications();
+  }
+
+  resetCreateForm() {
+    this.title = '';
+    this.description = '';
+    this.messageBody = '';
+    this.scheduledAt = null;
+    this.includeImage = false;
+    this.selectedImage = null;
+    this.imagePreviewUrl = null;
   }
 
   openEditModal(notif: any) {
@@ -90,15 +102,32 @@ export class Notifications {
       return sched > today;
     });
   }
+
   get pastNotifications() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return this.scheduledNotifications.filter(n => {
-      const sched = new Date(n.scheduledAt);
-      sched.setHours(0, 0, 0, 0);
-      // Include notifications scheduled for today or earlier
-      return sched <= today;
-    });
+    return this.scheduledNotifications
+      .filter(n => {
+        const sched = new Date(n.scheduledAt);
+        sched.setHours(0, 0, 0, 0);
+        // Include notifications scheduled for today or earlier
+        return sched <= today;
+      })
+      .sort((a, b) => new Date(b.scheduledAt).getTime() - new Date(a.scheduledAt).getTime());
+  }
+
+  get pagedPastNotifications() {
+    const start = (this.historyPage - 1) * this.historyPageSize;
+    return this.pastNotifications.slice(start, start + this.historyPageSize);
+  }
+
+  get historyTotalPages() {
+    return Math.ceil(this.pastNotifications.length / this.historyPageSize) || 1;
+  }
+
+  goToHistoryPage(page: number) {
+    if (page < 1 || page > this.historyTotalPages) return;
+    this.historyPage = page;
   }
 
   createNotification() {
@@ -123,13 +152,12 @@ export class Notifications {
     this.api.createNotification(formData).subscribe({
       next: () => {
         alert('Notification created!');
+        this.resetCreateForm(); // <-- Reset form here
         this.loadScheduledNotifications();
       },
       error: err => alert('Failed: ' + (err.error?.message || 'Unknown error'))
     });
     this.cdr.detectChanges();
-
-
   }
 
   saveEditNotification() {

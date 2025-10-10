@@ -35,7 +35,7 @@
             <div class="notif-history">
                 <div class="notif-history-header">HISTORY</div>
                 <div class="past-notif-list">
-                    <div class="scheduled-notif-card" *ngFor="let notif of pastNotifications">
+                    <div class="scheduled-notif-card" *ngFor="let notif of pagedPastNotifications">
                         <div class="scheduled-notif-card-row">
                             <div class="scheduled-notif-img">
                                 <ng-container *ngIf="notif.includeImage && notif.imageBase64; else noImage">
@@ -59,8 +59,14 @@
                             </button>
                         </div>
                     </div>
-                    <div *ngIf="pastNotifications.length === 0" class="scheduled-notif-empty">
+                    <div *ngIf="pagedPastNotifications.length === 0" class="scheduled-notif-empty">
                         No past scheduled notifications.
+                    </div>
+                    <div class="notif-history-pagination" *ngIf="historyTotalPages > 1">
+                        <button (click)="goToHistoryPage(historyPage - 1)" [disabled]="historyPage === 1">&lt;</button>
+                        <span>Page {{ historyPage }} of {{ historyTotalPages }}</span>
+                        <button (click)="goToHistoryPage(historyPage + 1)"
+                            [disabled]="historyPage === historyTotalPages">&gt;</button>
                     </div>
                 </div>
             </div>
