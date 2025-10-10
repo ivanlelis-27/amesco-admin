@@ -175,7 +175,7 @@
                                     {{ highestRedemptionPercent }}%
                                 </text>
                                 <!-- Center value text: points given / points redeemed -->
-                                <text x="60" y="75" text-anchor="middle" fill="#333" font-size="1em"
+                                <text x="60" y="75" text-anchor="middle" fill="#333" font-size="0.8em"
                                     font-family="Inter, sans-serif">
                                     {{ pointsGiven ?? 0 }} / {{ pointsRedeemed ?? 0 }}
                                 </text>
@@ -218,7 +218,7 @@
                             <div class="dashboard-transactions-col member">Member</div>
                             <div class="dashboard-transactions-col code">Voucher Code</div>
                             <div class="dashboard-transactions-col status">Status</div>
-                            <div class="dashboard-transactions-col created">Created On</div>
+                            <div class="dashboard-transactions-col created">Date Used</div>
                         </div>
                         <ng-container *ngFor="let tx of latestTransactions">
                             <div class="dashboard-transactions-row">
@@ -228,7 +228,7 @@
                                 <div class="dashboard-transactions-col code">{{ tx.voucherCode }}</div>
                                 <div class="dashboard-transactions-col status"></div>
                                 <div class="dashboard-transactions-col created">
-                                    {{ tx.createdOn | date:'d MMM yyyy' }}
+                                    {{ tx.dateUsed | date:'d MMM yyyy' }}
                                 </div>
                             </div>
                         </ng-container>

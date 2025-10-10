@@ -80,8 +80,17 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/branches/branches-rankings`, params);
   }
 
-  getHighestRedeemedVoucherDate() {
-    return this.http.get<{ date: string }>(`${this.baseUrl}/vouchers/highest-redeemed-date`);
+  getHighestRedeemedVoucherDate(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString()
+        }
+      };
+    }
+    return this.http.get<{ date: string }>(`${this.baseUrl}/vouchers/highest-redeemed-date`, params);
   }
 
   getTop10Ranking(startDate?: Date, endDate?: Date) {
@@ -194,8 +203,17 @@ export class ApiService {
     return this.http.delete(`${this.baseUrl}/notifications/delete/${notificationId}`);
   }
 
-  getLatestTransactions() {
-    return this.http.get<any[]>(`${this.baseUrl}/vouchers/latest-transactions`);
+  getLatestTransactions(startDate?: Date, endDate?: Date) {
+    let params = {};
+    if (startDate && endDate) {
+      params = {
+        params: {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString()
+        }
+      };
+    }
+    return this.http.get<any[]>(`${this.baseUrl}/vouchers/latest-transactions`, params);
   }
 
   getMemberById(id: string) {

@@ -96,17 +96,6 @@ export class Dashboard implements OnInit {
       }
     });
 
-    this.api.getLatestTransactions().subscribe({
-      next: (res) => {
-        this.latestTransactions = res;
-        this.cdr.markForCheck();
-      },
-      error: () => {
-        this.latestTransactions = [];
-        this.cdr.markForCheck();
-      }
-    });
-
     this.fetchDashboardDataForRange(this.dateAgo, this.dateNow);
   }
 
@@ -249,20 +238,6 @@ export class Dashboard implements OnInit {
       }
     });
 
-    this.api.getHighestRedeemedVoucherDate().subscribe({
-      next: (res) => {
-        // Convert "yyyy-MM-dd" to a Date object
-        const dateObj = new Date(res.date);
-        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        this.highestRedemptionDay = days[dateObj.getDay()];
-        this.cdr.markForCheck();
-      },
-      error: () => {
-        this.highestRedemptionDay = '—';
-        this.cdr.markForCheck();
-      }
-    });
-
     this.api.getTop10Ranking(startDate, endDate).subscribe({
       next: (res) => {
         this.top10Ranking = res;
@@ -292,6 +267,30 @@ export class Dashboard implements OnInit {
       },
       error: () => {
         this.newMembersCount = null;
+        this.cdr.markForCheck();
+      }
+    });
+
+    this.api.getHighestRedeemedVoucherDate(startDate, endDate).subscribe({
+      next: (res) => {
+        const dateObj = new Date(res.date);
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        this.highestRedemptionDay = days[dateObj.getDay()];
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.highestRedemptionDay = '—';
+        this.cdr.markForCheck();
+      }
+    });
+
+    this.api.getLatestTransactions(this.dateAgo, this.dateNow).subscribe({
+      next: (res) => {
+        this.latestTransactions = res;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.latestTransactions = [];
         this.cdr.markForCheck();
       }
     });
