@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-create-announcements',
@@ -8,6 +8,24 @@ import { Component, AfterViewInit } from '@angular/core';
 })
 export class CreateAnnouncements implements AfterViewInit {
   cards = Array.from({ length: 10 }, (_, i) => `Card ${i + 1}`);
+  imagePreviewUrl: string | null = null;
+  @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
+
+  onImageContainerClick() {
+    this.imageInput.nativeElement.click();
+  }
+
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreviewUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   ngAfterViewInit() {
     const row = document.querySelector('.announcement-cards-row') as HTMLElement;

@@ -65,15 +65,14 @@
     margin-top: 1rem;
 }
 
-.announcement-title-input,
-.announcement-subtitle-input {
+.announcement-title-input {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     border-radius: 6px;
     border: 1px solid #ccc;
     padding: 0.5rem 1rem;
     background: #fafafa;
-    width: 220px;
+    width: 40rem;
 }
 
 .announcement-toolbar-bar {
@@ -113,11 +112,63 @@
     border: 1px solid #ccc;
     padding: 0.5rem 1rem;
     background: #fafafa;
-    width: 40rem;
+    width: 25rem;
     height: 7rem;
     margin-top: 1rem;
     resize: none;
     box-sizing: border-box;
+}
+
+.announcement-image-container {
+    top: 1rem;
+    width: 14rem;
+    height: 7rem;
+    background: #fafafa;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s;
+}
+
+.announcement-image-container:hover {
+    border-color: #b61624;
+}
+
+.announcement-image-placeholder {
+    color: #888;
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.announcement-image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.announcement-save-btn {
+    margin-top: 1rem;
+    background: #b61624;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    padding: 0.7rem 2.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    transition: background 0.2s;
+}
+
+.announcement-save-btn:hover {
+    background: #a0131f;
 }
 
 .announcements-right-column {

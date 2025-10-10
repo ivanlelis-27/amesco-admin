@@ -21,9 +21,23 @@
         </div>
         <div class="announcement-form-bar">
             <input type="text" class="announcement-title-input" placeholder="Title *" />
-            <input type="text" class="announcement-subtitle-input" placeholder="" />
         </div>
-        <textarea class="announcement-description-input" placeholder="Subtitle/Description"></textarea>
+        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <textarea class="announcement-description-input" placeholder="Subtitle/Description"></textarea>
+            <div class="announcement-image-container" (click)="onImageContainerClick()">
+                <input type="file" accept="image/*" style="display:none;" #imageInput
+                    (change)="onImageSelected($event)" />
+                <ng-container *ngIf="imagePreviewUrl; else placeholder">
+                    <img [src]="imagePreviewUrl" alt="Selected Image" class="announcement-image-preview" />
+                </ng-container>
+                <ng-template #placeholder>
+                    <div class="announcement-image-placeholder">
+                        Click to select image
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+        <button class="announcement-save-btn">Save</button>
     </div>
     <div class="announcements-right-column">
         <div class="announcement-preview-header">Live Preview</div>
