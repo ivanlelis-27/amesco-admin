@@ -201,6 +201,17 @@
     padding: 0.2rem 0.5rem;
 }
 
+.selected-promo-group {
+    position: relative;
+    bottom: 0.2rem;
+    margin-left: 0.5rem;
+    color: #b61624;
+    font-weight: 500;
+    font-size: 1.05rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.02em;
+}
+
 .promo-dropdown {
     position: absolute;
     top: 2.2rem;
@@ -211,6 +222,13 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
     min-width: 180px;
     z-index: 10;
+}
+
+.promo-dropdown-loading {
+    padding: 1rem;
+    color: #888;
+    font-size: 1rem;
+    text-align: center;
 }
 
 .promo-dropdown-item {

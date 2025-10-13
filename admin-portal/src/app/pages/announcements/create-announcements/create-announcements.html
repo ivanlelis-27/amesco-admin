@@ -5,7 +5,7 @@
         </div>
         <div class="announcement-cards-scroll-container">
             <div class="announcement-cards-row" tabindex="0">
-                <div class="announcement-card" *ngFor="let ann of announcements">
+                <div class="announcement-card" *ngFor="let ann of sortedAnnouncements">
                     <ng-container *ngIf="ann.imageBase64; else noImage">
                         <img [src]="'data:image/png;base64,' + ann.imageBase64" alt="Announcement Image"
                             class="announcement-card-img" />
@@ -49,9 +49,12 @@
             <div class="toolbar-right" style="position:relative;">
                 <button class="toolbar-btn" (click)="togglePromoDropdown()">
                     <ion-icon name="caret-down-outline"></ion-icon>
-                    <span *ngIf="selectedPromoGroup">{{ selectedPromoGroup }}</span>
+                    <!-- ...existing code... -->
+                    <span *ngIf="selectedPromoGroup" class="selected-promo-group">{{ selectedPromoGroup }}</span>
+                    <!-- ...existing code... -->
                 </button>
                 <div class="promo-dropdown" *ngIf="showPromoDropdown">
+                    <div *ngIf="promoGroupsLoading" class="promo-dropdown-loading">Loading...</div>
                     <div class="promo-dropdown-item" *ngFor="let group of promoGroups"
                         (click)="selectPromoGroup(group.name)">
                         {{ group.name }}

@@ -12,6 +12,7 @@ interface Promo {
   imageUrl?: string;
   promoText?: string;
   ImageData?: string;
+  promoGroupNames?: string[];
 }
 
 @Component({
@@ -31,13 +32,14 @@ export class Promos implements OnInit {
   validationErrors: { [key: string]: string } = {};
   invalidFields: string[] = [];
 
+
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.api.getPromos().subscribe((data: any) => {
+    this.api.getPromosWithGroup().subscribe((data: any) => {
       this.promos = (Array.isArray(data) ? data : [data]).map(promo => ({
         ...promo,
-        promoText: '',
+        promoGroupNames: promo.promoGroupNames || [],
         imageUrl: promo.imageBase64
           ? `data:image/png;base64,${promo.imageBase64}`
           : undefined

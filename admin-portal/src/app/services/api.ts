@@ -211,6 +211,10 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/promos/list`);
   }
 
+  getPromosWithGroup() {
+    return this.http.get<any[]>(`${this.baseUrl}/promos/with-group`);
+  }
+
   createNotification(formData: FormData) {
     return this.http.post(`${this.baseUrl}/notifications/create`, formData);
   }

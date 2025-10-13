@@ -99,9 +99,9 @@
 }
 
 .promos-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
+    max-height: 450px;
+    overflow-y: auto;
+    padding-right: 4px; // Optional for scrollbar spacing
 }
 
 .trash-outline {
@@ -116,7 +116,8 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
     padding: 0.7rem 1rem;
-    gap: 1.2rem;
+    gap: 1.7rem;
+    margin-bottom: 0.7rem;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
 }
@@ -143,18 +144,26 @@
 
 .promos-list-price {
     font-size: 0.95rem;
+    margin-top: 0.5rem;
     color: #b61624;
 }
 
+.promos-list-meta {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-left: 44rem;
+    bottom: 1rem;
+}
+
 .promos-list-unit {
-    margin-left: 2rem;
     color: #444;
     font-size: 0.98rem;
     min-width: 90px;
 }
 
 .promos-list-promo {
-    margin-left: 2rem;
     color: #b61624;
     font-size: 0.98rem;
     min-width: 180px;

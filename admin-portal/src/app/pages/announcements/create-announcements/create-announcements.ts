@@ -32,6 +32,7 @@ export class CreateAnnouncements implements AfterViewInit, OnDestroy {
   addedPromoIds: number[] = [];
   showDeleteModal = false;
   announcementToDelete: any = null;
+  promoGroupsLoading = false;
 
   ngOnInit() {
     this.loadAnnouncements();
@@ -235,14 +236,19 @@ export class CreateAnnouncements implements AfterViewInit, OnDestroy {
   }
 
   togglePromoDropdown() {
-    this.showPromoDropdown = !this.showPromoDropdown;
-    if (this.showPromoDropdown && this.promoGroups.length === 0) {
+    if (this.promoGroups.length === 0 && !this.promoGroupsLoading) {
+      this.promoGroupsLoading = true;
       this.api.getPromoGroups().subscribe(groups => {
         this.promoGroups = groups.map(g => ({
           promoGroupId: g.promoGroupId,
           name: g.name
         }));
+        this.promoGroupsLoading = false;
+        this.showPromoDropdown = true;
+        this.cdr.detectChanges();
       });
+    } else {
+      this.showPromoDropdown = !this.showPromoDropdown;
     }
   }
 

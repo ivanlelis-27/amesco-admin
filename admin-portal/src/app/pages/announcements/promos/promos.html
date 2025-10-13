@@ -38,14 +38,20 @@
     <div class="promos-list-title">List of Promos</div>
     <div class="promos-list">
         <div class="promos-list-item" *ngFor="let promo of promos">
-            <img class="promos-list-img" [src]="promo.imageUrl || 'assets/preview-placeholder.png'"
-                [alt]="promo.brandItemName" />
+            <img class="promos-list-img" [src]="promo.imageUrl" [alt]="promo.brandItemName" />
             <div class="promos-list-info">
                 <div class="promos-list-name">{{ promo.brandItemName }}</div>
                 <div class="promos-list-price">₱{{ promo.price }}</div>
+                <div class="promos-list-meta">
+                    <span class="promos-list-unit">Unit: {{ promo.unit }}</span>
+                    <span class="promos-list-promo" *ngIf="promo.promoGroupNames?.length">
+                        Promo:
+                        <ng-container *ngFor="let group of promo.promoGroupNames; let last = last">
+                            {{ group }}<span *ngIf="!last">, </span>
+                        </ng-container>
+                    </span>
+                </div>
             </div>
-            <div class="promos-list-unit">Unit: {{ promo.unit }}</div>
-            <div class="promos-list-promo">Promo: {{ promo.promoText }}</div>
             <button class="promos-list-delete" (click)="confirmDeletePromo(promo.promoId)">
                 <ion-icon name="trash-outline" class="trash-outline"></ion-icon>
             </button>
