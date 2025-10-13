@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ApiService } from '../../../services/api';
 
 @Component({
@@ -7,7 +7,7 @@ import { ApiService } from '../../../services/api';
   templateUrl: './create-announcements.html',
   styleUrls: ['./create-announcements.scss']
 })
-export class CreateAnnouncements implements AfterViewInit {
+export class CreateAnnouncements implements AfterViewInit, OnDestroy {
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
   cards = Array.from({ length: 10 }, (_, i) => `Card ${i + 1}`);
   imagePreviewUrl: string | null = null;
@@ -20,15 +20,158 @@ export class CreateAnnouncements implements AfterViewInit {
   selectedPromoGroupId: number | null = null;
   selectedImage: File | null = null;
   announcements: any[] = [];
+  editingIndexId: number | null = null;
+  editingIndexValue: number | null = null;
+  previewIndex = 0;
+  autoPreviewInterval: any;
+  previewScrolling = false;
+  newSortIndex: number | null = null;
+  sortIndexError: string = '';
+  showPromoModal = false;
+  promos: any[] = [];
+  addedPromoIds: number[] = [];
+  showDeleteModal = false;
+  announcementToDelete: any = null;
 
   ngOnInit() {
     this.loadAnnouncements();
+    this.startAutoPreviewScroll();
+  }
+
+  ngOnDestroy() {
+    if (this.autoPreviewInterval) {
+      clearInterval(this.autoPreviewInterval);
+    }
+  }
+
+  openPromoModal() {
+    this.showPromoModal = true;
+    this.api.getPromos().subscribe((data: any[]) => {
+      this.promos = data;
+      this.cdr.detectChanges();
+    });
+  }
+
+  closePromoModal() {
+    this.showPromoModal = false;
+  }
+
+  addPromoToAnnouncement(promo: any) {
+    if (!this.addedPromoIds.includes(promo.promoId)) {
+      this.addedPromoIds.push(promo.promoId);
+    }
+  }
+
+  removePromoFromAnnouncement(promo: any) {
+    this.addedPromoIds = this.addedPromoIds.filter(id => id !== promo.promoId);
+  }
+
+
+  openDeleteModal(announcement: any) {
+    this.announcementToDelete = announcement;
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.announcementToDelete = null;
+  }
+
+  confirmDeleteAnnouncement() {
+    if (!this.announcementToDelete) return;
+    this.api.deleteAnnouncement(this.announcementToDelete.announcementId).subscribe({
+      next: () => {
+        this.loadAnnouncements();
+        this.closeDeleteModal();
+      },
+      error: err => {
+        alert('Failed to delete: ' + (err.error?.message || 'Unknown error'));
+        this.closeDeleteModal();
+      }
+    });
   }
 
   loadAnnouncements() {
     this.api.getAllAnnouncements().subscribe((data: any[]) => {
       this.announcements = data;
+      if (this.previewIndex >= this.sortedAnnouncements.length) {
+        this.previewIndex = 0;
+      }
+      this.startAutoPreviewScroll();
       this.cdr.detectChanges();
+    });
+  }
+
+  startAutoPreviewScroll() {
+    if (this.autoPreviewInterval) {
+      clearInterval(this.autoPreviewInterval);
+    }
+    this.autoPreviewInterval = setInterval(() => {
+      if (this.sortedAnnouncements.length === 0) return;
+      if (this.previewIndex < this.sortedAnnouncements.length - 1) {
+        this.previewIndex++;
+      } else {
+        this.previewIndex = 0;
+      }
+      this.cdr.detectChanges();
+    }, 10000);
+  }
+
+  prevPreviewSlide() {
+    if (this.previewIndex > 0) {
+      this.previewIndex--;
+      this.cdr.detectChanges();
+    }
+  }
+
+  nextPreviewSlide() {
+    if (this.previewIndex < this.sortedAnnouncements.length - 1) {
+      this.previewIndex++;
+      this.cdr.detectChanges();
+    }
+  }
+
+  get previewTrackTransform() {
+    return `translateX(-${this.previewIndex * 100}%)`;
+  }
+
+  get sortedAnnouncements() {
+    // Sort by sortIndex ascending
+    return this.announcements
+      .filter(a => a.imageBase64)
+      .sort((a, b) => {
+        if (a.sortIndex != null && b.sortIndex != null) {
+          return a.sortIndex - b.sortIndex;
+        }
+        return new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime();
+      });
+  }
+
+  get previewAnnouncement() {
+    return this.sortedAnnouncements[this.previewIndex] || null;
+  }
+
+  startEditIndex(announcement: any) {
+    this.editingIndexId = announcement.announcementId;
+    this.editingIndexValue = announcement.sortIndex ?? '';
+  }
+
+  onEditIndexInput(event: KeyboardEvent, announcement: any) {
+    if (event.key === 'Enter') {
+      const value = this.editingIndexValue ?? '';
+      this.saveSortIndex(announcement.announcementId, value);
+    }
+  }
+
+  saveSortIndex(announcementId: number, sortIndex: number | string) {
+    const indexValue = sortIndex === '' ? null : Number(sortIndex);
+    this.api.editAnnouncementIndex(announcementId, indexValue).subscribe({
+      next: () => {
+        this.editingIndexId = null;
+        this.editingIndexValue = null;
+        this.loadAnnouncements();
+      },
+      error: err => alert('Failed to update index: ' + (err.error?.message || 'Unknown error'))
     });
   }
 
@@ -115,6 +258,13 @@ export class CreateAnnouncements implements AfterViewInit {
       alert('Title and description are required.');
       return;
     }
+
+    // Checks for duplicate sortIndex if not null
+    if (this.newSortIndex !== null && this.sortedAnnouncements.some(a => a.sortIndex === this.newSortIndex)) {
+      alert('Existing index. Please choose another number.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', this.title);
     formData.append('description', this.description);
@@ -124,11 +274,19 @@ export class CreateAnnouncements implements AfterViewInit {
     if (this.selectedImage) {
       formData.append('image', this.selectedImage);
     }
+    if (this.newSortIndex !== null && this.newSortIndex !== undefined) {
+      formData.append('sortIndex', this.newSortIndex.toString());
+    }
+    // Append each promoId as promoIds
+    this.addedPromoIds.forEach(id => formData.append('promoIds', id.toString()));
+
     this.api.createAnnouncement(formData).subscribe({
       next: (res: any) => {
         alert('Announcement created!');
         this.resetForm();
-        this.loadAnnouncements(); // <-- Refresh announcements after creation
+        this.newSortIndex = null;
+        this.addedPromoIds = []; // Clear selected promos after save
+        this.loadAnnouncements();
         this.cdr.detectChanges();
       },
       error: err => alert('Failed: ' + (err.error?.message || 'Unknown error'))

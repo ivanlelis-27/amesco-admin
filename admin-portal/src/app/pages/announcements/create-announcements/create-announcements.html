@@ -8,18 +8,43 @@
                 <div class="announcement-card" *ngFor="let ann of announcements">
                     <ng-container *ngIf="ann.imageBase64; else noImage">
                         <img [src]="'data:image/png;base64,' + ann.imageBase64" alt="Announcement Image"
-                            style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
+                            class="announcement-card-img" />
                     </ng-container>
                     <ng-template #noImage>
-                        <div style="color:#ccc;text-align:center;">No Image</div>
+                        <div class="announcement-card-img no-image">No Image</div>
                     </ng-template>
+                    <div class="announcement-title-bar">{{ ann.title }}</div>
+                    <div class="announcement-sortindex-bar">
+                        <span class="announcement-modify-container">
+                            <button class="announcement-modify-btn" (click)="startEditIndex(ann)">
+                                MODIFY (
+                                <ng-container *ngIf="editingIndexId === ann.announcementId; else showIndex">
+                                    <input type="number" [(ngModel)]="editingIndexValue"
+                                        (keydown)="onEditIndexInput($event, ann)" class="announcement-index-input" />
+                                </ng-container>
+                                <ng-template #showIndex>
+                                    {{ ann.sortIndex ?? '' }}
+                                </ng-template>
+                                )
+                            </button>
+                        </span>
+                        <button class="announcement-delete-btn" title="Delete" (click)="openDeleteModal(ann)">
+                            <ion-icon name="trash-outline"></ion-icon>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="announcement-toolbar-bar">
             <div class="toolbar-left">
-                <button class="toolbar-btn"><span class="icon">&#8942;</span> 0</button>
-                <button class="toolbar-btn"><span class="icon" style="color:#b61624;">&#9776;+</span></button>
+                <input type="number" class="toolbar-sortindex-input" [(ngModel)]="newSortIndex" placeholder="0" min="0"
+                    style="width:3.5rem; margin-right:0.5rem;" />
+                <button class="toolbar-btn" (click)="openPromoModal()">
+                    <span class="icon" style="color:#b61624;">&#9776;+</span>
+                </button>
+                <span *ngIf="addedPromoIds.length > 0" class="items-added-indicator">
+                    {{ addedPromoIds.length }} item{{ addedPromoIds.length > 1 ? 's' : '' }} added
+                </span>
             </div>
             <div class="toolbar-right" style="position:relative;">
                 <button class="toolbar-btn" (click)="togglePromoDropdown()">
@@ -57,19 +82,67 @@
     </div>
     <div class="announcements-right-column">
         <div class="announcement-preview-header">Live Preview</div>
-        <div class="announcement-preview-card">
-            <img src="assets/preview-placeholder.png" alt="Preview" />
-            <div class="preview-title">TeleCARE</div>
-            <div class="preview-description">
-                TeleCARE is available from Monday to Sunday, 9:00 AM to 7:00 PM.<br>
-                For more information please contact: 0963 607 0618
+        <div class="announcement-preview-carousel-container">
+            <button class="carousel-btn left" [class.disabled]="previewIndex === 0" (click)="prevPreviewSlide()"
+                [disabled]="previewIndex === 0">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+            </button>
+            <div class="carousel-track" [style.transform]="previewTrackTransform">
+                <div class="carousel-slide" *ngFor="let ann of sortedAnnouncements">
+                    <img [src]="'data:image/png;base64,' + ann.imageBase64" alt="Preview" class="carousel-image" />
+                </div>
             </div>
-            <div class="preview-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+            <div class="carousel-indicators">
+                <span *ngFor="let ann of sortedAnnouncements; let i = index" [class.active]="i === previewIndex"
+                    class="carousel-indicator"></span>
             </div>
+            <button class="carousel-btn right" [class.disabled]="previewIndex === sortedAnnouncements.length - 1"
+                (click)="nextPreviewSlide()" [disabled]="previewIndex === sortedAnnouncements.length - 1">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Promo Modal -->
+<div class="promo-modal-backdrop" *ngIf="showPromoModal" (click)="closePromoModal()"></div>
+<div class="promo-modal" *ngIf="showPromoModal">
+    <div class="promo-modal-header">
+        <span>Promo Items</span>
+        <button class="promo-modal-close" (click)="closePromoModal()">&times;</button>
+    </div>
+    <div class="promo-modal-list">
+        <div class="promo-modal-item" *ngFor="let promo of promos">
+            <img *ngIf="promo.imageBase64" [src]="'data:image/png;base64,' + promo.imageBase64" alt="Promo Image"
+                style="width:48px;height:48px;object-fit:cover;border-radius:6px;margin-right:1rem;" />
+            <div class="promo-modal-item-info">
+                <div class="promo-modal-item-title">{{ promo.brandItemName }}</div>
+                <div class="promo-modal-item-desc">
+                    {{ promo.price | currency:'PHP':'symbol':'1.2-2' }} &bull; {{ promo.unit }}
+                </div>
+            </div>
+            <button class="promo-modal-add-btn" *ngIf="!addedPromoIds.includes(promo.promoId)"
+                (click)="addPromoToAnnouncement(promo)">
+                Add
+            </button>
+            <button class="promo-modal-add-btn" style="background:#eee;color:#b61624;"
+                *ngIf="addedPromoIds.includes(promo.promoId)" (click)="removePromoFromAnnouncement(promo)">
+                Remove
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="delete-modal-backdrop" *ngIf="showDeleteModal" (click)="closeDeleteModal()"></div>
+<div class="delete-modal" *ngIf="showDeleteModal">
+    <div class="delete-modal-content">
+        <div class="delete-modal-title">Delete Announcement</div>
+        <div class="delete-modal-message">
+            Are you sure you want to delete "<b>{{ announcementToDelete?.title }}</b>"?
+        </div>
+        <div class="delete-modal-actions">
+            <button class="delete-modal-btn" (click)="confirmDeleteAnnouncement()">Yes</button>
+            <button class="delete-modal-btn cancel" (click)="closeDeleteModal()">Cancel</button>
         </div>
     </div>
 </div>

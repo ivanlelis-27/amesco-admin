@@ -178,13 +178,25 @@ export class ApiService {
   getPromoGroups() {
     return this.http.get<any[]>(`${this.baseUrl}/promogroups`);
   }
-  
+
   createAnnouncement(formData: FormData) {
     return this.http.post(`${this.baseUrl}/announcements/create`, formData);
   }
 
   getAllAnnouncements() {
     return this.http.get<any[]>(`${this.baseUrl}/announcements`);
+  }
+
+  editAnnouncementIndex(announcementId: number, sortIndex: number | null) {
+    return this.http.put(
+      `${this.baseUrl}/announcements/edit-index/${announcementId}`,
+      sortIndex,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
+  deleteAnnouncement(id: number) {
+    return this.http.delete(`${this.baseUrl}/announcements/${id}`);
   }
 
   uploadPromo(formData: FormData) {
