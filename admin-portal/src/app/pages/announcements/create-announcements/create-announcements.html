@@ -1,29 +1,45 @@
 <div class="announcements-page">
     <div class="announcements-left-column">
         <div class="announcement-cards-header">
-            <span class="announcement-cards-count">5/10</span>
+            <span class="announcement-cards-count">{{ announcements.length }}/10</span>
         </div>
         <div class="announcement-cards-scroll-container">
             <div class="announcement-cards-row" tabindex="0">
-                <div class="announcement-card" *ngFor="let card of cards">
+                <div class="announcement-card" *ngFor="let ann of announcements">
+                    <ng-container *ngIf="ann.imageBase64; else noImage">
+                        <img [src]="'data:image/png;base64,' + ann.imageBase64" alt="Announcement Image"
+                            style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
+                    </ng-container>
+                    <ng-template #noImage>
+                        <div style="color:#ccc;text-align:center;">No Image</div>
+                    </ng-template>
                 </div>
             </div>
         </div>
-        <!-- Add this container just below the cards container -->
         <div class="announcement-toolbar-bar">
             <div class="toolbar-left">
                 <button class="toolbar-btn"><span class="icon">&#8942;</span> 0</button>
                 <button class="toolbar-btn"><span class="icon" style="color:#b61624;">&#9776;+</span></button>
             </div>
-            <div class="toolbar-right">
-                <button class="toolbar-btn"><span class="icon" style="color:#b61624;">&#8595;</span></button>
+            <div class="toolbar-right" style="position:relative;">
+                <button class="toolbar-btn" (click)="togglePromoDropdown()">
+                    <ion-icon name="caret-down-outline"></ion-icon>
+                    <span *ngIf="selectedPromoGroup">{{ selectedPromoGroup }}</span>
+                </button>
+                <div class="promo-dropdown" *ngIf="showPromoDropdown">
+                    <div class="promo-dropdown-item" *ngFor="let group of promoGroups"
+                        (click)="selectPromoGroup(group.name)">
+                        {{ group.name }}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="announcement-form-bar">
-            <input type="text" class="announcement-title-input" placeholder="Title *" />
+            <input type="text" class="announcement-title-input" placeholder="Title *" [(ngModel)]="title" />
         </div>
         <div style="display: flex; gap: 1rem; align-items: flex-start;">
-            <textarea class="announcement-description-input" placeholder="Subtitle/Description"></textarea>
+            <textarea class="announcement-description-input" placeholder="Subtitle/Description"
+                [(ngModel)]="description"></textarea>
             <div class="announcement-image-container" (click)="onImageContainerClick()">
                 <input type="file" accept="image/*" style="display:none;" #imageInput
                     (change)="onImageSelected($event)" />
@@ -37,7 +53,7 @@
                 </ng-template>
             </div>
         </div>
-        <button class="announcement-save-btn">Save</button>
+        <button class="announcement-save-btn" (click)="saveAnnouncement()">Save</button>
     </div>
     <div class="announcements-right-column">
         <div class="announcement-preview-header">Live Preview</div>

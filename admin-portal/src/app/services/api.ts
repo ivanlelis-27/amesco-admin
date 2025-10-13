@@ -175,6 +175,18 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/transactions`);
   }
 
+  getPromoGroups() {
+    return this.http.get<any[]>(`${this.baseUrl}/promogroups`);
+  }
+  
+  createAnnouncement(formData: FormData) {
+    return this.http.post(`${this.baseUrl}/announcements/create`, formData);
+  }
+
+  getAllAnnouncements() {
+    return this.http.get<any[]>(`${this.baseUrl}/announcements`);
+  }
+
   uploadPromo(formData: FormData) {
     return this.http.post(`${this.baseUrl}/promos/upload`, formData);
   }
