@@ -10,6 +10,7 @@ import { ApiService } from '../../services/api';
 })
 export class AccessMgmt implements OnInit {
   users: any[] = [];
+  activeTab: 'users' | 'contact' = 'users';
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -20,5 +21,9 @@ export class AccessMgmt implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  setTab(tab: 'users' | 'contact') {
+    this.activeTab = tab;
   }
 }

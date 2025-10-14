@@ -215,6 +215,14 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/promos/with-group`);
   }
 
+  getHeadOffice() {
+    return this.http.get<any>(`${this.baseUrl}/branches/head-office`);
+  }
+
+  updateHeadOffice(branch: any) {
+    return this.http.put(`${this.baseUrl}/branches/head-office`, branch);
+  }
+
   createNotification(formData: FormData) {
     return this.http.post(`${this.baseUrl}/notifications/create`, formData);
   }

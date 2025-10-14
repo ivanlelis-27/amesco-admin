@@ -3,11 +3,11 @@
     <div class="access-content">
         <app-header></app-header>
         <div class="access-tabs-bar">
-            <div class="tab active">Users</div>
-            <div class="tab">Contact Us</div>
-            <div class="tab records">Records: 2</div>
+            <div class="tab" [class.active]="activeTab === 'users'" (click)="setTab('users')">Users</div>
+            <div class="tab" [class.active]="activeTab === 'contact'" (click)="setTab('contact')">Contact Us</div>
+            <div class="tab records">Records: {{ users.length }}</div>
         </div>
-        <div class="access-main">
+        <div *ngIf="activeTab === 'users'" class="access-main">
             <div class="access-card">
                 <div class="access-card-header">
                     <input class="access-search" type="text" placeholder="Search user..." />
@@ -29,10 +29,14 @@
                         <div class="access-table-col">{{ user.branchID ? user.branchID : '' }}</div>
                         <div class="access-table-col">{{ user.email }}</div>
                         <div class="access-table-col">{{ user.lastLogin ? (user.lastLogin | date:'dd/MM/yyyy HH:mm') :
-                            '' }}</div>
+                            '' }}
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div *ngIf="activeTab === 'contact'" class="access-contact-main">
+            <app-contact-us></app-contact-us>
         </div>
     </div>
 </div>

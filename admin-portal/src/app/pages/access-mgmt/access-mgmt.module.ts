@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { AccessMgmt } from './access-mgmt';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ContactUsModule } from './contact-us/contact-us.module';
 
 @NgModule({
     declarations: [AccessMgmt],
@@ -15,6 +16,7 @@ import { FormsModule } from '@angular/forms';
         FormsModule,
         SidebarComponent,
         HeaderComponent,
+        ContactUsModule,
         IonicModule,
         NgIf,
         NgFor,
