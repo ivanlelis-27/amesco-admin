@@ -2,10 +2,10 @@
     <app-sidebar></app-sidebar>
     <div class="access-content">
         <app-header></app-header>
-        <div class="access-tabs-bar">
+        <div class="access-tabs-bar" [class.contact-selected]="activeTab === 'contact'">
             <div class="tab" [class.active]="activeTab === 'users'" (click)="setTab('users')">Users</div>
             <div class="tab" [class.active]="activeTab === 'contact'" (click)="setTab('contact')">Contact Us</div>
-            <div class="tab records">Records: {{ users.length }}</div>
+            <div class="tab records" *ngIf="activeTab === 'users'">Records: {{ users.length }}</div>
         </div>
         <div *ngIf="activeTab === 'users'" class="access-main">
             <div class="access-card">

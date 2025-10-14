@@ -18,6 +18,7 @@
 }
 
 .contact-us-title {
+    position: relative;
     font-size: 2rem;
     font-weight: 700;
     color: #b61624;
@@ -32,7 +33,18 @@
     box-sizing: border-box;
 }
 
-.contact-us-edit-btn {
+.contact-us-title-actions {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 0.5rem;
+}
+
+.contact-us-edit-btn,
+.contact-us-save-btn,
+.contact-us-cancel-btn {
     margin-left: 1rem;
     background: #fff;
     color: #b61624;
@@ -45,34 +57,23 @@
     transition: background 0.2s, color 0.2s;
 }
 
-.contact-us-edit-btn:hover {
-    background: #b61624;
-    color: #fff;
-}
-
-.contact-us-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.contact-us-save-btn,
-.contact-us-cancel-btn {
+.contact-us-save-btn {
     background: #b61624;
     color: #fff;
     border: none;
-    border-radius: 6px;
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
+}
+
+.contact-us-save-btn:hover,
+.contact-us-edit-btn:hover {
+    background: #b61624;
+    color: #fff;
 }
 
 .contact-us-cancel-btn {
     background: #eee;
     color: #222;
     border: 1px solid #ccc;
+    margin-left: 0.5rem;
 }
 
 .contact-us-cancel-btn:hover {

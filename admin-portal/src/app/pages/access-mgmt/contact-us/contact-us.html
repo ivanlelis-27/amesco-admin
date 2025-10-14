@@ -5,7 +5,15 @@
         <div class="contact-us-title">
             <ion-icon name="business-outline" class="contact-us-icon"></ion-icon>
             {{ headOffice.branchName || 'Head Office' }}
-            <button class="contact-us-edit-btn" *ngIf="!editing" (click)="startEdit()">Edit</button>
+            <span class="contact-us-title-actions">
+                <ng-container *ngIf="!editing">
+                    <button class="contact-us-edit-btn" (click)="startEdit()">Edit</button>
+                </ng-container>
+                <ng-container *ngIf="editing">
+                    <button type="button" class="contact-us-save-btn" (click)="saveEdit()">Save</button>
+                    <button type="button" class="contact-us-cancel-btn" (click)="cancelEdit()">Cancel</button>
+                </ng-container>
+            </span>
         </div>
         <form class="contact-us-form" (ngSubmit)="saveEdit()" autocomplete="off">
             <div class="contact-us-row">
@@ -64,6 +72,7 @@
                     <input id="endDay" class="contact-us-input" type="text" [(ngModel)]="editModel.endDay"
                         name="endDay" />
                 </div>
+                <!--Hidden Fields
                 <div class="contact-us-row">
                     <label class="contact-us-label" for="latitude">Latitude:</label>
                     <input id="latitude" class="contact-us-input" type="number" [(ngModel)]="editModel.latitude"
@@ -74,10 +83,7 @@
                     <input id="longitude" class="contact-us-input" type="number" [(ngModel)]="editModel.longitude"
                         name="longitude" step="any" />
                 </div>
-                <div class="contact-us-actions">
-                    <button type="submit" class="contact-us-save-btn">Save</button>
-                    <button type="button" class="contact-us-cancel-btn" (click)="cancelEdit()">Cancel</button>
-                </div>
+                -->
             </ng-container>
         </form>
     </div>

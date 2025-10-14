@@ -79,13 +79,19 @@
     content: '';
     display: block;
     height: 4px;
-    width: 40px;
+    width: 3rem; // default width
     background: #00d2e0;
     position: absolute;
     left: 0;
     bottom: -1px;
     border-radius: 2px;
+    transition: width 0.2s;
 }
+
+.access-tabs-bar.contact-selected .tab.active::after {
+    width: 5.5rem; // wider underline when Contact Us is active
+}
+
 
 .access-tabs-bar .tab.records {
     margin-left: auto;

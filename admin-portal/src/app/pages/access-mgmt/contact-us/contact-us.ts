@@ -45,7 +45,21 @@ export class ContactUs implements OnInit {
   }
 
   saveEdit() {
-    this.api.updateHeadOffice(this.editModel).subscribe({
+    // Map frontend fields to backend expected fields
+    const payload = {
+      BranchName: this.editModel.branchName || this.headOffice.branchName,
+      Address: this.editModel.address,
+      Contact: this.editModel.contact,
+      Latitude: this.editModel.latitude,
+      Longitude: this.editModel.longitude,
+      StartDay: this.formatDay(this.editModel.startDay),
+      EndDay: this.formatDay(this.editModel.endDay),
+      OpenTime: this.formatTime(this.editModel.openTime),
+      CloseTime: this.formatTime(this.editModel.closeTime),
+      Email: this.editModel.email
+    };
+
+    this.api.updateHeadOffice(payload).subscribe({
       next: (data) => {
         this.headOffice = data;
         this.editing = false;
@@ -55,6 +69,26 @@ export class ContactUs implements OnInit {
         alert('Failed to update head office.');
       }
     });
+  }
+
+  // Helper to format time as "HH:mm"
+  formatTime(time: string): string {
+    if (!time) return '';
+    // If time is already "HH:mm", return as is
+    if (/^\d{2}:\d{2}$/.test(time)) return time;
+    // If time is "HH:mm:ss", trim to "HH:mm"
+    if (/^\d{2}:\d{2}:\d{2}$/.test(time)) return time.slice(0, 5);
+    return time;
+  }
+
+  // Helper to format day as full day name
+  formatDay(day: string): string {
+    if (!day) return '';
+    const daysMap: any = {
+      Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday', Thu: 'Thursday',
+      Fri: 'Friday', Sat: 'Saturday', Sun: 'Sunday'
+    };
+    return daysMap[day] || day;
   }
 
   openMapModal() {
@@ -138,11 +172,18 @@ export class ContactUs implements OnInit {
   // Save location to address field (not DB)
   saveMapLocation() {
     const geocoder = new google.maps.Geocoder();
-    const latlng = { lat: this.editModel.latitude, lng: this.editModel.longitude };
+    const latlng = { lat: this.mapMarker.getPosition().lat(), lng: this.mapMarker.getPosition().lng() };
+
     geocoder.geocode({ location: latlng }, (results: any, status: any) => {
+      // Always update lat/lng from marker position
+      this.editModel.latitude = latlng.lat;
+      this.editModel.longitude = latlng.lng;
+
       if (status === 'OK' && results[0]) {
         this.editModel.address = results[0].formatted_address;
       }
+      // Instantly close modal and update fields
+      this.cdr.detectChanges();
       this.closeMapModal();
     });
   }
