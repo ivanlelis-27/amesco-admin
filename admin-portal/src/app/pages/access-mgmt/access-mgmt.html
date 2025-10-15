@@ -165,8 +165,13 @@
         </div>
         <div class="reset-password-modal-actions">
             <button class="add-user-modal-cancel-btn" (click)="closeResetPasswordModal()">Cancel</button>
-            <button class="add-user-modal-save-btn" [disabled]="!selectedResetUser" (click)="resetPassword()">Reset
-                Password</button>
+            <button class="add-user-modal-save-btn" [disabled]="!selectedResetUser || resetLoading"
+                (click)="resetPassword()">
+                <ng-container *ngIf="!resetLoading">Reset Password</ng-container>
+                <ng-container *ngIf="resetLoading">
+                    <span class="spinner"></span>
+                </ng-container>
+            </button>
         </div>
     </div>
 </div>

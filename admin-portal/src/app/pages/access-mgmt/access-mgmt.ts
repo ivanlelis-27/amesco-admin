@@ -38,6 +38,7 @@ export class AccessMgmt implements OnInit {
   filteredResetUsers: any[] = [];
   showResetUserSuggestions = false;
   selectedResetUser: any = null;
+  resetLoading = false;
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -174,7 +175,7 @@ export class AccessMgmt implements OnInit {
       branch: this.getBranchName(user.branchID),
       branchObj: this.branches.find(b => b.branchID === user.branchID),
       email: user.email,
-      userID: user.userID // or whatever unique ID you use
+      userID: user.userID
     };
     this.editFilteredBranches = this.branches;
   }
@@ -212,9 +213,8 @@ export class AccessMgmt implements OnInit {
       Email: this.editUser.email,
       Role: this.editUser.role,
       BranchID: this.editUser.branchObj ? this.editUser.branchObj.branchID : null,
-      UserID: this.editUser.userID // adjust to your backend requirements
+      UserID: this.editUser.userID
     };
-    // Call your update API here
     this.api.updateAccessUser(payload).subscribe({
       next: () => {
         this.api.getAccessUsers().subscribe({
@@ -267,11 +267,22 @@ export class AccessMgmt implements OnInit {
   }
 
   resetPassword() {
-    if (!this.selectedResetUser) return;
-    // TODO: Call your API to reset password for selectedResetUser.userID
-    // Example:
-    // this.api.resetUserPassword(this.selectedResetUser.userID).subscribe({...});
-    this.closeResetPasswordModal();
-    alert(`Password reset for ${this.selectedResetUser.fullName}`);
+    if (!this.selectedResetUser || this.resetLoading) return;
+    this.resetLoading = true;
+    this.api.resetUserPassword(this.selectedResetUser.email).subscribe({
+      next: (res: any) => {
+        this.resetLoading = false;
+        setTimeout(() => {
+          if (window.confirm(res.message || 'Temporary password sent to user\'s email.')) {
+            this.closeResetPasswordModal();
+            this.cdr.detectChanges();
+          }
+        }, 100);
+      },
+      error: (err) => {
+        this.resetLoading = false;
+        alert(err.error?.message || 'Failed to reset password.');
+      }
+    });
   }
 }

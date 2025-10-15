@@ -239,6 +239,11 @@ export class ApiService {
       }
     );
   }
+
+  resetUserPassword(email: string) {
+    return this.http.post(`${this.baseUrl}/accesscontrol/reset-password`, { Email: email });
+  }
+
   createNotification(formData: FormData) {
     return this.http.post(`${this.baseUrl}/notifications/create`, formData);
   }
