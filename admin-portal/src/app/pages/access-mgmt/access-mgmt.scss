@@ -123,16 +123,72 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
+.access-search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
 .access-search {
     flex: 1;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
-    padding: 0.7rem 1.2rem;
+    padding: 0.7rem 9rem 0.7rem 1.2rem; // extra right padding for button container
     border-radius: 24px;
-    border: none;
+    border: 0.5px solid #dbdbdb;
     background: #f5f5f5;
     outline: none;
-    margin-right: 1rem;
+    margin-right: 0;
+}
+
+.access-search-dropdown-btn-container {
+    position: absolute;
+    right: 0.3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #e0e0e0;
+    padding: 0.3rem 1.2rem 0.3rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #b61624;
+    z-index: 2;
+}
+
+.access-search-dropdown-selected {
+    font-weight: 500;
+    color: #222;
+    margin-right: 0.3rem;
+}
+
+.access-search-dropdown {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    min-width: 140px;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.access-search-dropdown-item {
+    padding: 0.7rem 1.2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #222;
+    transition: background 0.15s;
+}
+
+.access-search-dropdown-item:hover {
+    background: #f5f5f5;
 }
 
 .access-btn {
@@ -206,4 +262,146 @@
     text-align: left;
     padding: 0 0.5rem;
     min-width: 120px;
+}
+
+.add-user-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.18);
+    z-index: 1001;
+}
+
+.add-user-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.13);
+    z-index: 1002;
+    min-width: 340px;
+    max-width: 96vw;
+    width: 400px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-user-modal-header {
+    padding: 1rem 1.5rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #b61624;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-user-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.7rem;
+    color: #b61624;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.add-user-modal-form {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.add-user-modal-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.add-user-modal-row label {
+    font-weight: 500;
+    color: #444;
+    font-size: 1rem;
+}
+
+.add-user-modal-row input,
+.add-user-modal-row select {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    background: #f7f7fa;
+    outline: none;
+}
+
+.add-user-modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    justify-content: flex-end;
+}
+
+.add-user-modal-save-btn {
+    background: #b61624;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.add-user-modal-cancel-btn {
+    background: #eee;
+    color: #222;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.add-user-modal-cancel-btn:hover {
+    background: #ccc;
+}
+
+.branch-autocomplete-input {
+    position: relative;
+    z-index: 2;
+}
+
+.branch-autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.branch-autocomplete-item {
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #222;
+    transition: background 0.15s;
+}
+
+.branch-autocomplete-item:hover {
+    background: #f5f5f5;
 }

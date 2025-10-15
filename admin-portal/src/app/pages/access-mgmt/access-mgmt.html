@@ -10,8 +10,20 @@
         <div *ngIf="activeTab === 'users'" class="access-main">
             <div class="access-card">
                 <div class="access-card-header">
-                    <input class="access-search" type="text" placeholder="Search user..." />
-                    <button class="access-btn add">ADD USER</button>
+                    <div class="access-search-wrapper">
+                        <input class="access-search" type="text" placeholder="Search user..." />
+                        <div class="access-search-dropdown-btn-container" (click)="toggleRoleDropdown()">
+                            <span class="access-search-dropdown-selected">{{ selectedRole }}</span>
+                            <ion-icon name="chevron-down-outline"></ion-icon>
+                        </div>
+                        <div class="access-search-dropdown" *ngIf="showRoleDropdown">
+                            <div class="access-search-dropdown-item" *ngFor="let role of roles"
+                                (click)="selectRole(role)">
+                                {{ role }}
+                            </div>
+                        </div>
+                    </div>
+                    <button class="access-btn add" (click)="openAddUserModal()">ADD USER</button>
                     <button class="access-btn edit">EDIT USER</button>
                     <button class="access-btn reset">RESET PASSWORD</button>
                 </div>
@@ -39,4 +51,54 @@
             <app-contact-us></app-contact-us>
         </div>
     </div>
+</div>
+
+<!-- Add User Modal -->
+<div class="add-user-modal-backdrop" *ngIf="showAddUserModal" (click)="closeAddUserModal()"></div>
+<div class="add-user-modal" *ngIf="showAddUserModal">
+    <div class="add-user-modal-header">
+        <span>Add User</span>
+        <button class="add-user-modal-close" (click)="closeAddUserModal()">&times;</button>
+    </div>
+    <form class="add-user-modal-form" (ngSubmit)="submitAddUser()" autocomplete="off">
+        <div class="add-user-modal-row">
+            <label for="firstName">First Name</label>
+            <input id="firstName" [(ngModel)]="newUser.firstName" name="firstName" required />
+        </div>
+        <div class="add-user-modal-row">
+            <label for="lastName">Last Name</label>
+            <input id="lastName" [(ngModel)]="newUser.lastName" name="lastName" required />
+        </div>
+        <div class="add-user-modal-row">
+            <label for="role">Role</label>
+            <select id="role" [(ngModel)]="newUser.role" name="role" required>
+                <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+            </select>
+        </div>
+        <div class="add-user-modal-row" style="position:relative;">
+            <label for="branch">Branch</label>
+            <input id="branch" [(ngModel)]="newUser.branch" name="branch" required
+                (input)="onBranchInput($event.target.value)" (focus)="showBranchSuggestions = true"
+                (blur)="hideBranchSuggestions()" autocomplete="off" class="branch-autocomplete-input" />
+            <div class="branch-autocomplete-list" *ngIf="showBranchSuggestions && filteredBranches.length > 0">
+                <div class="branch-autocomplete-item" *ngFor="let branch of filteredBranches"
+                    (mousedown)="selectBranch(branch)">
+                    <span [style.opacity]="branch.branchName === newUser.branch ? 0.5 : 1">{{ branch.branchName
+                        }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="add-user-modal-row">
+            <label for="email">Email</label>
+            <input id="email" type="email" [(ngModel)]="newUser.email" name="email" required />
+        </div>
+        <div class="add-user-modal-row">
+            <label for="password">Password</label>
+            <input id="password" type="password" [(ngModel)]="newUser.password" name="password" required />
+        </div>
+        <div class="add-user-modal-actions">
+            <button type="submit" class="add-user-modal-save-btn">Save</button>
+            <button type="button" class="add-user-modal-cancel-btn" (click)="closeAddUserModal()">Cancel</button>
+        </div>
+    </form>
 </div>

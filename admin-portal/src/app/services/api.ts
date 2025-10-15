@@ -223,6 +223,10 @@ export class ApiService {
     return this.http.put(`${this.baseUrl}/branches/head-office`, branch);
   }
 
+  addAccessUser(request: any) {
+    return this.http.post(`${this.baseUrl}/accesscontrol`, request);
+  }
+
   createNotification(formData: FormData) {
     return this.http.post(`${this.baseUrl}/notifications/create`, formData);
   }
