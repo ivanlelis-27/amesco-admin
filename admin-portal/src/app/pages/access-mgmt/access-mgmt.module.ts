@@ -8,22 +8,24 @@ import { AccessMgmt } from './access-mgmt';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ContactUsModule } from './contact-us/contact-us.module';
+import { CdkAutofill } from "@angular/cdk/text-field";
 
 @NgModule({
     declarations: [AccessMgmt],
     imports: [
-        CommonModule,
-        FormsModule,
-        SidebarComponent,
-        HeaderComponent,
-        ContactUsModule,
-        IonicModule,
-        NgIf,
-        NgFor,
-        RouterModule.forChild([
-            { path: '', component: AccessMgmt }
-        ])
-    ],
+    CommonModule,
+    FormsModule,
+    SidebarComponent,
+    HeaderComponent,
+    ContactUsModule,
+    IonicModule,
+    NgIf,
+    NgFor,
+    RouterModule.forChild([
+        { path: '', component: AccessMgmt }
+    ]),
+    CdkAutofill
+],
     providers: [DatePipe]
 })
 export class AccessMgmtModule { }

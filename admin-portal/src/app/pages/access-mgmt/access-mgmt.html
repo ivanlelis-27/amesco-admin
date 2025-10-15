@@ -25,7 +25,7 @@
                     </div>
                     <button class="access-btn add" (click)="openAddUserModal()">ADD USER</button>
                     <button class="access-btn edit" (click)="toggleTableEditMode()">EDIT USER</button>
-                    <button class="access-btn reset">RESET PASSWORD</button>
+                    <button class="access-btn reset" (click)="openResetPasswordModal()">RESET PASSWORD</button>
                 </div>
                 <div class="access-card-body">
                     <div class="access-table-header">
@@ -142,4 +142,31 @@
             <button type="button" class="add-user-modal-cancel-btn" (click)="closeAddUserModal()">Cancel</button>
         </div>
     </form>
+</div>
+
+<!-- Reset Password Modal -->
+<div class="reset-password-modal-backdrop" *ngIf="showResetPasswordModal" (click)="closeResetPasswordModal()"></div>
+<div class="reset-password-modal" *ngIf="showResetPasswordModal">
+    <div class="reset-password-modal-header">
+        <span>Reset Password</span>
+        <button class="reset-password-modal-close" (click)="closeResetPasswordModal()">&times;</button>
+    </div>
+    <div class="reset-password-modal-body">
+        <div class="reset-password-search-wrapper">
+            <input class="reset-password-search" type="text" placeholder="Search user..." [(ngModel)]="resetSearch"
+                (input)="onResetUserInput(resetSearch)" (focus)="showResetUserSuggestions = true"
+                (blur)="hideResetUserSuggestions()" autocomplete="off" />
+            <div class="reset-user-autocomplete-list" *ngIf="showResetUserSuggestions && filteredResetUsers.length > 0">
+                <div class="reset-user-autocomplete-item" *ngFor="let user of filteredResetUsers"
+                    (mousedown)="selectResetUser(user)">
+                    <span [style.opacity]="user.fullName === resetSearch ? 0.5 : 1">{{ user.fullName }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="reset-password-modal-actions">
+            <button class="add-user-modal-cancel-btn" (click)="closeResetPasswordModal()">Cancel</button>
+            <button class="add-user-modal-save-btn" [disabled]="!selectedResetUser" (click)="resetPassword()">Reset
+                Password</button>
+        </div>
+    </div>
 </div>

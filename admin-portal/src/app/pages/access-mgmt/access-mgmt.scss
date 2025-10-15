@@ -411,3 +411,105 @@
     max-height: calc(100vh - 56px);
     padding-bottom: 5rem;
 }
+
+.reset-password-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.18);
+    z-index: 1001;
+}
+
+.reset-password-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.13);
+    z-index: 1002;
+    min-width: 340px;
+    max-width: 96vw;
+    width: 400px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.reset-password-modal-header {
+    padding: 1rem 1.5rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #b61624;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reset-password-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.7rem;
+    color: #b61624;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.reset-password-modal-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.reset-password-search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.reset-password-search {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid #e0e0e0;
+    background: #f5f5f5;
+    outline: none;
+}
+
+.reset-user-autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.reset-user-autocomplete-item {
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #222;
+    transition: background 0.15s;
+}
+
+.reset-user-autocomplete-item:hover {
+    background: #f5f5f5;
+}
+
+.reset-password-modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    justify-content: flex-end;
+}

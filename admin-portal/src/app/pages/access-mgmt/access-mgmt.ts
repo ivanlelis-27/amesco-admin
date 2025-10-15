@@ -33,6 +33,11 @@ export class AccessMgmt implements OnInit {
   editUser: any = null;
   showEditBranchSuggestions = false;
   editFilteredBranches: any[] = [];
+  showResetPasswordModal = false;
+  resetSearch = '';
+  filteredResetUsers: any[] = [];
+  showResetUserSuggestions = false;
+  selectedResetUser: any = null;
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -225,5 +230,48 @@ export class AccessMgmt implements OnInit {
         alert('Failed to update user.');
       }
     });
+  }
+
+  openResetPasswordModal() {
+    this.showResetPasswordModal = true;
+    this.resetSearch = '';
+    this.filteredResetUsers = this.users;
+    this.selectedResetUser = null;
+  }
+
+  closeResetPasswordModal() {
+    this.showResetPasswordModal = false;
+    this.resetSearch = '';
+    this.filteredResetUsers = [];
+    this.selectedResetUser = null;
+  }
+
+  onResetUserInput(value: string) {
+    const val = value.toLowerCase();
+    this.filteredResetUsers = this.users.filter(u =>
+      u.fullName.toLowerCase().includes(val)
+    );
+    this.showResetUserSuggestions = true;
+  }
+
+  selectResetUser(user: any) {
+    this.resetSearch = user.fullName;
+    this.selectedResetUser = user;
+    this.showResetUserSuggestions = false;
+  }
+
+  hideResetUserSuggestions() {
+    setTimeout(() => {
+      this.showResetUserSuggestions = false;
+    }, 150);
+  }
+
+  resetPassword() {
+    if (!this.selectedResetUser) return;
+    // TODO: Call your API to reset password for selectedResetUser.userID
+    // Example:
+    // this.api.resetUserPassword(this.selectedResetUser.userID).subscribe({...});
+    this.closeResetPasswordModal();
+    alert(`Password reset for ${this.selectedResetUser.fullName}`);
   }
 }
