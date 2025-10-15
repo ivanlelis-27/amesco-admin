@@ -27,6 +27,12 @@ export class AccessMgmt implements OnInit {
   branches: any[] = [];
   filteredBranches: any[] = [];
   showBranchSuggestions = false;
+  filteredUsers: any[] = [];
+  tableEditMode = false;
+  editingUserIndex: number | null = null;
+  editUser: any = null;
+  showEditBranchSuggestions = false;
+  editFilteredBranches: any[] = [];
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -34,6 +40,7 @@ export class AccessMgmt implements OnInit {
     this.api.getAccessUsers().subscribe({
       next: (res) => {
         this.users = res;
+        this.filterUsers();
         this.cdr.detectChanges();
       }
     });
@@ -50,6 +57,11 @@ export class AccessMgmt implements OnInit {
     this.activeTab = tab;
   }
 
+  getBranchName(branchID: number): string {
+    const branch = this.branches.find(b => b.branchID === branchID);
+    return branch ? branch.branchName : '';
+  }
+
   toggleRoleDropdown() {
     this.showRoleDropdown = !this.showRoleDropdown;
   }
@@ -57,6 +69,15 @@ export class AccessMgmt implements OnInit {
   selectRole(role: string) {
     this.selectedRole = role;
     this.showRoleDropdown = false;
+    this.filterUsers();
+  }
+
+  filterUsers() {
+    if (this.selectedRole === 'All') {
+      this.filteredUsers = this.users;
+    } else {
+      this.filteredUsers = this.users.filter(u => u.role === this.selectedRole);
+    }
   }
 
   openAddUserModal() {
@@ -109,11 +130,99 @@ export class AccessMgmt implements OnInit {
     this.api.addAccessUser(payload).subscribe({
       next: (user) => {
         this.closeAddUserModal();
-        // Optionally refresh users list here
+        this.api.getAccessUsers().subscribe({
+          next: (res) => {
+            this.users = res;
+            this.filterUsers();
+            this.cdr.detectChanges();
+          }
+        });
       },
       error: () => {
-        this.closeAddUserModal(); // Optionally close modal on error
+        this.closeAddUserModal();
         alert('Failed to add user.');
+        this.api.getAccessUsers().subscribe({
+          next: (res) => {
+            this.users = res;
+            this.filterUsers();
+            this.cdr.detectChanges();
+          }
+        });
+      }
+    });
+  }
+
+  toggleTableEditMode() {
+    this.tableEditMode = !this.tableEditMode;
+    this.cancelEditUser(); // Exit any row edit when toggling
+  }
+
+  startEditUser(index: number) {
+    this.editingUserIndex = index;
+    const user = this.filteredUsers[index];
+    // Split fullName into first and last name
+    const [firstName, ...lastNameArr] = user.fullName.split(' ');
+    this.editUser = {
+      firstName: firstName,
+      lastName: lastNameArr.join(' '),
+      role: user.role,
+      branch: this.getBranchName(user.branchID),
+      branchObj: this.branches.find(b => b.branchID === user.branchID),
+      email: user.email,
+      userID: user.userID // or whatever unique ID you use
+    };
+    this.editFilteredBranches = this.branches;
+  }
+
+  cancelEditUser() {
+    this.editingUserIndex = null;
+    this.editUser = null;
+    this.showEditBranchSuggestions = false;
+  }
+
+  onEditBranchInput(value: string) {
+    const val = value.toLowerCase();
+    this.editFilteredBranches = this.branches.filter(b =>
+      b.branchName.toLowerCase().includes(val)
+    );
+    this.showEditBranchSuggestions = true;
+  }
+
+  selectEditBranch(branch: any) {
+    this.editUser.branch = branch.branchName;
+    this.editUser.branchObj = branch;
+    this.showEditBranchSuggestions = false;
+  }
+
+  hideEditBranchSuggestions() {
+    setTimeout(() => {
+      this.showEditBranchSuggestions = false;
+    }, 150);
+  }
+
+  saveEditUser(index: number) {
+    const payload = {
+      FirstName: this.editUser.firstName,
+      LastName: this.editUser.lastName,
+      Email: this.editUser.email,
+      Role: this.editUser.role,
+      BranchID: this.editUser.branchObj ? this.editUser.branchObj.branchID : null,
+      UserID: this.editUser.userID // adjust to your backend requirements
+    };
+    // Call your update API here
+    this.api.updateAccessUser(payload).subscribe({
+      next: () => {
+        this.api.getAccessUsers().subscribe({
+          next: (res) => {
+            this.users = res;
+            this.filterUsers();
+            this.cdr.detectChanges();
+            this.cancelEditUser();
+          }
+        });
+      },
+      error: () => {
+        alert('Failed to update user.');
       }
     });
   }

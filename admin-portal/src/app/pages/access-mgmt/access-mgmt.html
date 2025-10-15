@@ -7,7 +7,7 @@
             <div class="tab" [class.active]="activeTab === 'contact'" (click)="setTab('contact')">Contact Us</div>
             <div class="tab records" *ngIf="activeTab === 'users'">Records: {{ users.length }}</div>
         </div>
-        <div *ngIf="activeTab === 'users'" class="access-main">
+        <div *ngIf="activeTab === 'users'" class="access-main" [class.edit-scrollable]="tableEditMode">
             <div class="access-card">
                 <div class="access-card-header">
                     <div class="access-search-wrapper">
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <button class="access-btn add" (click)="openAddUserModal()">ADD USER</button>
-                    <button class="access-btn edit">EDIT USER</button>
+                    <button class="access-btn edit" (click)="toggleTableEditMode()">EDIT USER</button>
                     <button class="access-btn reset">RESET PASSWORD</button>
                 </div>
                 <div class="access-card-body">
@@ -33,16 +33,57 @@
                         <div class="access-table-col">ROLE</div>
                         <div class="access-table-col">BRANCH</div>
                         <div class="access-table-col">EMAIL</div>
-                        <div class="access-table-col">LAST LOGIN</div>
-                    </div>
-                    <div *ngFor="let user of users" class="access-table-row">
-                        <div class="access-table-col">{{ user.fullName }}</div>
-                        <div class="access-table-col">{{ user.role }}</div>
-                        <div class="access-table-col">{{ user.branchID ? user.branchID : '' }}</div>
-                        <div class="access-table-col">{{ user.email }}</div>
-                        <div class="access-table-col">{{ user.lastLogin ? (user.lastLogin | date:'dd/MM/yyyy HH:mm') :
-                            '' }}
+                        <div class="access-table-col">
+                            {{ tableEditMode ? 'ACTIONS' : 'LAST LOGIN' }}
                         </div>
+                    </div>
+                    <div *ngFor="let user of filteredUsers; let i = index" class="access-table-row">
+                        <ng-container *ngIf="editingUserIndex === i; else viewRow">
+                            <div class="access-table-col">
+                                <input [(ngModel)]="editUser.firstName" placeholder="First Name"
+                                    style="width: 48%; margin-right: 4%;" />
+                                <input [(ngModel)]="editUser.lastName" placeholder="Last Name" style="width: 48%;" />
+                            </div>
+                            <div class="access-table-col">
+                                <select [(ngModel)]="editUser.role">
+                                    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+                                </select>
+                            </div>
+                            <div class="access-table-col" style="position:relative;">
+                                <input [(ngModel)]="editUser.branch" (input)="onEditBranchInput($event.target.value)"
+                                    (focus)="showEditBranchSuggestions = true" (blur)="hideEditBranchSuggestions()"
+                                    placeholder="Branch" style="width:100%;" />
+                                <div class="branch-autocomplete-list"
+                                    *ngIf="showEditBranchSuggestions && editFilteredBranches.length > 0">
+                                    <div class="branch-autocomplete-item" *ngFor="let branch of editFilteredBranches"
+                                        (mousedown)="selectEditBranch(branch)">
+                                        <span [style.opacity]="branch.branchName === editUser.branch ? 0.5 : 1">{{
+                                            branch.branchName }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="access-table-col">
+                                <input [(ngModel)]="editUser.email" placeholder="Email" style="width:100%;" />
+                            </div>
+                            <div class="access-table-col">
+                                <button class="add-user-modal-save-btn" (click)="saveEditUser(i)">Save</button>
+                                <button class="add-user-modal-cancel-btn" (click)="cancelEditUser()">Cancel</button>
+                            </div>
+                        </ng-container>
+                        <ng-template #viewRow>
+                            <div class="access-table-col">{{ user.fullName }}</div>
+                            <div class="access-table-col">{{ user.role }}</div>
+                            <div class="access-table-col">{{ getBranchName(user.branchID) }}</div>
+                            <div class="access-table-col">{{ user.email }}</div>
+                            <div class="access-table-col">
+                                <button class="access-btn edit" *ngIf="tableEditMode" (click)="startEditUser(i)">
+                                    EDIT
+                                </button>
+                                <span *ngIf="!tableEditMode">
+                                    {{ user.lastLogin ? (user.lastLogin | date:'dd/MM/yyyy HH:mm') : '' }}
+                                </span>
+                            </div>
+                        </ng-template>
                     </div>
                 </div>
             </div>

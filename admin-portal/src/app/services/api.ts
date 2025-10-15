@@ -227,6 +227,18 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/accesscontrol`, request);
   }
 
+  updateAccessUser(payload: any) {
+    return this.http.patch(
+      `${this.baseUrl}/accesscontrol/${payload.UserID}`,
+      {
+        FirstName: payload.FirstName,
+        LastName: payload.LastName,
+        Email: payload.Email,
+        BranchID: payload.BranchID,
+        Role: payload.Role
+      }
+    );
+  }
   createNotification(formData: FormData) {
     return this.http.post(`${this.baseUrl}/notifications/create`, formData);
   }
