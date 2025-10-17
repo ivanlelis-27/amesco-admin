@@ -45,7 +45,6 @@ export class ContactUs implements OnInit {
   }
 
   saveEdit() {
-    // Map frontend fields to backend expected fields
     const payload = {
       BranchName: this.editModel.branchName || this.headOffice.branchName,
       Address: this.editModel.address,
@@ -169,7 +168,7 @@ export class ContactUs implements OnInit {
     );
   }
 
-  // Save location to address field (not DB)
+  // Save location to address field
   saveMapLocation() {
     const geocoder = new google.maps.Geocoder();
     const latlng = { lat: this.mapMarker.getPosition().lat(), lng: this.mapMarker.getPosition().lng() };

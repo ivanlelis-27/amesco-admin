@@ -54,7 +54,7 @@ export class Promos implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagePreviewUrl = e.target.result;
-        this.cdr.detectChanges(); // Force Angular to update the view
+        this.cdr.detectChanges();
       };
       reader.readAsDataURL(this.selectedImage as File);
     }

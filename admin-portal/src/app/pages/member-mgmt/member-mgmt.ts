@@ -70,7 +70,6 @@ export class MemberMgmt implements OnInit {
   }
 
   openAddMemberModal() {
-    // Reset all fields first
     this.newMember = {
       email: '',
       password: '',
@@ -95,7 +94,6 @@ export class MemberMgmt implements OnInit {
     if (!this.canSave) return;
     this.api.registerMember(this.newMember).subscribe({
       next: (res) => {
-        // Optionally refresh member list here
         this.newMember = {
           email: '',
           password: '',
@@ -106,10 +104,9 @@ export class MemberMgmt implements OnInit {
           memberId: ''
         };
         this.showErrors = false;
-        this.showAddMemberModal = false; // <-- Move this after resetting form
+        this.showAddMemberModal = false; 
       },
       error: (err) => {
-        // Optionally show error message
       }
     });
   }

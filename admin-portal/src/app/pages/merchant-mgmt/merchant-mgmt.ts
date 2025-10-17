@@ -222,7 +222,7 @@ export class MerchantMgmt {
       this.newBranch.startDay = startDay;
       this.newBranch.endDay = endDay;
     }
-    // logs full body for debugging purposes
+    // for debugging purposes
     console.log('Add Branch Body:', this.newBranch);
 
     this.apiService.addBranch(this.newBranch).subscribe({

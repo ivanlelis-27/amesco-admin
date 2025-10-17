@@ -321,5 +321,7 @@ export class ApiService {
   registerMember(request: any) {
     return this.http.post(`${this.baseUrl}/auth/register`, request);
   }
+
+  
 }
 

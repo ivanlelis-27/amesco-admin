@@ -152,7 +152,7 @@ export class Notifications {
     this.api.createNotification(formData).subscribe({
       next: () => {
         alert('Notification created!');
-        this.resetCreateForm(); // <-- Reset form here
+        this.resetCreateForm(); 
         this.loadScheduledNotifications();
       },
       error: err => alert('Failed: ' + (err.error?.message || 'Unknown error'))

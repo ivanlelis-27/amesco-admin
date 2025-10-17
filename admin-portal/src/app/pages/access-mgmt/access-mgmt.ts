@@ -160,7 +160,7 @@ export class AccessMgmt implements OnInit {
 
   toggleTableEditMode() {
     this.tableEditMode = !this.tableEditMode;
-    this.cancelEditUser(); // Exit any row edit when toggling
+    this.cancelEditUser(); 
   }
 
   startEditUser(index: number) {

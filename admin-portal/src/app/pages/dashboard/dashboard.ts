@@ -142,10 +142,9 @@ export class Dashboard implements OnInit {
 
     const selectedLocal = new Date(this.calendarYear, this.calendarMonth, day, 0, 0, 0);
     this.selectedDateAgo = `${this.calendarYear}-${(this.calendarMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-    this.dateAgo = selectedLocal; // Keep as Date object
+    this.dateAgo = selectedLocal;
     this.showCalendar = false;
 
-    // For the API, create a UTC midnight date
     const selectedUTC = new Date(Date.UTC(this.calendarYear, this.calendarMonth, day, 0, 0, 0));
 
     this.updateBranchRanking(selectedUTC, new Date());
@@ -333,7 +332,7 @@ export class Dashboard implements OnInit {
         this.highestRedeemer = {
           name: res.name,
           points: res.pointsRedeemed,
-          location: '', // Add location if your API returns it
+          location: '',
           profileImage: res.profileImage
         };
         this.showRedemptionModal = true;
@@ -362,7 +361,7 @@ export class Dashboard implements OnInit {
       return;
     }
 
-    // Animate fill for each bar (0 to percent)
+    // Animate fill for each bar from 0 to percent
     const total = this.voucherTotal || 1;
     const usedPercent = this.voucherUsed / total;
     const unusedPercent = this.voucherUnused / total;
