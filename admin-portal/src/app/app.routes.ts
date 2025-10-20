@@ -4,13 +4,15 @@ import { MerchantMgmt } from './pages/merchant-mgmt/merchant-mgmt';
 import { MemberMgmt } from './pages/member-mgmt/member-mgmt';
 import { AccessMgmt } from './pages/access-mgmt/access-mgmt';
 import { Announcements } from './pages/announcements/announcements';
+import { Login } from './pages/login/login';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: 'login', component: Login },
   { path: 'dashboard', component: Dashboard },
   { path: 'merchant-mgmt', component: MerchantMgmt },
   { path: 'member-mgmt', component: MemberMgmt },
   { path: 'access-mgmt', component: AccessMgmt },
   { path: 'announcements', component: Announcements },
-  { path: '**', redirectTo: '/dashboard' }
+  { path: '**', redirectTo: '/login' }
 ];
