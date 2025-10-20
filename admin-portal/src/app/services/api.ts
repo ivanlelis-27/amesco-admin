@@ -281,6 +281,12 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/branches`);
   }
 
+  // POST /accesscontrol/login - return full HttpResponse so callers can inspect headers
+  login(email: string, password: string) {
+    const body = { email, password };
+    return this.http.post<any>(`${this.baseUrl}/accesscontrol/login`, body, { observe: 'response' as const });
+  }
+
   getNewMembersCount(startDate?: Date, endDate?: Date) {
     let params = {};
     if (startDate && endDate) {
@@ -322,6 +328,12 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/auth/register`, request);
   }
 
-  
+  // POST /accesscontrol/logout
+  logout() {
+    // server expects an authenticated request (token in Authorization header)
+    return this.http.post(`${this.baseUrl}/accesscontrol/logout`, {});
+  }
+
+
 }
 

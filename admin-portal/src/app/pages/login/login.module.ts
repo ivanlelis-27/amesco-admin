@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Login } from './login';
@@ -7,7 +8,8 @@ import { Login } from './login';
     declarations: [Login],
     imports: [
         CommonModule,
-        FormsModule 
+        IonicModule,
+        FormsModule
     ],
 })
 export class LoginModule { }

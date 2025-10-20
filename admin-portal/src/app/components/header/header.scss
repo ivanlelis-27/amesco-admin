@@ -73,3 +73,59 @@
 .header__icon:hover {
     color: #2ad2fc;
 }
+
+/* logout modal */
+.logout-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* place the modal container above most elements */
+    z-index: 2147483646;
+}
+
+.logout-modal-backdrop {
+    /* ensure the backdrop sits above all page content */
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 2147483646;
+}
+
+.logout-modal-content {
+    color: black;
+    position: relative;
+    background: #fff;
+    padding: 1.1rem 1.3rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    z-index: 2147483647;
+    width: 320px;
+    text-align: center;
+}
+
+.logout-modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+}
+
+.logout-modal .btn {
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.logout-modal .btn.primary {
+    background: #b61624;
+    color: #fff;
+    border: none;
+}
+
+.logout-modal .btn.cancel {
+    background: #f6f7f9;
+    color: #333;
+    border: 1px solid #eceef2;
+}
